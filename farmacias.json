@@ -1,0 +1,4816 @@
+{
+ "meta": {
+  "actualizado": "2026-06-23",
+  "total": 323,
+  "nota": "Directorio editable. La app usa este archivo si está publicado; si no, usa la base embebida en index.html."
+ },
+ "fuentes": {
+  "Audifarma": "https://www.audifarma.com.co/inicio/red-de-farmacias",
+  "Cruz Verde": "https://www.cruzverde.com.co/droguerias/",
+  "Cafam": "https://www.drogueriascafam.com.co/",
+  "Colsubsidio": "https://www.drogueriascolsubsidio.com/puntos-droguerias-colsubsidio",
+  "Sura": "https://www.epssura.com/informacion-medicamentos",
+  "Drogas La Rebaja": "https://nuevaeps.com.co/",
+  "Evedisa": "https://coosalud.com/",
+  "Mutual Ser": "https://www.mutualser.org/",
+  "Cajacopi": "https://cajacopieps.com/",
+  "Disfarma": "https://www.nuevaeps.com.co/",
+  "Comfandi": "https://www.comfandi.com.co/",
+  "Emssanar": "https://emssanar.org.co/",
+  "Coosalud": "https://coosalud.com/"
+ },
+ "sedes": [
+  {
+   "id": "SU01",
+   "n": "Salud Sura Chipichape",
+   "ch": "Sura",
+   "addr": "Av. 6 Bis Nte. No. 35N-64",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4681,
+   "lng": -76.5381
+  },
+  {
+   "id": "SU02",
+   "n": "IPS Sura Flora",
+   "ch": "Sura",
+   "addr": "Cl. 38 Nte. S/N La Flora",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 3.4843,
+   "lng": -76.5261
+  },
+  {
+   "id": "SU03",
+   "n": "IPS Sura Tequendama",
+   "ch": "Sura",
+   "addr": "Cl. 5 No. 39-173",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4268,
+   "lng": -76.5428
+  },
+  {
+   "id": "SU04",
+   "n": "IPS Sura Paso Ancho",
+   "ch": "Sura",
+   "addr": "Cra. 50 No. 12A-90 Paso Ancho",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4382,
+   "lng": -76.5538
+  },
+  {
+   "id": "SU05",
+   "n": "IPS Vivir Sura Cali",
+   "ch": "Sura",
+   "addr": "Cl. 10 No. 48-07",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.2,
+   "lat": 3.4331,
+   "lng": -76.5492
+  },
+  {
+   "id": "SU06",
+   "n": "Sura Aventura Plaza",
+   "ch": "Sura",
+   "addr": "Cra. 100 No. 15A-61 Piso 3 CC Aventura Plaza",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 3.3712,
+   "lng": -76.5401
+  },
+  {
+   "id": "SU07",
+   "n": "IPS Vivir Sura Sede Norte",
+   "ch": "Sura",
+   "addr": "Sector Calima Norte",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4921,
+   "lng": -76.5252
+  },
+  {
+   "id": "SU08",
+   "n": "Farmacia Afiliados Sura",
+   "ch": "Sura",
+   "addr": "Cra. 53 No. 12A-92",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4382,
+   "lng": -76.5538
+  },
+  {
+   "id": "SU09",
+   "n": "Ayudas Diagnosticas Sura Flora",
+   "ch": "Sura",
+   "addr": "Cl. 38 Nte. No. 4 Norte-52",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4841,
+   "lng": -76.5261
+  },
+  {
+   "id": "SU10",
+   "n": "Ayudas Diagnosticas Sura Tequendama",
+   "ch": "Sura",
+   "addr": "Cl. 5C No. 41-25",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4261,
+   "lng": -76.5412
+  },
+  {
+   "id": "SU11",
+   "n": "Centro Empresa Sura Menga",
+   "ch": "Sura",
+   "addr": "Cl. 64 Nte. No. 146 Menga",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.3,
+   "lat": 3.5001,
+   "lng": -76.5251
+  },
+  {
+   "id": "SU12",
+   "n": "Colsubsidio Sura Chipichape",
+   "ch": "Colsubsidio-Sura",
+   "addr": "Av. 6 Bis Nte. No. 29 Norte-46",
+   "city": "Cali",
+   "eps": [
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4651,
+   "lng": -76.5371
+  },
+  {
+   "id": "SU13",
+   "n": "Colsubsidio Sura Aventura Plaza",
+   "ch": "Colsubsidio-Sura",
+   "addr": "Cra. 100 No. 15A-61 Piso 3",
+   "city": "Cali",
+   "eps": [
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.3712,
+   "lng": -76.5401
+  },
+  {
+   "id": "SU14",
+   "n": "JaveSalud Sura",
+   "ch": "Sura",
+   "addr": "Cra. 38 Bis No. 51 5B2",
+   "city": "Cali",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4251,
+   "lng": -76.5221
+  },
+  {
+   "id": "CV01",
+   "n": "Cruz Verde SOS Americas",
+   "ch": "Cruz Verde",
+   "addr": "Av. 4 Nte. No. 23-31 Barrio San Vicente",
+   "city": "Cali",
+   "eps": [
+    "SOS",
+    "Coomeva"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4631,
+   "lng": -76.5341
+  },
+  {
+   "id": "CV02",
+   "n": "Cruz Verde SOS Buenos Aires",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 5 No. 70-18 Buenos Aires - 24h",
+   "city": "Cali",
+   "eps": [
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4271,
+   "lng": -76.5578
+  },
+  {
+   "id": "CV03",
+   "n": "Cruz Verde SOS Rio Cauca",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 75A No. 20-81 Local 214A",
+   "city": "Cali",
+   "eps": [
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4901,
+   "lng": -76.5271
+  },
+  {
+   "id": "CV04",
+   "n": "Cruz Verde SOS Salomia",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 1 No. 47-20 Bodega 2 L.103 - 24h",
+   "city": "Cali",
+   "eps": [
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.3,
+   "lat": 3.4711,
+   "lng": -76.5201
+  },
+  {
+   "id": "CV05",
+   "n": "Cruz Verde SOS Tequendama",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 42A No. 5B-86",
+   "city": "Cali",
+   "eps": [
+    "SOS",
+    "Coomeva"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 3.4281,
+   "lng": -76.5241
+  },
+  {
+   "id": "CV06",
+   "n": "Cruz Verde Republica de Israel",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 43B No. 47-34",
+   "city": "Cali",
+   "eps": [
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4451,
+   "lng": -76.5271
+  },
+  {
+   "id": "CV07",
+   "n": "Cruz Verde San Cristobal",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 19 No. 28-47 San Cristobal",
+   "city": "Cali",
+   "eps": [
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4571,
+   "lng": -76.5401
+  },
+  {
+   "id": "CV08",
+   "n": "Cruz Verde Norte Belalcazar",
+   "ch": "Cruz Verde",
+   "addr": "Av. 4 Nte. No. 7N-53 Clinica Belalcazar",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Colsanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4601,
+   "lng": -76.5331
+  },
+  {
+   "id": "CV09",
+   "n": "Cruz Verde Versalles",
+   "ch": "Cruz Verde",
+   "addr": "Av. 4 Nte. No. 23BN-40",
+   "city": "Cali",
+   "eps": [
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4631,
+   "lng": -76.5341
+  },
+  {
+   "id": "CV10",
+   "n": "Cruz Verde Centenario",
+   "ch": "Cruz Verde",
+   "addr": "Av. 4 Norte No. 7N-46 L.104 CC Centenario",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Coomeva"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4601,
+   "lng": -76.5331
+  },
+  {
+   "id": "CV11",
+   "n": "Cruz Verde Calle 52 Norte",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 52 Nte. Cali",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Coomeva"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.2,
+   "lat": 3.4811,
+   "lng": -76.5271
+  },
+  {
+   "id": "CV12",
+   "n": "Cruz Verde Edificio Maria Paula",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 44 No. 11A-43/39 Edif. Maria Paula",
+   "city": "Cali",
+   "eps": [
+    "Coomeva",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4341,
+   "lng": -76.5271
+  },
+  {
+   "id": "CV13",
+   "n": "Cruz Verde Los Cambulos",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 44 No. 8A-03 Local 2-3",
+   "city": "Cali",
+   "eps": [
+    "Coomeva",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4301,
+   "lng": -76.5271
+  },
+  {
+   "id": "CV14",
+   "n": "Cruz Verde Tequendama",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 5 No. 39-199",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Coomeva"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 3.4281,
+   "lng": -76.5431
+  },
+  {
+   "id": "CV15",
+   "n": "Cruz Verde Pasoancho",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 13 No. 53-44 Local 12 Paso Ancho - 24h",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Coomeva",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4381,
+   "lng": -76.5538
+  },
+  {
+   "id": "CV16",
+   "n": "Cruz Verde Aventura Plaza",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 100 No. 15A-61 Local 201-202",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Coomeva"
+   ],
+   "est": "AMARILLO",
+   "fila": 1,
+   "lat": 3.3712,
+   "lng": -76.5401
+  },
+  {
+   "id": "CV17",
+   "n": "Cruz Verde Cra. 10 Centro",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 10 No. 6-20 Centro - 24h",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4491,
+   "lng": -76.5301
+  },
+  {
+   "id": "CV18",
+   "n": "Cruz Verde Limonar",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 9 No. 65A-40 Local 1 Gran Limonar",
+   "city": "Cali",
+   "eps": [
+    "Sura",
+    "Coomeva"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4011,
+   "lng": -76.5351
+  },
+  {
+   "id": "CV19",
+   "n": "Cruz Verde Roosevelt",
+   "ch": "Cruz Verde",
+   "addr": "Av. Roosevelt No. 44-58",
+   "city": "Cali",
+   "eps": [
+    "Sanitas",
+    "Famisanar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 3.4591,
+   "lng": -76.5431
+  },
+  {
+   "id": "AU01",
+   "n": "Audifarma Unicentro",
+   "ch": "Audifarma",
+   "addr": "Cra. 100 No. 5-169 CC Unicentro Local 805 Piso 3",
+   "city": "Cali",
+   "eps": [
+    "Salud Total",
+    "Famisanar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 3.3851,
+   "lng": -76.5351
+  },
+  {
+   "id": "AU02",
+   "n": "Audifarma Roosevelt",
+   "ch": "Audifarma",
+   "addr": "Cl. 6 No. 25-32 Local 1 y 2",
+   "city": "Cali",
+   "eps": [
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 3.4601,
+   "lng": -76.5421
+  },
+  {
+   "id": "AU03",
+   "n": "Audifarma San Fernando",
+   "ch": "Audifarma",
+   "addr": "Cra. 37 No. 5B4-64 San Fernando",
+   "city": "Cali",
+   "eps": [
+    "Salud Total",
+    "Famisanar"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4201,
+   "lng": -76.5241
+  },
+  {
+   "id": "AU04",
+   "n": "Audifarma Av. 3 Norte",
+   "ch": "Audifarma",
+   "addr": "Av. 3 Nte. No. 19N-03",
+   "city": "Cali",
+   "eps": [
+    "Salud Total",
+    "Asmet Salud"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 3.4621,
+   "lng": -76.5321
+  },
+  {
+   "id": "AU05",
+   "n": "Audifarma Calle 5 Centro",
+   "ch": "Audifarma",
+   "addr": "Cl. 5 No. 39-109",
+   "city": "Cali",
+   "eps": [
+    "Salud Total",
+    "Asmet Salud"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4271,
+   "lng": -76.5431
+  },
+  {
+   "id": "AU06",
+   "n": "Audifarma Manzanares",
+   "ch": "Audifarma",
+   "addr": "Cl. 38 Nte. No. 4N-182 Manzanares",
+   "city": "Cali",
+   "eps": [
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4821,
+   "lng": -76.5261
+  },
+  {
+   "id": "AU07",
+   "n": "Audifarma Cali Norte",
+   "ch": "Audifarma",
+   "addr": "Cl. 56 No. 1N-72 Norte",
+   "city": "Cali",
+   "eps": [
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4801,
+   "lng": -76.5221
+  },
+  {
+   "id": "DF01",
+   "n": "Disfarma Av. 3 Norte (Principal)",
+   "ch": "Disfarma",
+   "addr": "Av. 3 Nte. No. 19-20",
+   "city": "Cali",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 4.5,
+   "lat": 3.4621,
+   "lng": -76.5341
+  },
+  {
+   "id": "DF02",
+   "n": "Disfarma El Ingenio",
+   "ch": "Disfarma",
+   "addr": "Cl. 20 No. 85-41 El Ingenio",
+   "city": "Cali",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 3.3631,
+   "lng": -76.5391
+  },
+  {
+   "id": "DF03",
+   "n": "Disfarma Santiago Plaza",
+   "ch": "Disfarma",
+   "addr": "Cra. 15 No. 50-29 CC Santiago Plaza",
+   "city": "Cali",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 3.4361,
+   "lng": -76.5371
+  },
+  {
+   "id": "DF04",
+   "n": "Disfarma Tequendama",
+   "ch": "Disfarma",
+   "addr": "Cra. 43 No. 5B-23",
+   "city": "Cali",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 3.4271,
+   "lng": -76.5241
+  },
+  {
+   "id": "DF05",
+   "n": "Disfarma Ciudad Jardin",
+   "ch": "Disfarma",
+   "addr": "Cra. 97 No. 16-46 Ciudad Jardin",
+   "city": "Cali",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 3.3731,
+   "lng": -76.5401
+  },
+  {
+   "id": "EM01",
+   "n": "Emssanar Farmart Fortaleza",
+   "ch": "Emssanar",
+   "addr": "Cra. 10 No. 65-30 Fortaleza",
+   "city": "Cali",
+   "eps": [
+    "Emssanar",
+    "Mutual Ser"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 3.4501,
+   "lng": -76.5301
+  },
+  {
+   "id": "EM02",
+   "n": "Emssanar Farmart Floresta",
+   "ch": "Emssanar",
+   "addr": "Cra. 22 No. 4-89 Floresta",
+   "city": "Cali",
+   "eps": [
+    "Emssanar",
+    "Asmet Salud"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4411,
+   "lng": -76.5471
+  },
+  {
+   "id": "EM03",
+   "n": "Emssanar Alfonso Lopez",
+   "ch": "Emssanar",
+   "addr": "Cra. 25 No. 48-80 Alfonso Lopez",
+   "city": "Cali",
+   "eps": [
+    "Emssanar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 3.4161,
+   "lng": -76.5301
+  },
+  {
+   "id": "CF01",
+   "n": "Comfandi Ciudad Jardin",
+   "ch": "Comfandi",
+   "addr": "Cl. 18 No. 106A-16 Ciudad Jardin",
+   "city": "Cali",
+   "eps": [
+    "Comfenalco",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.3681,
+   "lng": -76.5551
+  },
+  {
+   "id": "CF02",
+   "n": "IPS Comfandi Tequendama",
+   "ch": "Comfandi",
+   "addr": "Cl. 5 No. 42-41",
+   "city": "Cali",
+   "eps": [
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4271,
+   "lng": -76.5271
+  },
+  {
+   "id": "CF03",
+   "n": "Comfandi Pasarela Norte",
+   "ch": "Comfandi",
+   "addr": "Av. 5 Norte No. 23DN-40",
+   "city": "Cali",
+   "eps": [
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4661,
+   "lng": -76.5401
+  },
+  {
+   "id": "CF04",
+   "n": "Comfandi Ingenio",
+   "ch": "Comfandi",
+   "addr": "Cl. 16 No. 85-45 El Ingenio",
+   "city": "Cali",
+   "eps": [
+    "Comfenalco",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.3651,
+   "lng": -76.5401
+  },
+  {
+   "id": "CF05",
+   "n": "Comfandi La Merced",
+   "ch": "Comfandi",
+   "addr": "Cl. 52 Nte. No. 3-10 La Merced",
+   "city": "Cali",
+   "eps": [
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4821,
+   "lng": -76.5281
+  },
+  {
+   "id": "CS01",
+   "n": "Coosalud Floresta Cali",
+   "ch": "Coosalud",
+   "addr": "Cra. 22 No. 4-89 Floresta",
+   "city": "Cali",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4411,
+   "lng": -76.5471
+  },
+  {
+   "id": "CA01",
+   "n": "Cafam CC Chipichape",
+   "ch": "Cafam",
+   "addr": "Av. 6A Norte No. 35-47 Local 519 CC Chipichape",
+   "city": "Cali",
+   "eps": [
+    "Cafam",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.468,
+   "lng": -76.5381
+  },
+  {
+   "id": "CA02",
+   "n": "Cafam CC Palmetto",
+   "ch": "Cafam",
+   "addr": "Cra. 9B No. 49-50 Local 108 CC Palmetto",
+   "city": "Cali",
+   "eps": [
+    "Cafam",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4281,
+   "lng": -76.5221
+  },
+  {
+   "id": "CA03",
+   "n": "Cafam Trade Center",
+   "ch": "Cafam",
+   "addr": "Cra. 100 No. 6-00 CC Trade Center",
+   "city": "Cali",
+   "eps": [
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.3851,
+   "lng": -76.5351
+  },
+  {
+   "id": "CA04",
+   "n": "Cafam Alkosto Calle 13",
+   "ch": "Cafam",
+   "addr": "Cl. 13 No. 80-187 Alkosto Cali",
+   "city": "Cali",
+   "eps": [
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 3.4381,
+   "lng": -76.5538
+  },
+  {
+   "id": "CA05",
+   "n": "Cafam San Fernando Imbanaco",
+   "ch": "Cafam",
+   "addr": "Cl. 5A No. 38D-35 San Fernando",
+   "city": "Cali",
+   "eps": [
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4201,
+   "lng": -76.5241
+  },
+  {
+   "id": "EV01",
+   "n": "Evedisa Comfenalco Cali",
+   "ch": "Evedisa",
+   "addr": "Cl. 5 No. 6-63 Sotano 1 Sede Comfenalco",
+   "city": "Cali",
+   "eps": [
+    "Compensar",
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 3.4491,
+   "lng": -76.5301
+  },
+  {
+   "id": "EV02",
+   "n": "Evedisa Santiago Plaza",
+   "ch": "Evedisa",
+   "addr": "Cra. 15 No. 50-29 CC Santiago Plaza Local 47",
+   "city": "Cali",
+   "eps": [
+    "Compensar",
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 3.4361,
+   "lng": -76.5371
+  },
+  {
+   "id": "EV03",
+   "n": "Evedisa Rio Cauca",
+   "ch": "Evedisa",
+   "addr": "Cra. 11 No. 8-42 CC Rio Cauca Piso 2",
+   "city": "Cali",
+   "eps": [
+    "Compensar",
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 3.4491,
+   "lng": -76.5251
+  },
+  {
+   "id": "BAU1",
+   "n": "Audifarma Av. 68",
+   "ch": "Audifarma",
+   "addr": "Av. 68 No. 16-55",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Compensar",
+    "Famisanar"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 4.648,
+   "lng": -74.099
+  },
+  {
+   "id": "BAU2",
+   "n": "Audifarma Calle 80",
+   "ch": "Audifarma",
+   "addr": "Calle 80 No. 82-27",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 4.713,
+   "lng": -74.087
+  },
+  {
+   "id": "BCZ1",
+   "n": "Cruz Verde Calle 127",
+   "ch": "Cruz Verde",
+   "addr": "Av. Calle 127 No. 21-60",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "SOS",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 4.728,
+   "lng": -74.049
+  },
+  {
+   "id": "BCF1",
+   "n": "Cafam Floresta",
+   "ch": "Cafam",
+   "addr": "Av. 68 No. 90-88",
+   "city": "Bogotá",
+   "eps": [
+    "Cafam",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 4.71,
+   "lng": -74.1
+  },
+  {
+   "id": "BCL1",
+   "n": "Colsubsidio Alhambra",
+   "ch": "Colsubsidio",
+   "addr": "Calle 114 No. 52-36",
+   "city": "Bogotá",
+   "eps": [
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.697,
+   "lng": -74.072
+  },
+  {
+   "id": "BCZ2",
+   "n": "Cruz Verde Restrepo",
+   "ch": "Cruz Verde",
+   "addr": "Carrera 17 No. 17-31 sur",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.8,
+   "lat": 4.573,
+   "lng": -74.106
+  },
+  {
+   "id": "MAU1",
+   "n": "Audifarma Oriental",
+   "ch": "Audifarma",
+   "addr": "Carrera 46 No. 47-66 Torre 2",
+   "city": "Medellín",
+   "eps": [
+    "Salud Total",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.244,
+   "lng": -75.576
+  },
+  {
+   "id": "MAU2",
+   "n": "Audifarma El Poblado",
+   "ch": "Audifarma",
+   "addr": "Calle 5 Sur No. 43D-50",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Coomeva"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 6.207,
+   "lng": -75.572
+  },
+  {
+   "id": "MSR1",
+   "n": "Sura Farmacia El Poblado",
+   "ch": "Sura",
+   "addr": "El Poblado No. 34-12",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.3,
+   "lat": 6.211,
+   "lng": -75.567
+  },
+  {
+   "id": "MCZ1",
+   "n": "Cruz Verde Campestre",
+   "ch": "Cruz Verde",
+   "addr": "Calle 16 Sur No. 44-20",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 6.2,
+   "lng": -75.58
+  },
+  {
+   "id": "QAU1",
+   "n": "Audifarma POS Barranquilla",
+   "ch": "Audifarma",
+   "addr": "Carrera 49C No. 80-209",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.003,
+   "lng": -74.816
+  },
+  {
+   "id": "QCZ2",
+   "n": "Cruz Verde Iberoamérica",
+   "ch": "Cruz Verde",
+   "addr": "Carrera 43 No. 84-60",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "SOS"
+   ],
+   "est": "ROJO",
+   "fila": 4,
+   "lat": 11.022,
+   "lng": -74.834
+  },
+  {
+   "id": "GAU1",
+   "n": "Audifarma Cabecera",
+   "ch": "Audifarma",
+   "addr": "Carrera 33 No. 46-49",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.117,
+   "lng": -73.123
+  },
+  {
+   "id": "GCZ1",
+   "n": "Cruz Verde Turbay",
+   "ch": "Cruz Verde",
+   "addr": "Carrera 26A No. 50-20",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sanitas",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 7.105,
+   "lng": -73.122
+  },
+  {
+   "id": "KAU1",
+   "n": "Audifarma La Providencia",
+   "ch": "Audifarma",
+   "addr": "Carrera 71 No. 31-465",
+   "city": "Cartagena",
+   "eps": [
+    "Salud Total",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 10.391,
+   "lng": -75.513
+  },
+  {
+   "id": "KCZ2",
+   "n": "Cruz Verde Centro",
+   "ch": "Cruz Verde",
+   "addr": "Calle La Factoría No. 36-30",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "SOS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.428,
+   "lng": -75.548
+  },
+  {
+   "id": "PAU1",
+   "n": "Audifarma Centro Pereira",
+   "ch": "Audifarma",
+   "addr": "Carrera 8 No. 18-44",
+   "city": "Pereira",
+   "eps": [
+    "Coomeva",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 4.813,
+   "lng": -75.697
+  },
+  {
+   "id": "PCZ1",
+   "n": "Cruz Verde Cuba",
+   "ch": "Cruz Verde",
+   "addr": "Carrera 22 No. 74-25 Cuba",
+   "city": "Pereira",
+   "eps": [
+    "Coomeva",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 4.786,
+   "lng": -75.721
+  },
+  {
+   "id": "UAU1",
+   "n": "Audifarma Barrio Latino",
+   "ch": "Audifarma",
+   "addr": "Avenida 0 No. 8-53",
+   "city": "Cúcuta",
+   "eps": [
+    "Sanitas",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.893,
+   "lng": -72.509
+  },
+  {
+   "id": "UCZ2",
+   "n": "Cruz Verde San Luis",
+   "ch": "Cruz Verde",
+   "addr": "Carrera 10 No. 5-20",
+   "city": "Cúcuta",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 7.877,
+   "lng": -72.509
+  },
+  {
+   "id": "BAU3",
+   "n": "Audifarma Restrepo",
+   "ch": "Audifarma",
+   "addr": "Cra. 24 No. 16-26 Sur",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.5752,
+   "lng": -74.1031
+  },
+  {
+   "id": "BAU4",
+   "n": "Audifarma Bosa",
+   "ch": "Audifarma",
+   "addr": "Cl. 65G No. 79B-41 Sur",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 4.6221,
+   "lng": -74.1882
+  },
+  {
+   "id": "BAU5",
+   "n": "Audifarma Plaza de las Américas",
+   "ch": "Audifarma",
+   "addr": "Cra. 65A No. 4B-46",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 4.6251,
+   "lng": -74.1172
+  },
+  {
+   "id": "BAU6",
+   "n": "Audifarma Barrios Unidos",
+   "ch": "Audifarma",
+   "addr": "Cra. 35 No. 63C-69",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6582,
+   "lng": -74.0731
+  },
+  {
+   "id": "BAU7",
+   "n": "Audifarma CC Acuarela (Suba)",
+   "ch": "Audifarma",
+   "addr": "Av. Cl. 145 No. 92-30 Local 204",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 4.7381,
+   "lng": -74.1032
+  },
+  {
+   "id": "BAU8",
+   "n": "Audifarma Chapinero",
+   "ch": "Audifarma",
+   "addr": "Cra. 7 No. 40B-45",
+   "city": "Bogotá",
+   "eps": [
+    "Salud Total",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6321,
+   "lng": -74.0622
+  },
+  {
+   "id": "BAU9",
+   "n": "Audifarma Ciudad Tunal",
+   "ch": "Audifarma",
+   "addr": "Cra. 24 No. 2B-16, Tunal",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 4.5531,
+   "lng": -74.1281
+  },
+  {
+   "id": "BCF2",
+   "n": "Cafam Niza",
+   "ch": "Cafam",
+   "addr": "Suba - Niza",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 4.7101,
+   "lng": -74.0701
+  },
+  {
+   "id": "BCF3",
+   "n": "Cafam Calle 100",
+   "ch": "Cafam",
+   "addr": "Cl. 100, Chicó",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.2,
+   "lat": 4.6851,
+   "lng": -74.0521
+  },
+  {
+   "id": "BCF4",
+   "n": "Cafam Cedritos",
+   "ch": "Cafam",
+   "addr": "Cl. 140, Cedritos",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.7221,
+   "lng": -74.0411
+  },
+  {
+   "id": "BCL2",
+   "n": "Colsubsidio Calle 26",
+   "ch": "Colsubsidio",
+   "addr": "Ac. 26, Centro",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio",
+    "Famisanar"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 4.6181,
+   "lng": -74.0801
+  },
+  {
+   "id": "BCL3",
+   "n": "Colsubsidio Av. Chile",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 72, Av. Chile",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.6601,
+   "lng": -74.0611
+  },
+  {
+   "id": "BLR1",
+   "n": "Drogas La Rebaja Centro",
+   "ch": "Drogas La Rebaja",
+   "addr": "Cra. 13, Centro Internacional",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 4.6131,
+   "lng": -74.0691
+  },
+  {
+   "id": "BCZ3",
+   "n": "Cruz Verde Kennedy",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 78B No. 38C-08 Sur",
+   "city": "Bogotá",
+   "eps": [
+    "Compensar",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6251,
+   "lng": -74.1582
+  },
+  {
+   "id": "BCZ4",
+   "n": "Cruz Verde Salitre",
+   "ch": "Cruz Verde",
+   "addr": "Av. El Dorado, Salitre",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6551,
+   "lng": -74.1081
+  },
+  {
+   "id": "MAU3",
+   "n": "Audifarma Centro El CID",
+   "ch": "Audifarma",
+   "addr": "Cl. 54 No. 49-120 CC El CID L.120",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 6.2491,
+   "lng": -75.5661
+  },
+  {
+   "id": "MCF1",
+   "n": "Cafam Oviedo",
+   "ch": "Cafam",
+   "addr": "CC Oviedo, El Poblado",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 6.1971,
+   "lng": -75.5661
+  },
+  {
+   "id": "MCL1",
+   "n": "Colsubsidio Centro",
+   "ch": "Colsubsidio",
+   "addr": "La Candelaria, Centro",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 6.2491,
+   "lng": -75.5641
+  },
+  {
+   "id": "MCZ2",
+   "n": "Cruz Verde Laureles",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 70 No. 44A-48 - 24h",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.2451,
+   "lng": -75.5951
+  },
+  {
+   "id": "MCZ3",
+   "n": "Cruz Verde El Tesoro",
+   "ch": "Cruz Verde",
+   "addr": "CC El Tesoro, El Poblado",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1961,
+   "lng": -75.5571
+  },
+  {
+   "id": "MSR2",
+   "n": "Sura Belén",
+   "ch": "Sura",
+   "addr": "Belén La Palma",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2331,
+   "lng": -75.6021
+  },
+  {
+   "id": "MLR1",
+   "n": "Drogas La Rebaja Bello",
+   "ch": "Drogas La Rebaja",
+   "addr": "Bello - Antioquia",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 6.3381,
+   "lng": -75.5551
+  },
+  {
+   "id": "PAU2",
+   "n": "Audifarma San Fernando",
+   "ch": "Audifarma",
+   "addr": "Cra. 24B No. 69 Bis-19",
+   "city": "Pereira",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.8011,
+   "lng": -75.6851
+  },
+  {
+   "id": "PAU3",
+   "n": "Audifarma CC El Progreso",
+   "ch": "Audifarma",
+   "addr": "Cra. 16 No. 38-130",
+   "city": "Pereira",
+   "eps": [
+    "Nueva EPS",
+    "Compensar"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 4.8071,
+   "lng": -75.6961
+  },
+  {
+   "id": "PAU4",
+   "n": "Audifarma Clínica Los Rosales",
+   "ch": "Audifarma",
+   "addr": "Cl. 25 No. 9-48",
+   "city": "Pereira",
+   "eps": [
+    "Sanitas",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.8081,
+   "lng": -75.6901
+  },
+  {
+   "id": "PAU5",
+   "n": "Audifarma El Lago",
+   "ch": "Audifarma",
+   "addr": "Parque El Lago, Cra. 7 No. 25-35",
+   "city": "Pereira",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.8131,
+   "lng": -75.6961
+  },
+  {
+   "id": "PAU6",
+   "n": "Audifarma UPREC",
+   "ch": "Audifarma",
+   "addr": "Cl. 18 No. 14-35",
+   "city": "Pereira",
+   "eps": [
+    "Salud Total",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 4.8121,
+   "lng": -75.6991
+  },
+  {
+   "id": "PLR1",
+   "n": "Drogas La Rebaja Centro",
+   "ch": "Drogas La Rebaja",
+   "addr": "Cra. 8, Centro",
+   "city": "Pereira",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 4.8131,
+   "lng": -75.6951
+  },
+  {
+   "id": "QAU2",
+   "n": "Audifarma Prado",
+   "ch": "Audifarma",
+   "addr": "Cl. 74 No. 50-41 Piso 1",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 11.0031,
+   "lng": -74.8051
+  },
+  {
+   "id": "QAU3",
+   "n": "Audifarma Sevillana",
+   "ch": "Audifarma",
+   "addr": "Cl. 45 No. 10E-66",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.9751,
+   "lng": -74.7951
+  },
+  {
+   "id": "QAU4",
+   "n": "Audifarma Soledad",
+   "ch": "Audifarma",
+   "addr": "Soledad - Atlántico",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Mutual Ser"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 10.9171,
+   "lng": -74.7691
+  },
+  {
+   "id": "QAU5",
+   "n": "Audifarma Firenze (Caribe Plaza)",
+   "ch": "Audifarma",
+   "addr": "Cra. 53 No. 74-86 Edif. Caribe Plaza",
+   "city": "Barranquilla",
+   "eps": [
+    "Mutual Ser",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0021,
+   "lng": -74.8061
+  },
+  {
+   "id": "QCL1",
+   "n": "Colsubsidio Villa Country",
+   "ch": "Colsubsidio",
+   "addr": "Villa Country",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio",
+    "Famisanar"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 11.0081,
+   "lng": -74.8121
+  },
+  {
+   "id": "QCF1",
+   "n": "Cafam San Vicente",
+   "ch": "Cafam",
+   "addr": "Barranquilla San Vicente",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.9981,
+   "lng": -74.7991
+  },
+  {
+   "id": "QCZ3",
+   "n": "Cruz Verde Buenavista",
+   "ch": "Cruz Verde",
+   "addr": "CC Buenavista, Cra. 53",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0101,
+   "lng": -74.8311
+  },
+  {
+   "id": "QLR1",
+   "n": "Drogas La Rebaja Centro",
+   "ch": "Drogas La Rebaja",
+   "addr": "Cra. 43, Centro",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.9961,
+   "lng": -74.7891
+  },
+  {
+   "id": "BG01",
+   "n": "Audifarma Calle 22 Centro",
+   "ch": "Audifarma",
+   "addr": "Cl. 22 No. 2A-98 - 24h",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.6125,
+   "lng": -74.0701
+  },
+  {
+   "id": "BG02",
+   "n": "Audifarma Teusaquillo",
+   "ch": "Audifarma",
+   "addr": "Cra. 37 No. 22-70",
+   "city": "Bogotá",
+   "eps": [
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6281,
+   "lng": -74.0851
+  },
+  {
+   "id": "BG03",
+   "n": "Audifarma Calle 27 Sur",
+   "ch": "Audifarma",
+   "addr": "Cl. 27 Sur No. 22A-52",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 4.5821,
+   "lng": -74.1001
+  },
+  {
+   "id": "BG04",
+   "n": "Audifarma Cedritos 139",
+   "ch": "Audifarma",
+   "addr": "Cl. 139 No. 94-99",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 4.7221,
+   "lng": -74.0421
+  },
+  {
+   "id": "BG05",
+   "n": "Audifarma Calle 26",
+   "ch": "Audifarma",
+   "addr": "Ac. 26 No. 66A-48",
+   "city": "Bogotá",
+   "eps": [
+    "Salud Total",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 4.6571,
+   "lng": -74.1011
+  },
+  {
+   "id": "BG06",
+   "n": "Audifarma Av. 68",
+   "ch": "Audifarma",
+   "addr": "Cra. 67A No. 45-22",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 4.6401,
+   "lng": -74.0911
+  },
+  {
+   "id": "BG07",
+   "n": "Audifarma Venecia",
+   "ch": "Audifarma",
+   "addr": "Cl. 40 Sur No. 75A-61",
+   "city": "Bogotá",
+   "eps": [
+    "Capital Salud",
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 4.5921,
+   "lng": -74.1571
+  },
+  {
+   "id": "BG08",
+   "n": "Audifarma Engativá",
+   "ch": "Audifarma",
+   "addr": "Cra. 78K No. 33A-30",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.6951,
+   "lng": -74.1191
+  },
+  {
+   "id": "BG09",
+   "n": "Audifarma Chicó 93",
+   "ch": "Audifarma",
+   "addr": "Cl. 93B No. 18-45",
+   "city": "Bogotá",
+   "eps": [
+    "Compensar",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6771,
+   "lng": -74.0481
+  },
+  {
+   "id": "BG10",
+   "n": "Audifarma Marly",
+   "ch": "Audifarma",
+   "addr": "Av. Caracas No. 53 - 24h",
+   "city": "Bogotá",
+   "eps": [
+    "Salud Total",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6331,
+   "lng": -74.0641
+  },
+  {
+   "id": "BG11",
+   "n": "Audifarma Benjamín Herrera",
+   "ch": "Audifarma",
+   "addr": "Cra. 28, Barrios Unidos",
+   "city": "Bogotá",
+   "eps": [
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6611,
+   "lng": -74.0851
+  },
+  {
+   "id": "BG12",
+   "n": "Audifarma Restrepo Sur",
+   "ch": "Audifarma",
+   "addr": "Cl. 39B Sur No. 73C-60",
+   "city": "Bogotá",
+   "eps": [
+    "Capital Salud",
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 4.6021,
+   "lng": -74.1601
+  },
+  {
+   "id": "BG13",
+   "n": "Audifarma Kennedy Cra. 97",
+   "ch": "Audifarma",
+   "addr": "Cra. 97 No. 21-13",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Capital Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 4.6391,
+   "lng": -74.1571
+  },
+  {
+   "id": "BG14",
+   "n": "Audifarma Puente Aranda",
+   "ch": "Audifarma",
+   "addr": "Cr. 56 No. 5C-38 Piso 3",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.6201,
+   "lng": -74.0991
+  },
+  {
+   "id": "BG15",
+   "n": "Cafam Calle 147",
+   "ch": "Cafam",
+   "addr": "Cl. 147 No. 7-56 Lc. 24-25",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.7301,
+   "lng": -74.0331
+  },
+  {
+   "id": "BG16",
+   "n": "Cafam Pepe Sierra",
+   "ch": "Cafam",
+   "addr": "Cl. 116, Pepe Sierra",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6981,
+   "lng": -74.0411
+  },
+  {
+   "id": "BG17",
+   "n": "Cafam Pasadena",
+   "ch": "Cafam",
+   "addr": "Cra. 53, Pasadena",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 4.6951,
+   "lng": -74.0651
+  },
+  {
+   "id": "BG18",
+   "n": "Cafam Colina Campestre",
+   "ch": "Cafam",
+   "addr": "Colina Campestre",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.7251,
+   "lng": -74.0561
+  },
+  {
+   "id": "BG19",
+   "n": "Cafam El Ensueño",
+   "ch": "Cafam",
+   "addr": "Éxito El Ensueño, Cl. 59 Sur",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.5921,
+   "lng": -74.1481
+  },
+  {
+   "id": "BG20",
+   "n": "Cafam La Carolina",
+   "ch": "Cafam",
+   "addr": "CC La Carolina, Cra. 51",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6951,
+   "lng": -74.0631
+  },
+  {
+   "id": "BG21",
+   "n": "Cafam Calle 85 El Retiro",
+   "ch": "Cafam",
+   "addr": "Cl. 85 CC El Retiro",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 4.6671,
+   "lng": -74.0541
+  },
+  {
+   "id": "BG22",
+   "n": "Cafam Calle 102",
+   "ch": "Cafam",
+   "addr": "Cl. 102, Chicó",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6881,
+   "lng": -74.0481
+  },
+  {
+   "id": "BG23",
+   "n": "Colsubsidio Subazar",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 145 No. 91-35 CC Subazar Lc. 152",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 4.7421,
+   "lng": -74.1011
+  },
+  {
+   "id": "BG24",
+   "n": "Colsubsidio Santa Librada",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 14 No. 76A-08 Sur",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 4.5121,
+   "lng": -74.1221
+  },
+  {
+   "id": "BG25",
+   "n": "Colsubsidio Portal Ciudadela",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 80 No. 111C-98",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.7221,
+   "lng": -74.1331
+  },
+  {
+   "id": "BG26",
+   "n": "Colsubsidio La Colina",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 138 No. 58-74",
+   "city": "Bogotá",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.7251,
+   "lng": -74.0651
+  },
+  {
+   "id": "BG27",
+   "n": "Colsubsidio Av. Las Américas",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 6A No. 69F-14",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 4.6201,
+   "lng": -74.1231
+  },
+  {
+   "id": "BG28",
+   "n": "Colsubsidio Tierra Grata",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 70 No. 101-24",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 4.7121,
+   "lng": -74.1221
+  },
+  {
+   "id": "BG29",
+   "n": "Colsubsidio Calle 72",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 72 No. 9-25",
+   "city": "Bogotá",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6601,
+   "lng": -74.0631
+  },
+  {
+   "id": "BG30",
+   "n": "Colsubsidio San Patricio",
+   "ch": "Colsubsidio",
+   "addr": "Av. 15 No. 108-09",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6921,
+   "lng": -74.0411
+  },
+  {
+   "id": "BG31",
+   "n": "Colsubsidio Calle 100",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 100 No. 19A-20",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 4.6851,
+   "lng": -74.0511
+  },
+  {
+   "id": "BG32",
+   "n": "Colsubsidio San Pedro",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 187 No. 55B-60",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.7621,
+   "lng": -74.0451
+  },
+  {
+   "id": "BG33",
+   "n": "Colsubsidio Salitre",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 23B No. 68C-40",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6531,
+   "lng": -74.1101
+  },
+  {
+   "id": "BG34",
+   "n": "Colsubsidio Internacional",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 10 No. 28-31 Torre A Lc. 6",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.6121,
+   "lng": -74.0701
+  },
+  {
+   "id": "BG35",
+   "n": "Colsubsidio Quirigua",
+   "ch": "Colsubsidio",
+   "addr": "Tv. 94 No. 80D-09",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 4.7221,
+   "lng": -74.1131
+  },
+  {
+   "id": "BG36",
+   "n": "Colsubsidio Galerías",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 24 No. 53-88",
+   "city": "Bogotá",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6441,
+   "lng": -74.0691
+  },
+  {
+   "id": "BG37",
+   "n": "Colsubsidio Las Ferias",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 72 No. 69K-06",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 4.6891,
+   "lng": -74.1011
+  },
+  {
+   "id": "BG38",
+   "n": "Colsubsidio Calle 140",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 140 No. 10A-71",
+   "city": "Bogotá",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.7221,
+   "lng": -74.0421
+  },
+  {
+   "id": "BG39",
+   "n": "Colsubsidio Quinta Camacho",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 67 No. 7-35",
+   "city": "Bogotá",
+   "eps": [
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.6521,
+   "lng": -74.0621
+  },
+  {
+   "id": "BG40",
+   "n": "Colsubsidio Gran Estación",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 60 No. 24-09 CC Gran Estación Lc. 208",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 4.6481,
+   "lng": -74.0841
+  },
+  {
+   "id": "BG41",
+   "n": "Colsubsidio Unicentro Occidente",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 111C No. 86-32 CC Unicentro Lc. 101",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 4.7191,
+   "lng": -74.1141
+  },
+  {
+   "id": "BG42",
+   "n": "Colsubsidio Usaquén Cra. 7",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 7 No. 118-38 Lc. 3",
+   "city": "Bogotá",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6981,
+   "lng": -74.0331
+  },
+  {
+   "id": "BG43",
+   "n": "Colsubsidio Plaza Central",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 65 No. 11-50 CC Plaza Central Lc. 2",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.6261,
+   "lng": -74.1111
+  },
+  {
+   "id": "BG44",
+   "n": "Cruz Verde Suba",
+   "ch": "Cruz Verde",
+   "addr": "Av. Suba No. 116",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.7451,
+   "lng": -74.0851
+  },
+  {
+   "id": "BG45",
+   "n": "Cruz Verde Cedritos",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 140, Cedritos",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.7231,
+   "lng": -74.0411
+  },
+  {
+   "id": "BG46",
+   "n": "Cruz Verde Centro",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 7, Centro",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Aliansalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.2,
+   "lat": 4.6011,
+   "lng": -74.0721
+  },
+  {
+   "id": "BG47",
+   "n": "Cruz Verde Usaquén",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 116, Usaquén",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6951,
+   "lng": -74.0311
+  },
+  {
+   "id": "BG48",
+   "n": "Cruz Verde Av. 1 de Mayo",
+   "ch": "Cruz Verde",
+   "addr": "Av. 1 de Mayo No. 39",
+   "city": "Bogotá",
+   "eps": [
+    "Compensar",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 4.5921,
+   "lng": -74.1281
+  },
+  {
+   "id": "BG49",
+   "n": "Cruz Verde Chapinero",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 13, Chapinero",
+   "city": "Bogotá",
+   "eps": [
+    "Sanitas",
+    "Aliansalud"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.6451,
+   "lng": -74.0631
+  },
+  {
+   "id": "BG50",
+   "n": "Audifarma Suba Compartir",
+   "ch": "Audifarma",
+   "addr": "Cl. 139 Suba Compartir",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 4.7461,
+   "lng": -74.0951
+  },
+  {
+   "id": "BG51",
+   "n": "Cafam Suba",
+   "ch": "Cafam",
+   "addr": "Av. Suba, Suba Centro",
+   "city": "Bogotá",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 4.7421,
+   "lng": -74.0861
+  },
+  {
+   "id": "BG52",
+   "n": "Colsubsidio Restrepo",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 27 No. 38A-83 Sur Lc. 1-014",
+   "city": "Bogotá",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 4.5751,
+   "lng": -74.1021
+  },
+  {
+   "id": "MG01",
+   "n": "Cruz Verde Envigado",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 37 Sur, Envigado",
+   "city": "Medellín",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1721,
+   "lng": -75.5911
+  },
+  {
+   "id": "MG02",
+   "n": "Cafam Bello",
+   "ch": "Cafam",
+   "addr": "Bello - Antioquia",
+   "city": "Medellín",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 6.3381,
+   "lng": -75.5551
+  },
+  {
+   "id": "MG03",
+   "n": "Colsubsidio Itagüí",
+   "ch": "Colsubsidio",
+   "addr": "Itagüí - Antioquia",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 6.1721,
+   "lng": -75.6111
+  },
+  {
+   "id": "MG04",
+   "n": "Audifarma Belén",
+   "ch": "Audifarma",
+   "addr": "Belén La Palma",
+   "city": "Medellín",
+   "eps": [
+    "Salud Total",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 6.2331,
+   "lng": -75.6051
+  },
+  {
+   "id": "PG01",
+   "n": "Cafam Pereira",
+   "ch": "Cafam",
+   "addr": "Av. Circunvalar, Pereira",
+   "city": "Pereira",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 4.8101,
+   "lng": -75.6921
+  },
+  {
+   "id": "PG02",
+   "n": "Colsubsidio Pereira",
+   "ch": "Colsubsidio",
+   "addr": "Centro, Pereira",
+   "city": "Pereira",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 4.8131,
+   "lng": -75.6941
+  },
+  {
+   "id": "QG01",
+   "n": "Cruz Verde Prado",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 53, Prado",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0021,
+   "lng": -74.8041
+  },
+  {
+   "id": "QG02",
+   "n": "Cafam Buenavista",
+   "ch": "Cafam",
+   "addr": "CC Buenavista, Cra. 53",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 11.0101,
+   "lng": -74.8311
+  },
+  {
+   "id": "QG03",
+   "n": "Audifarma Riomar",
+   "ch": "Audifarma",
+   "addr": "Cra. 51B, Riomar",
+   "city": "Barranquilla",
+   "eps": [
+    "Salud Total",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0181,
+   "lng": -74.8201
+  },
+  {
+   "id": "MD01",
+   "n": "Cruz Verde Mall Laureles",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 37 No. 80-36 Int. 0101",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2397,
+   "lng": -75.5961
+  },
+  {
+   "id": "MD02",
+   "n": "Cruz Verde Parque Bello",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 50 No. 50-27, Bello",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.3329,
+   "lng": -75.5501
+  },
+  {
+   "id": "MD03",
+   "n": "Cruz Verde Poblado 7 Sur",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 43A No. 7 Sur-170",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.2,
+   "lng": -75.5601
+  },
+  {
+   "id": "MD04",
+   "n": "Cruz Verde Laureles Circular 76",
+   "ch": "Cruz Verde",
+   "addr": "Circular 76 No. 73B-19",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2401,
+   "lng": -75.5961
+  },
+  {
+   "id": "MD05",
+   "n": "Cruz Verde Belén",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 30A No. 80-12",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2272,
+   "lng": -75.6001
+  },
+  {
+   "id": "MD06",
+   "n": "Cruz Verde Poblado Cra. 25",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 25 No. 3-45",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.2,
+   "lat": 6.2004,
+   "lng": -75.5601
+  },
+  {
+   "id": "MD07",
+   "n": "Cruz Verde Estadio",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 65 No. 45-85",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2485,
+   "lng": -75.5821
+  },
+  {
+   "id": "MD08",
+   "n": "Cruz Verde Suramericana",
+   "ch": "Cruz Verde",
+   "addr": "Diag. 51B No. 38-44",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 6.2446,
+   "lng": -75.5581
+  },
+  {
+   "id": "MD09",
+   "n": "Cruz Verde La Cabañita",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 50 No. 27B-71",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2277,
+   "lng": -75.6001
+  },
+  {
+   "id": "MD10",
+   "n": "Cruz Verde Manrique",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 55 No. 59-25",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.4,
+   "lat": 6.2805,
+   "lng": -75.5501
+  },
+  {
+   "id": "MD11",
+   "n": "Cruz Verde CC Punto Clave",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 27 No. 46-70 Lc. 145",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 6.2476,
+   "lng": -75.5581
+  },
+  {
+   "id": "MD12",
+   "n": "Cruz Verde San Diego",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 43 No. 36-25",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2307,
+   "lng": -75.5601
+  },
+  {
+   "id": "MD13",
+   "n": "Cruz Verde Itagüí",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 36D Sur No. 27D-101",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1708,
+   "lng": -75.6061
+  },
+  {
+   "id": "MD14",
+   "n": "Cruz Verde Mayorca Sabaneta",
+   "ch": "Cruz Verde",
+   "addr": "CC Mayorca, Sabaneta",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1499,
+   "lng": -75.6111
+  },
+  {
+   "id": "MD15",
+   "n": "Cafam Oviedo Palmas",
+   "ch": "Cafam",
+   "addr": "Cl. 18 No. 35-69",
+   "city": "Medellín",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 6.2041,
+   "lng": -75.5601
+  },
+  {
+   "id": "MD16",
+   "n": "Cafam Clínica Américas 70",
+   "ch": "Cafam",
+   "addr": "Diag. 70 No. 1-135",
+   "city": "Medellín",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 6.2312,
+   "lng": -75.6001
+  },
+  {
+   "id": "MD17",
+   "n": "Colsubsidio Almacentro",
+   "ch": "Colsubsidio",
+   "addr": "Cra. 43A No. 34-95 Lc. 1A",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 6.2483,
+   "lng": -75.5581
+  },
+  {
+   "id": "MD18",
+   "n": "Colsubsidio Aranjuez",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 90 No. 51-15",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 6.2814,
+   "lng": -75.5501
+  },
+  {
+   "id": "MD19",
+   "n": "Colsubsidio FarmaNorte",
+   "ch": "Colsubsidio",
+   "addr": "Castilla, Cra. 65",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 6.2946,
+   "lng": -75.5601
+  },
+  {
+   "id": "MD20",
+   "n": "SF Sura San Vicente",
+   "ch": "Sura",
+   "addr": "Centro, Cra. 51 No. 44-20",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.2513,
+   "lng": -75.5581
+  },
+  {
+   "id": "MD21",
+   "n": "SF Sura Centro Cra. 33",
+   "ch": "Sura",
+   "addr": "Cra. 33 No. 51-67",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2514,
+   "lng": -75.5581
+  },
+  {
+   "id": "MD22",
+   "n": "SF Sura Cra. 17",
+   "ch": "Sura",
+   "addr": "Cra. 17 No. 45-77 Lc. 107A",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.2375,
+   "lng": -75.5501
+  },
+  {
+   "id": "MD23",
+   "n": "SF Sura Estadio",
+   "ch": "Sura",
+   "addr": "Estadio, Cra. 70",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.2557,
+   "lng": -75.5821
+  },
+  {
+   "id": "MD24",
+   "n": "SF Sura Robledo",
+   "ch": "Sura",
+   "addr": "Robledo, Cra. 80",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2808,
+   "lng": -75.5871
+  },
+  {
+   "id": "MD25",
+   "n": "SF Sura Buenos Aires",
+   "ch": "Sura",
+   "addr": "Buenos Aires, Cl. 49",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.2379,
+   "lng": -75.5501
+  },
+  {
+   "id": "MD26",
+   "n": "SF Sura Castilla",
+   "ch": "Sura",
+   "addr": "Castilla, Cra. 65",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.298,
+   "lng": -75.5601
+  },
+  {
+   "id": "MD27",
+   "n": "SF Sura Envigado",
+   "ch": "Sura",
+   "addr": "Envigado Centro",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.1742,
+   "lng": -75.5861
+  },
+  {
+   "id": "MD28",
+   "n": "SF Sura Itagüí",
+   "ch": "Sura",
+   "addr": "Itagüí Centro",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1753,
+   "lng": -75.6061
+  },
+  {
+   "id": "MD29",
+   "n": "SF Sura Sabaneta",
+   "ch": "Sura",
+   "addr": "Sabaneta Centro",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1544,
+   "lng": -75.6111
+  },
+  {
+   "id": "MD30",
+   "n": "Audifarma Itagüí",
+   "ch": "Audifarma",
+   "addr": "Cra. 50A, Itagüí",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 6.1661,
+   "lng": -75.606
+  },
+  {
+   "id": "MD31",
+   "n": "Audifarma Bello",
+   "ch": "Audifarma",
+   "addr": "Cra. 50, Bello",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 6.3322,
+   "lng": -75.55
+  },
+  {
+   "id": "MD32",
+   "n": "Audifarma Sabaneta",
+   "ch": "Audifarma",
+   "addr": "Cra. 43A, Sabaneta",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 6.1454,
+   "lng": -75.611
+  },
+  {
+   "id": "MD33",
+   "n": "Audifarma Castilla",
+   "ch": "Audifarma",
+   "addr": "Cra. 68, Castilla",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 6.2895,
+   "lng": -75.56
+  },
+  {
+   "id": "MD34",
+   "n": "Audifarma Robledo",
+   "ch": "Audifarma",
+   "addr": "Cra. 80, Robledo",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 6.2726,
+   "lng": -75.587
+  },
+  {
+   "id": "MD35",
+   "n": "Cruz Verde Aves María",
+   "ch": "Cruz Verde",
+   "addr": "CC Aves María, Sabaneta",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 6.1457,
+   "lng": -75.611
+  },
+  {
+   "id": "MD36",
+   "n": "Cruz Verde La Florida Itagüí",
+   "ch": "Cruz Verde",
+   "addr": "CC La Florida, Itagüí",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 6.1669,
+   "lng": -75.606
+  },
+  {
+   "id": "MD37",
+   "n": "Cruz Verde San Antonio de Prado",
+   "ch": "Cruz Verde",
+   "addr": "San Antonio de Prado",
+   "city": "Medellín",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.3,
+   "lat": 6.183,
+   "lng": -75.647
+  },
+  {
+   "id": "MD38",
+   "n": "Colsubsidio Itagüí Centro",
+   "ch": "Colsubsidio",
+   "addr": "Itagüí, Cra. 51",
+   "city": "Medellín",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 6.1671,
+   "lng": -75.606
+  },
+  {
+   "id": "MD39",
+   "n": "Cafam Bello Éxito",
+   "ch": "Cafam",
+   "addr": "Bello, Éxito Centro",
+   "city": "Medellín",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.7,
+   "lat": 6.3332,
+   "lng": -75.55
+  },
+  {
+   "id": "MD40",
+   "n": "SF Sura Belén La Palma 2",
+   "ch": "Sura",
+   "addr": "Belén La Palma",
+   "city": "Medellín",
+   "eps": [
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 6.23,
+   "lng": -75.6
+  },
+  {
+   "id": "CT01",
+   "n": "Cruz Verde Bocagrande",
+   "ch": "Cruz Verde",
+   "addr": "Av. San Martín No. 4-66 Lc. 1-2",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 10.3961,
+   "lng": -75.5505
+  },
+  {
+   "id": "CT02",
+   "n": "Cruz Verde Caribe Plaza",
+   "ch": "Cruz Verde",
+   "addr": "CC Caribe Plaza, Pie de la Popa",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.4062,
+   "lng": -75.5035
+  },
+  {
+   "id": "CT03",
+   "n": "Cruz Verde Mall Plaza El Castillo",
+   "ch": "Cruz Verde",
+   "addr": "Av. Pedro de Heredia No. 31-45",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.4,
+   "lat": 10.4003,
+   "lng": -75.4855
+  },
+  {
+   "id": "CT04",
+   "n": "Cruz Verde La Castellana",
+   "ch": "Cruz Verde",
+   "addr": "Av. Pedro de Heredia, La Castellana",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "SOS"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.4005,
+   "lng": -75.4855
+  },
+  {
+   "id": "CT05",
+   "n": "Cruz Verde Crespo",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 1, Crespo",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 10.4386,
+   "lng": -75.5105
+  },
+  {
+   "id": "CT06",
+   "n": "Cruz Verde Manga",
+   "ch": "Cruz Verde",
+   "addr": "Av. Jiménez, Manga",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.4067,
+   "lng": -75.5235
+  },
+  {
+   "id": "CT07",
+   "n": "Audifarma San Felipe",
+   "ch": "Audifarma",
+   "addr": "Av. Pedro de Heredia, San Felipe",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.4008,
+   "lng": -75.4855
+  },
+  {
+   "id": "CT08",
+   "n": "Audifarma Manga",
+   "ch": "Audifarma",
+   "addr": "Cra. 22 No. 22-50 UBA, Manga",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Coomeva"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.4069,
+   "lng": -75.5235
+  },
+  {
+   "id": "CT09",
+   "n": "Audifarma Bocagrande",
+   "ch": "Audifarma",
+   "addr": "Bocagrande, Av. San Martín",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.3971,
+   "lng": -75.5505
+  },
+  {
+   "id": "CT10",
+   "n": "Audifarma Centro",
+   "ch": "Audifarma",
+   "addr": "Centro, Cl. 32",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.4248,
+   "lng": -75.5435
+  },
+  {
+   "id": "CT11",
+   "n": "Audifarma Ternera",
+   "ch": "Audifarma",
+   "addr": "Ternera, Vía a Turbaco",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.3939,
+   "lng": -75.4835
+  },
+  {
+   "id": "CT12",
+   "n": "Audifarma El Bosque",
+   "ch": "Audifarma",
+   "addr": "Av. El Bosque, Tr. 53",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.4,
+   "lat": 10.397,
+   "lng": -75.5055
+  },
+  {
+   "id": "CT13",
+   "n": "Audifarma Olaya Herrera",
+   "ch": "Audifarma",
+   "addr": "Olaya Herrera, Sector Central",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 10.4042,
+   "lng": -75.4905
+  },
+  {
+   "id": "CT14",
+   "n": "Cafam Caribe Plaza",
+   "ch": "Cafam",
+   "addr": "CC Caribe Plaza Lc. 2",
+   "city": "Cartagena",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.4103,
+   "lng": -75.5035
+  },
+  {
+   "id": "CT15",
+   "n": "Cafam La Plazuela",
+   "ch": "Cafam",
+   "addr": "CC La Plazuela, Av. Pedro de Heredia",
+   "city": "Cartagena",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 10.4004,
+   "lng": -75.4755
+  },
+  {
+   "id": "CT16",
+   "n": "Cafam Bocagrande",
+   "ch": "Cafam",
+   "addr": "Bocagrande, Av. San Martín",
+   "city": "Cartagena",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 10.4005,
+   "lng": -75.5505
+  },
+  {
+   "id": "CT17",
+   "n": "Colsubsidio Mall Plaza El Castillo",
+   "ch": "Colsubsidio",
+   "addr": "Av. Pedro de Heredia No. 31-45 Lc. 106",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.4047,
+   "lng": -75.4855
+  },
+  {
+   "id": "CT18",
+   "n": "Colsubsidio La Castellana",
+   "ch": "Colsubsidio",
+   "addr": "CC La Castellana",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.4048,
+   "lng": -75.4855
+  },
+  {
+   "id": "CT19",
+   "n": "Colsubsidio Bocagrande",
+   "ch": "Colsubsidio",
+   "addr": "Bocagrande Centro",
+   "city": "Cartagena",
+   "eps": [
+    "Sura",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.4009,
+   "lng": -75.5505
+  },
+  {
+   "id": "CT20",
+   "n": "Evedisa Centro",
+   "ch": "Evedisa",
+   "addr": "Centro, Cl. de la Factoría",
+   "city": "Cartagena",
+   "eps": [
+    "Coosalud",
+    "Comfenalco"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 10.4286,
+   "lng": -75.5435
+  },
+  {
+   "id": "CT21",
+   "n": "Evedisa Olaya Herrera",
+   "ch": "Evedisa",
+   "addr": "Olaya Herrera",
+   "city": "Cartagena",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.4078,
+   "lng": -75.4905
+  },
+  {
+   "id": "CT22",
+   "n": "Evedisa El Bosque",
+   "ch": "Evedisa",
+   "addr": "Av. El Bosque",
+   "city": "Cartagena",
+   "eps": [
+    "Coosalud",
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 10.4009,
+   "lng": -75.5055
+  },
+  {
+   "id": "CT23",
+   "n": "Evedisa Ternera",
+   "ch": "Evedisa",
+   "addr": "Ternera",
+   "city": "Cartagena",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.386,
+   "lng": -75.4834
+  },
+  {
+   "id": "CT24",
+   "n": "Evedisa Pie de la Popa",
+   "ch": "Evedisa",
+   "addr": "Pie de la Popa",
+   "city": "Cartagena",
+   "eps": [
+    "Coosalud",
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.4061,
+   "lng": -75.5204
+  },
+  {
+   "id": "CT25",
+   "n": "Evedisa La Boquilla",
+   "ch": "Evedisa",
+   "addr": "La Boquilla, Anillo Vial",
+   "city": "Cartagena",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.4,
+   "lat": 10.4542,
+   "lng": -75.5004
+  },
+  {
+   "id": "CT26",
+   "n": "Mutual Ser Centro",
+   "ch": "Mutual Ser",
+   "addr": "Centro, Cl. 30",
+   "city": "Cartagena",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 10.4174,
+   "lng": -75.5434
+  },
+  {
+   "id": "CT27",
+   "n": "Mutual Ser La Castellana",
+   "ch": "Mutual Ser",
+   "addr": "La Castellana",
+   "city": "Cartagena",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.3965,
+   "lng": -75.4854
+  },
+  {
+   "id": "CT28",
+   "n": "Mutual Ser Olaya",
+   "ch": "Mutual Ser",
+   "addr": "Olaya Herrera",
+   "city": "Cartagena",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.3966,
+   "lng": -75.4904
+  },
+  {
+   "id": "CT29",
+   "n": "Mutual Ser El Pozón",
+   "ch": "Mutual Ser",
+   "addr": "El Pozón, Sector Central",
+   "city": "Cartagena",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 10.3897,
+   "lng": -75.4654
+  },
+  {
+   "id": "CT30",
+   "n": "Mutual Ser Pie de la Popa",
+   "ch": "Mutual Ser",
+   "addr": "Pie de la Popa",
+   "city": "Cartagena",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.4095,
+   "lng": -75.5204
+  },
+  {
+   "id": "CT31",
+   "n": "Cajacopi Centro",
+   "ch": "Cajacopi",
+   "addr": "Centro, Av. Venezuela",
+   "city": "Cartagena",
+   "eps": [
+    "Cajacopi"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.4206,
+   "lng": -75.5434
+  },
+  {
+   "id": "CT32",
+   "n": "Cajacopi El Bosque",
+   "ch": "Cajacopi",
+   "addr": "Av. El Bosque",
+   "city": "Cartagena",
+   "eps": [
+    "Cajacopi"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.3927,
+   "lng": -75.5054
+  },
+  {
+   "id": "CT33",
+   "n": "Comfamiliar Cartagena Centro",
+   "ch": "Comfenalco",
+   "addr": "Centro, Cl. Larga",
+   "city": "Cartagena",
+   "eps": [
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 10.4208,
+   "lng": -75.5434
+  },
+  {
+   "id": "CT34",
+   "n": "Comfamiliar Bocagrande",
+   "ch": "Comfenalco",
+   "addr": "Bocagrande",
+   "city": "Cartagena",
+   "eps": [
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.396,
+   "lng": -75.5504
+  },
+  {
+   "id": "CT35",
+   "n": "Comfamiliar Pie de la Popa",
+   "ch": "Comfenalco",
+   "addr": "Pie de la Popa",
+   "city": "Cartagena",
+   "eps": [
+    "Comfenalco"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 10.4101,
+   "lng": -75.5204
+  },
+  {
+   "id": "CT36",
+   "n": "Drogas La Rebaja Centro",
+   "ch": "Drogas La Rebaja",
+   "addr": "Centro, Av. Venezuela",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.4212,
+   "lng": -75.5434
+  },
+  {
+   "id": "CT37",
+   "n": "Drogas La Rebaja Olaya",
+   "ch": "Drogas La Rebaja",
+   "addr": "Olaya Herrera",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.4,
+   "lat": 10.4003,
+   "lng": -75.4904
+  },
+  {
+   "id": "CT38",
+   "n": "Cruz Verde Los Ejecutivos",
+   "ch": "Cruz Verde",
+   "addr": "Los Ejecutivos",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.3965,
+   "lng": -75.4854
+  },
+  {
+   "id": "CT39",
+   "n": "Cruz Verde Blas de Lezo",
+   "ch": "Cruz Verde",
+   "addr": "Blas de Lezo",
+   "city": "Cartagena",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 10.3836,
+   "lng": -75.4854
+  },
+  {
+   "id": "CT40",
+   "n": "Audifarma Crespo",
+   "ch": "Audifarma",
+   "addr": "Crespo, Cra. 1",
+   "city": "Cartagena",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.4413,
+   "lng": -75.5104
+  },
+  {
+   "id": "BQ01",
+   "n": "Cafam Villa Country",
+   "ch": "Cafam",
+   "addr": "Cl. 78 No. 53-70",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0079,
+   "lng": -74.8132
+  },
+  {
+   "id": "BQ02",
+   "n": "Cafam Calle 86",
+   "ch": "Cafam",
+   "addr": "Cra. 64C No. 86-20",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0101,
+   "lng": -74.8212
+  },
+  {
+   "id": "BQ03",
+   "n": "Cafam Calle 82",
+   "ch": "Cafam",
+   "addr": "Cl. 82 No. 50-73",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0052,
+   "lng": -74.8112
+  },
+  {
+   "id": "BQ04",
+   "n": "Cafam Villa Campestre",
+   "ch": "Cafam",
+   "addr": "Cra. 51B No. 134-20",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0253,
+   "lng": -74.8362
+  },
+  {
+   "id": "BQ05",
+   "n": "Cafam Metropolitano",
+   "ch": "Cafam",
+   "addr": "Av. Circunvalar con Cl. Murillo",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 10.9754,
+   "lng": -74.7962
+  },
+  {
+   "id": "BQ06",
+   "n": "Cruz Verde Soledad",
+   "ch": "Cruz Verde",
+   "addr": "Autopista Aeropuerto No. 23-1325",
+   "city": "Barranquilla",
+   "eps": [
+    "Sura",
+    "Sanitas",
+    "SOS"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 10.9176,
+   "lng": -74.7702
+  },
+  {
+   "id": "BQ07",
+   "n": "Cruz Verde Alto Prado",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 84, Alto Prado",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0057,
+   "lng": -74.8112
+  },
+  {
+   "id": "BQ08",
+   "n": "Cruz Verde Country",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 53, Country",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0088,
+   "lng": -74.8132
+  },
+  {
+   "id": "BQ09",
+   "n": "Cruz Verde Riomar",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 51B, Riomar",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0189,
+   "lng": -74.8212
+  },
+  {
+   "id": "BQ10",
+   "n": "Cruz Verde Las Flores",
+   "ch": "Cruz Verde",
+   "addr": "Las Flores, Vía 40",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "SOS"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.4,
+   "lat": 11.0386,
+   "lng": -74.8112
+  },
+  {
+   "id": "BQ11",
+   "n": "Cruz Verde Centro Paseo Bolívar",
+   "ch": "Cruz Verde",
+   "addr": "Paseo Bolívar, Centro",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Aliansalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.3,
+   "lat": 10.9938,
+   "lng": -74.7812
+  },
+  {
+   "id": "BQ12",
+   "n": "Colsubsidio Prado Norte",
+   "ch": "Colsubsidio",
+   "addr": "Prado, Cra. 54",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 11.0059,
+   "lng": -74.8052
+  },
+  {
+   "id": "BQ13",
+   "n": "Colsubsidio Buenavista",
+   "ch": "Colsubsidio",
+   "addr": "CC Buenavista, Cra. 53",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 11.014,
+   "lng": -74.8322
+  },
+  {
+   "id": "BQ14",
+   "n": "Colsubsidio Murillo",
+   "ch": "Colsubsidio",
+   "addr": "Cl. Murillo, Suroccidente",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.9791,
+   "lng": -74.7962
+  },
+  {
+   "id": "BQ15",
+   "n": "Audifarma Soledad Centro",
+   "ch": "Audifarma",
+   "addr": "Soledad, Cl. 18",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Mutual Ser"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.9213,
+   "lng": -74.7702
+  },
+  {
+   "id": "BQ16",
+   "n": "Audifarma Sur",
+   "ch": "Audifarma",
+   "addr": "Cra. 38, Suroccidente",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.4,
+   "lat": 10.9744,
+   "lng": -74.7912
+  },
+  {
+   "id": "BQ17",
+   "n": "Audifarma La Victoria",
+   "ch": "Audifarma",
+   "addr": "La Victoria, Cl. 17",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.9745,
+   "lng": -74.7912
+  },
+  {
+   "id": "BQ18",
+   "n": "Audifarma Boston",
+   "ch": "Audifarma",
+   "addr": "Boston, Cl. 70",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.9996,
+   "lng": -74.8012
+  },
+  {
+   "id": "BQ19",
+   "n": "Mutual Ser Centro",
+   "ch": "Mutual Ser",
+   "addr": "Centro, Cl. 35",
+   "city": "Barranquilla",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.5,
+   "lat": 10.9948,
+   "lng": -74.7812
+  },
+  {
+   "id": "BQ20",
+   "n": "Mutual Ser Soledad",
+   "ch": "Mutual Ser",
+   "addr": "Soledad 2000",
+   "city": "Barranquilla",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.9125,
+   "lng": -74.7701
+  },
+  {
+   "id": "BQ21",
+   "n": "Mutual Ser Suroccidente",
+   "ch": "Mutual Ser",
+   "addr": "Suroccidente, Cra. 21",
+   "city": "Barranquilla",
+   "eps": [
+    "Mutual Ser"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.9656,
+   "lng": -74.7911
+  },
+  {
+   "id": "BQ22",
+   "n": "Coosalud Rebolo",
+   "ch": "Coosalud",
+   "addr": "Rebolo, Cl. 17",
+   "city": "Barranquilla",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.9657,
+   "lng": -74.7711
+  },
+  {
+   "id": "BQ23",
+   "n": "Coosalud Soledad",
+   "ch": "Coosalud",
+   "addr": "Soledad, Cra. 30",
+   "city": "Barranquilla",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.4,
+   "lat": 10.9129,
+   "lng": -74.7701
+  },
+  {
+   "id": "BQ24",
+   "n": "Coosalud Centro",
+   "ch": "Coosalud",
+   "addr": "Centro, Cl. 30",
+   "city": "Barranquilla",
+   "eps": [
+    "Coosalud",
+    "Comfenalco"
+   ],
+   "est": "VERDE",
+   "fila": 0.8,
+   "lat": 10.986,
+   "lng": -74.7811
+  },
+  {
+   "id": "BQ25",
+   "n": "Cajacopi Centro",
+   "ch": "Cajacopi",
+   "addr": "Centro, Cra. 43",
+   "city": "Barranquilla",
+   "eps": [
+    "Cajacopi"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 10.9861,
+   "lng": -74.7811
+  },
+  {
+   "id": "BQ26",
+   "n": "Cajacopi Soledad",
+   "ch": "Cajacopi",
+   "addr": "Soledad, Cl. 30",
+   "city": "Barranquilla",
+   "eps": [
+    "Cajacopi"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.9132,
+   "lng": -74.7701
+  },
+  {
+   "id": "BQ27",
+   "n": "Cajacopi Malambo",
+   "ch": "Cajacopi",
+   "addr": "Malambo Centro",
+   "city": "Barranquilla",
+   "eps": [
+    "Cajacopi"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.4,
+   "lat": 10.8554,
+   "lng": -74.7751
+  },
+  {
+   "id": "BQ28",
+   "n": "Cafam Norte Cra. 53",
+   "ch": "Cafam",
+   "addr": "Cra. 53, Norte",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Nueva EPS",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0065,
+   "lng": -74.8211
+  },
+  {
+   "id": "BQ29",
+   "n": "Cafam Boston",
+   "ch": "Cafam",
+   "addr": "Boston, Cl. 70",
+   "city": "Barranquilla",
+   "eps": [
+    "Famisanar",
+    "Cafam"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 10.9916,
+   "lng": -74.8011
+  },
+  {
+   "id": "BQ30",
+   "n": "Cruz Verde Buenavista",
+   "ch": "Cruz Verde",
+   "addr": "CC Buenavista",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0093,
+   "lng": -74.8321
+  },
+  {
+   "id": "BQ31",
+   "n": "Cruz Verde Villa Country",
+   "ch": "Cruz Verde",
+   "addr": "Villa Country, Cl. 79",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Compensar"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 11.0074,
+   "lng": -74.8131
+  },
+  {
+   "id": "BQ32",
+   "n": "Cruz Verde Calle 84",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 84 No. 47",
+   "city": "Barranquilla",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 11.0066,
+   "lng": -74.8131
+  },
+  {
+   "id": "BQ33",
+   "n": "Colsubsidio Calle 84",
+   "ch": "Colsubsidio",
+   "addr": "Cl. 84, Norte",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Sura",
+    "Colsubsidio"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 11.0067,
+   "lng": -74.8131
+  },
+  {
+   "id": "BQ34",
+   "n": "Colsubsidio Soledad",
+   "ch": "Colsubsidio",
+   "addr": "Soledad, Cl. 30",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Colsubsidio"
+   ],
+   "est": "ROJO",
+   "fila": 3,
+   "lat": 10.9168,
+   "lng": -74.7701
+  },
+  {
+   "id": "BQ35",
+   "n": "Audifarma Centro Murillo",
+   "ch": "Audifarma",
+   "addr": "Cl. Murillo, Centro",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 10.9899,
+   "lng": -74.7811
+  },
+  {
+   "id": "BQ36",
+   "n": "Drogas La Rebaja Centro",
+   "ch": "Drogas La Rebaja",
+   "addr": "Centro, Paseo Bolívar",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.2,
+   "lat": 10.9901,
+   "lng": -74.7811
+  },
+  {
+   "id": "BQ37",
+   "n": "Drogas La Rebaja Soledad",
+   "ch": "Drogas La Rebaja",
+   "addr": "Soledad, Cra. 30",
+   "city": "Barranquilla",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.4,
+   "lat": 10.9172,
+   "lng": -74.7701
+  },
+  {
+   "id": "BUC03",
+   "n": "Cruz Verde CC Cabecera",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 36 No. 49-45 Local 324, CC Cabecera",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 7.109,
+   "lng": -73.1118
+  },
+  {
+   "id": "BUC04",
+   "n": "Cruz Verde Cabecera del Llano",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 33 No. 46-61, Cabecera del Llano",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sura",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.1083,
+   "lng": -73.1108
+  },
+  {
+   "id": "BUC05",
+   "n": "Cruz Verde Calle 51",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 51 No. 34-08",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sanitas",
+    "Sura"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.4,
+   "lat": 7.1073,
+   "lng": -73.1135
+  },
+  {
+   "id": "BUC06",
+   "n": "Cruz Verde Cra. 34 Cabecera",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 34 No. 51-15, Cabecera",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 7.1078,
+   "lng": -73.1128
+  },
+  {
+   "id": "BUC07",
+   "n": "Cruz Verde Cra. 33 Cabecera",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 33 No. 56-04, Cabecera",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sanitas",
+    "Coosalud"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.11,
+   "lng": -73.1095
+  },
+  {
+   "id": "BUC08",
+   "n": "Cruz Verde Centro",
+   "ch": "Cruz Verde",
+   "addr": "Cl. 34 No. 15-80, Centro",
+   "city": "Bucaramanga",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.6,
+   "lat": 7.124,
+   "lng": -73.1255
+  },
+  {
+   "id": "BUC09",
+   "n": "Cruz Verde Parque Caracolí",
+   "ch": "Cruz Verde",
+   "addr": "CC Parque Caracolí, Cra. 27 No. 29-145 L.322 (Cañaveral)",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sanitas",
+    "Coosalud"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.072,
+   "lng": -73.0895
+  },
+  {
+   "id": "BUC10",
+   "n": "Cruz Verde Cañaveral 24h",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 33A No. 29-15, Cañaveral · 24h",
+   "city": "Bucaramanga",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.4,
+   "lat": 7.0735,
+   "lng": -73.0905
+  },
+  {
+   "id": "BUC11",
+   "n": "Cruz Verde El Bosque",
+   "ch": "Cruz Verde",
+   "addr": "Autopista Floridablanca, Cl. 25 Urb. El Bosque",
+   "city": "Bucaramanga",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 7.078,
+   "lng": -73.096
+  },
+  {
+   "id": "BUC12",
+   "n": "Audifarma Cañaveral",
+   "ch": "Audifarma",
+   "addr": "CC Cañaveral, Local L-404",
+   "city": "Bucaramanga",
+   "eps": [
+    "Nueva EPS",
+    "Salud Total"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 7.0715,
+   "lng": -73.0885
+  },
+  {
+   "id": "CUC03",
+   "n": "Cruz Verde Barrio Blanco",
+   "ch": "Cruz Verde",
+   "addr": "Av. 1 No. 18-57 Local 1, Barrio Blanco",
+   "city": "Cúcuta",
+   "eps": [
+    "Sanitas",
+    "Colsanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.892,
+   "lng": -72.503
+  },
+  {
+   "id": "CUC04",
+   "n": "Cruz Verde La Gran Colombia",
+   "ch": "Cruz Verde",
+   "addr": "Av. Gran Colombia No. 1E-28",
+   "city": "Cúcuta",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 7.901,
+   "lng": -72.503
+  },
+  {
+   "id": "CUC05",
+   "n": "Cruz Verde Ventura Plaza",
+   "ch": "Cruz Verde",
+   "addr": "CC Ventura Plaza, Av. Libertadores",
+   "city": "Cúcuta",
+   "eps": [
+    "Sanitas",
+    "Salud Total"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.5,
+   "lat": 7.908,
+   "lng": -72.5
+  },
+  {
+   "id": "CUC06",
+   "n": "Cruz Verde Caobos",
+   "ch": "Cruz Verde",
+   "addr": "Av. 1E No. 15A-29 Local 4, Caobos",
+   "city": "Cúcuta",
+   "eps": [
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 7.896,
+   "lng": -72.507
+  },
+  {
+   "id": "CUC07",
+   "n": "Cruz Verde Libertadores Norte",
+   "ch": "Cruz Verde",
+   "addr": "Av. Libertadores No. 18N-163",
+   "city": "Cúcuta",
+   "eps": [
+    "Sanitas",
+    "Coosalud"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 7.909,
+   "lng": -72.499
+  },
+  {
+   "id": "CUC08",
+   "n": "Cafam Nueva EPS Av. 1E",
+   "ch": "Cafam",
+   "addr": "Av. 1 Este No. 9-90",
+   "city": "Cúcuta",
+   "eps": [
+    "Nueva EPS",
+    "Famisanar"
+   ],
+   "est": "AMARILLO",
+   "fila": 2.2,
+   "lat": 7.895,
+   "lng": -72.505
+  },
+  {
+   "id": "CUC09",
+   "n": "Comfaoriente EPS-S",
+   "ch": "Comfaoriente",
+   "addr": "Sector Centro · régimen subsidiado",
+   "city": "Cúcuta",
+   "eps": [
+    "Comfaoriente"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 7.897,
+   "lng": -72.504
+  },
+  {
+   "id": "CUC10",
+   "n": "Disfarma Nueva EPS Centro",
+   "ch": "Disfarma",
+   "addr": "Sector Centro · Av. 5 con Cl. 10",
+   "city": "Cúcuta",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.8,
+   "lat": 7.89,
+   "lng": -72.504
+  },
+  {
+   "id": "CUC11",
+   "n": "Coosalud La Libertad",
+   "ch": "Coosalud",
+   "addr": "Sector La Libertad",
+   "city": "Cúcuta",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 7.886,
+   "lng": -72.508
+  },
+  {
+   "id": "POP01",
+   "n": "Cruz Verde Campanario",
+   "ch": "Cruz Verde",
+   "addr": "CC Campanario (Jumbo), Cra. 9 No. 24A Nte. Local 128",
+   "city": "Popayán",
+   "eps": [
+    "Sanitas",
+    "Nueva EPS"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 2.46,
+   "lng": -76.598
+  },
+  {
+   "id": "POP02",
+   "n": "Cruz Verde Norte",
+   "ch": "Cruz Verde",
+   "addr": "Cra. 9 No. 17AN-87 Local 3, Comuna 1",
+   "city": "Popayán",
+   "eps": [
+    "Sura",
+    "Sanitas"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 2.455,
+   "lng": -76.6
+  },
+  {
+   "id": "POP03",
+   "n": "Audifarma Popayán",
+   "ch": "Audifarma",
+   "addr": "Sector Centro · operador Nueva EPS / Asmet",
+   "city": "Popayán",
+   "eps": [
+    "Nueva EPS",
+    "Asmet Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 2,
+   "lat": 2.443,
+   "lng": -76.607
+  },
+  {
+   "id": "POP04",
+   "n": "Emssanar Farmart Popayán",
+   "ch": "Emssanar",
+   "addr": "Sector El Recuerdo",
+   "city": "Popayán",
+   "eps": [
+    "Emssanar"
+   ],
+   "est": "VERDE",
+   "fila": 0.6,
+   "lat": 2.451,
+   "lng": -76.604
+  },
+  {
+   "id": "POP05",
+   "n": "Asmet Salud Dispensario",
+   "ch": "Asmet Salud",
+   "addr": "Sector La Esmeralda",
+   "city": "Popayán",
+   "eps": [
+    "Asmet Salud"
+   ],
+   "est": "AMARILLO",
+   "fila": 1.8,
+   "lat": 2.456,
+   "lng": -76.603
+  },
+  {
+   "id": "POP06",
+   "n": "Coosalud Popayán",
+   "ch": "Coosalud",
+   "addr": "Sector Centro",
+   "city": "Popayán",
+   "eps": [
+    "Coosalud"
+   ],
+   "est": "VERDE",
+   "fila": 0.7,
+   "lat": 2.441,
+   "lng": -76.6055
+  },
+  {
+   "id": "POP07",
+   "n": "Comfacauca Droguería",
+   "ch": "Comfacauca",
+   "addr": "Sector Centro · El Empedrado",
+   "city": "Popayán",
+   "eps": [
+    "Comfacauca"
+   ],
+   "est": "VERDE",
+   "fila": 0.5,
+   "lat": 2.445,
+   "lng": -76.609
+  },
+  {
+   "id": "POP08",
+   "n": "Disfarma Nueva EPS Sur",
+   "ch": "Disfarma",
+   "addr": "Sector Bello Horizonte",
+   "city": "Popayán",
+   "eps": [
+    "Nueva EPS"
+   ],
+   "est": "ROJO",
+   "fila": 3.5,
+   "lat": 2.43,
+   "lng": -76.616
+  }
+ ]
+}

@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0F2044">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-180.png">
+<link rel="icon" href="icons/favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>SentiSalud — Radar de Medicamentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0F2044; --ink2:#16285A;
+  --blue:#2563EB; --blue-d:#1E40AF; --bluel:#DBEAFE;
+  --cyan:#0891B2; --cyanl:#CFFAFE;
+  --bg:#EEF3FD; --card:#FFFFFF;
+  --gn:#15803D; --gndot:#16A34A; --gnl:#DCFCE7;
+  --am:#B45309; --amdot:#F59E0B; --aml:#FEF3C7;
+  --rd:#C2261B; --rddot:#EF4444; --rdl:#FEE2E2;
+  --tx:#0E1726; --tx2:#475569; --tx3:#64748B;
+  --br:#D7E0F0; --br2:#E8EEF9;
+  --r:16px; --r2:22px; --r3:30px;
+  --fn:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --base:18px;
+  --sh1:0 2px 14px rgba(15,32,68,.07);
+  --sh2:0 10px 34px rgba(15,32,68,.14);
+  --sh3:0 18px 60px rgba(15,32,68,.22);
+  --maxw:560px;
+}
+html.easy{--base:21px;--r:18px;--r2:24px;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--fn);font-size:var(--base);color:var(--tx);
+  background:var(--bg);line-height:1.5;overflow:hidden;
+  -webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit;font-size:1rem}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+
+/* ===== APP SHELL ===== */
+#app{max-width:var(--maxw);margin:0 auto;height:100%;display:flex;flex-direction:column;
+  position:relative;background:var(--bg);box-shadow:0 0 80px rgba(15,32,68,.18)}
+
+/* ===== HEADER ===== */
+header{flex-shrink:0;position:relative;z-index:30;color:#fff;
+  background:radial-gradient(140% 120% at 0% 0%, #1E40AF 0%, var(--ink) 55%, #0A1733 100%);
+  padding:14px 18px 16px;overflow:hidden}
+header::before{content:"";position:absolute;inset:-40% -10% auto auto;width:70%;height:160%;
+  background:radial-gradient(circle, rgba(8,145,178,.55), transparent 60%);
+  filter:blur(8px);animation:aurora 9s ease-in-out infinite alternate;pointer-events:none}
+@keyframes aurora{from{transform:translate(0,0)}to{transform:translate(-18px,16px)}}
+.hrow{display:flex;align-items:center;gap:12px;position:relative}
+.brand{display:flex;align-items:center;gap:11px}
+.brand svg{width:42px;height:42px;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3))}
+.bname{font-size:1.32rem;font-weight:800;letter-spacing:-.02em;line-height:1}
+.bname b{color:#67E8F9;font-weight:800}
+.bsub{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:#9FB6E8;margin-top:3px}
+.live{margin-left:auto;display:flex;align-items:center;gap:7px;background:rgba(34,197,94,.16);
+  border:1px solid rgba(74,222,128,.4);color:#86EFAC;font-size:.74rem;font-weight:700;
+  padding:7px 13px;border-radius:30px}
+.ldot{width:9px;height:9px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.7);
+  animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+
+/* ===== VIEWS ===== */
+main{flex:1;position:relative;overflow:hidden;min-height:0}
+.view{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+.view.on{display:flex;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.scroll{flex:1;overflow-y:auto;padding:16px 16px 28px;scrollbar-width:thin}
+
+/* ===== SEARCH (RADAR) ===== */
+.searchwrap{flex-shrink:0;background:var(--ink);padding:0 16px 16px}
+.search{display:flex;align-items:center;gap:10px;background:#fff;border-radius:var(--r2);
+  padding:6px 8px 6px 16px;box-shadow:var(--sh2)}
+.search svg{width:24px;height:24px;flex-shrink:0;stroke:var(--tx3)}
+.search input{flex:1;border:none;outline:none;font-size:1.06rem;font-weight:600;
+  color:var(--tx);padding:14px 0;background:none}
+.search input::placeholder{color:#94A3B8;font-weight:500}
+.search .go{width:50px;height:50px;border-radius:16px;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.search .go svg{width:24px;height:24px;stroke:#fff}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;background:rgba(255,255,255,.1);color:#C7D6F5;border:1px solid rgba(255,255,255,.18);
+  padding:9px 15px;border-radius:30px;font-size:.86rem;font-weight:700;white-space:nowrap}
+.chip.on{background:#fff;color:var(--ink);border-color:#fff}
+
+/* ===== MAP ===== */
+.maparea{flex:1;position:relative;min-height:0;background:#dde6f5}
+#map{position:absolute;inset:0;width:100%;height:100%;background:#dce5f4}
+.leaflet-container{font-family:var(--fn)}
+.mpin{position:relative;width:30px;height:30px}
+.mpin .ring{position:absolute;inset:0;border-radius:50%;animation:mp 2s infinite}
+.mpin .core{position:absolute;top:6px;left:6px;width:18px;height:18px;border-radius:50%;
+  border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+.mpin.g .ring{background:rgba(34,197,94,.3)} .mpin.g .core{background:var(--gndot)}
+.mpin.a .ring{background:rgba(245,158,11,.3)} .mpin.a .core{background:var(--amdot)}
+.mpin.r .ring{background:rgba(239,68,68,.3)} .mpin.r .core{background:var(--rddot)}
+@keyframes mp{0%{transform:scale(.6);opacity:.9}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+.mpin.sel .core{width:24px;height:24px;top:3px;left:3px}
+
+.legend{position:absolute;left:12px;bottom:12px;z-index:500;background:rgba(255,255,255,.96);
+  border-radius:14px;padding:10px 12px;box-shadow:var(--sh2);font-size:.78rem;font-weight:700}
+.legend div{display:flex;align-items:center;gap:7px;margin:3px 0}
+.legend i{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+.fab{position:absolute;right:14px;bottom:14px;z-index:500;height:58px;padding:0 20px;
+  border-radius:30px;background:var(--blue);color:#fff;font-weight:800;font-size:1rem;
+  display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(37,99,235,.45)}
+.fab svg{width:24px;height:24px;stroke:#fff}
+.recenter{position:absolute;right:14px;top:14px;z-index:500;width:50px;height:50px;border-radius:15px;
+  background:#fff;box-shadow:var(--sh2);display:flex;align-items:center;justify-content:center}
+.recenter svg{width:26px;height:26px;stroke:var(--blue)}
+
+/* ===== RESULTS SHEET ===== */
+.sheet{flex-shrink:0;background:#fff;border-radius:26px 26px 0 0;box-shadow:0 -8px 30px rgba(15,32,68,.16);
+  max-height:42%;display:flex;flex-direction:column;overflow:hidden}
+.sheet-hd{padding:10px 18px 6px;flex-shrink:0}
+.grab{width:48px;height:5px;background:#CBD5E1;border-radius:5px;margin:0 auto 10px}
+.sheet-hd h2{font-size:1.04rem;font-weight:800}
+.sheet-hd p{font-size:.84rem;color:var(--tx2);font-weight:600}
+.sheet-list{overflow-y:auto;padding:6px 14px 16px;scrollbar-width:thin}
+
+/* ===== SEDE CARD ===== */
+.sede{background:#fff;border:2px solid var(--br2);border-radius:var(--r2);padding:15px;margin-bottom:12px;
+  box-shadow:var(--sh1);transition:.15s}
+.sede:active{transform:scale(.99)}
+.sede.g{border-left:7px solid var(--gndot)} .sede.a{border-left:7px solid var(--amdot)} .sede.r{border-left:7px solid var(--rddot)}
+.sede-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sede h3{font-size:1.06rem;font-weight:800;line-height:1.25}
+.sede .addr{font-size:.86rem;color:var(--tx2);font-weight:600;margin-top:4px;display:flex;gap:6px}
+.sede .addr svg{width:17px;height:17px;stroke:var(--tx3);flex-shrink:0;margin-top:2px}
+.status{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:8px 12px;border-radius:14px;font-weight:800;font-size:.82rem;min-width:88px;text-align:center}
+.status .big{font-size:1rem}
+.status.g{background:var(--gnl);color:var(--gn)} .status.a{background:var(--aml);color:var(--am)} .status.r{background:var(--rdl);color:var(--rd)}
+.eps-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.eps-tag{background:var(--bluel);color:var(--blue-d);font-size:.76rem;font-weight:700;padding:5px 11px;border-radius:20px}
+.meta{display:flex;gap:16px;margin-top:11px;font-size:.84rem;font-weight:700;color:var(--tx2)}
+.meta span{display:flex;align-items:center;gap:6px}
+.meta svg{width:17px;height:17px;stroke:var(--cyan)}
+.sede-actions{display:flex;gap:9px;margin-top:13px}
+.sa{flex:1;min-height:52px;border-radius:14px;font-weight:800;font-size:.92rem;
+  display:flex;align-items:center;justify-content:center;gap:7px}
+.sa svg{width:20px;height:20px}
+.sa.prim{background:var(--blue);color:#fff} .sa.prim svg{stroke:#fff}
+.sa.ghost{background:var(--bluel);color:var(--blue-d)} .sa.ghost svg{stroke:var(--blue-d)}
+
+/* ===== GENERIC CARD / SECTION ===== */
+.card{background:#fff;border:2px solid var(--br2);border-radius:var(--r2);padding:18px;box-shadow:var(--sh1);margin-bottom:16px}
+.card h2{font-size:1.18rem;font-weight:800;margin-bottom:5px;display:flex;align-items:center;gap:9px}
+.card h2 svg{width:24px;height:24px;stroke:var(--blue)}
+.card .lead{color:var(--tx2);font-weight:600;font-size:.92rem;margin-bottom:14px}
+.eyebrow{font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.label{font-size:.86rem;font-weight:800;color:var(--tx);margin:14px 0 7px;display:block}
+.field{width:100%;min-height:56px;border:2px solid var(--br);border-radius:14px;padding:0 16px;
+  font-size:1rem;font-weight:600;color:var(--tx);background:#F8FAFF;transition:.15s}
+.field:focus{border-color:var(--blue);background:#fff;outline:none}
+textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5}
+.btn{width:100%;min-height:58px;border-radius:16px;font-weight:800;font-size:1.05rem;
+  display:flex;align-items:center;justify-content:center;gap:9px;transition:.15s}
+.btn svg{width:22px;height:22px}
+.btn.prim{background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(37,99,235,.35)} .btn.prim svg{stroke:#fff}
+.btn.prim:active{transform:translateY(1px)}
+.btn.ok{background:var(--gn);color:#fff} .btn.ok svg{stroke:#fff}
+.btn.ghost{background:#fff;color:var(--blue-d);border:2px solid var(--blue)} .btn.ghost svg{stroke:var(--blue-d)}
+
+/* ===== ALERTS ===== */
+.alert-item{display:flex;align-items:center;gap:13px;background:#fff;border:2px solid var(--br2);
+  border-radius:var(--r);padding:14px;margin-bottom:11px}
+.alert-ico{width:48px;height:48px;border-radius:14px;background:var(--cyanl);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.alert-ico svg{width:26px;height:26px;stroke:var(--cyan)}
+.alert-item .nm{font-weight:800;font-size:1rem}
+.alert-item .ct{font-size:.82rem;color:var(--tx2);font-weight:600}
+.alert-del{margin-left:auto;width:46px;height:46px;border-radius:13px;background:var(--rdl);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.alert-del svg{width:22px;height:22px;stroke:var(--rd)}
+.empty{text-align:center;padding:30px 16px;color:var(--tx3)}
+.empty svg{width:54px;height:54px;stroke:#B6C3DC;margin-bottom:10px}
+.empty p{font-weight:700;font-size:.95rem}
+
+/* ===== STEPPER (TUTELA) ===== */
+.steps{display:flex;gap:6px;padding:14px 16px;flex-shrink:0;background:#fff;border-bottom:2px solid var(--br2)}
+.step{flex:1;text-align:center}
+.step .dot{width:36px;height:36px;border-radius:50%;background:var(--br);color:var(--tx3);
+  font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;font-size:.95rem;transition:.2s}
+.step.on .dot{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.4)}
+.step.done .dot{background:var(--gn);color:#fff}
+.step .t{font-size:.7rem;font-weight:700;color:var(--tx3)}
+.step.on .t{color:var(--blue-d)}
+.tstep{display:none} .tstep.on{display:block;animation:fade .3s}
+.docbox{background:#0F1B33;color:#D8E3F7;border-radius:16px;padding:18px;font-size:.82rem;
+  line-height:1.6;white-space:pre-wrap;max-height:340px;overflow-y:auto;font-weight:500;
+  border:1px solid #1E3055}
+.hashline{font-size:.72rem;color:var(--cyan);font-weight:700;margin-top:10px;word-break:break-all}
+.notice{background:var(--aml);border:1px solid #FBBF24;border-radius:14px;padding:13px 15px;
+  font-size:.84rem;font-weight:700;color:#7C4A07;margin-top:14px;display:flex;gap:9px}
+.notice svg{width:22px;height:22px;stroke:var(--am);flex-shrink:0}
+
+/* ===== MI CUENTA ===== */
+.coinhero{background:linear-gradient(135deg,var(--ink),var(--blue-d));border-radius:var(--r2);
+  padding:22px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;box-shadow:var(--sh2)}
+.coinhero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;
+  background:radial-gradient(circle,rgba(103,232,249,.4),transparent 70%)}
+.coinhero .lbl{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#9FB6E8;font-weight:700}
+.coinhero .amt{font-size:2.7rem;font-weight:800;line-height:1;margin:7px 0;display:flex;align-items:center;gap:10px}
+.coinhero .amt svg{width:38px;height:38px}
+.coinhero .sub{font-size:.86rem;color:#C7D6F5;font-weight:600}
+.toggle-row{display:flex;align-items:center;gap:14px;padding:6px 0}
+.toggle-row .info{flex:1}
+.toggle-row .info .nm{font-weight:800;font-size:1rem}
+.toggle-row .info .ds{font-size:.82rem;color:var(--tx2);font-weight:600}
+.sw{width:64px;height:36px;border-radius:30px;background:#CBD5E1;position:relative;flex-shrink:0;transition:.2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:30px;height:30px;border-radius:50%;background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.2s}
+.sw.on{background:var(--gn)} .sw.on::after{left:31px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.statbox{background:#F4F8FF;border:2px solid var(--br2);border-radius:16px;padding:14px}
+.statbox .n{font-size:1.5rem;font-weight:800;color:var(--blue-d)}
+.statbox .l{font-size:.78rem;font-weight:700;color:var(--tx2);margin-top:2px}
+
+/* ===== BOTTOM NAV ===== */
+.bnav{flex-shrink:0;display:flex;background:#fff;border-top:2px solid var(--br2);
+  padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(15,32,68,.07);z-index:40}
+.nv{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;
+  border-radius:14px;color:var(--tx3);font-weight:700;font-size:.74rem}
+.nv svg{width:27px;height:27px;stroke:var(--tx3);stroke-width:2}
+.nv.on{color:var(--blue)} .nv.on svg{stroke:var(--blue)}
+.nv.on{background:var(--bluel)}
+
+/* ===== MODAL ===== */
+.modal{position:fixed;inset:0;z-index:1000;background:rgba(10,18,40,.55);backdrop-filter:blur(4px);
+  display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex;animation:fade .25s}
+.modal-card{background:#fff;width:100%;max-width:var(--maxw);border-radius:26px 26px 0 0;
+  padding:24px 20px calc(24px + env(safe-area-inset-bottom));animation:slideup .3s cubic-bezier(.2,.9,.3,1)}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:none}}
+.modal-card .grab{margin-bottom:16px}
+.modal-card h2{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.modal-card .sub{color:var(--tx2);font-weight:600;font-size:.92rem;margin-bottom:18px}
+.gps{display:flex;align-items:center;gap:12px;background:var(--gnl);border:2px solid #86EFAC;
+  border-radius:16px;padding:14px;margin-bottom:16px;font-weight:700;color:var(--gn);font-size:.9rem}
+.gps svg{width:30px;height:30px;stroke:var(--gn);flex-shrink:0}
+.gps.checking{background:var(--bluel);border-color:#93C5FD;color:var(--blue-d)}
+.gps.checking svg{stroke:var(--blue);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stockbtns{display:flex;gap:10px;margin-bottom:18px}
+.stk{flex:1;min-height:74px;border-radius:16px;border:3px solid var(--br);background:#F8FAFF;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:800;font-size:.84rem}
+.stk .ic{width:26px;height:26px;border-radius:50%}
+.stk.g.sel{border-color:var(--gndot);background:var(--gnl)} .stk.g .ic{background:var(--gndot)}
+.stk.a.sel{border-color:var(--amdot);background:var(--aml)} .stk.a .ic{background:var(--amdot)}
+.stk.r.sel{border-color:var(--rddot);background:var(--rdl)} .stk.r .ic{background:var(--rddot)}
+
+/* ===== SUGERENCIAS ===== */
+.suggcats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.suggcat{flex:1 1 calc(50% - 8px);min-height:54px;border-radius:14px;border:2px solid var(--br);
+  background:#F8FAFF;display:flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:800;font-size:.9rem;color:var(--tx2);padding:0 10px;transition:.15s}
+.suggcat svg{width:20px;height:20px;stroke:var(--tx3);flex-shrink:0}
+.suggcat.sel{border-color:var(--blue);background:var(--bluel);color:var(--blue-d)}
+.suggcat.sel svg{stroke:var(--blue-d)}
+.cc{font-size:.82rem;font-weight:700;color:var(--tx3);text-align:right;margin-top:-10px;margin-bottom:8px}
+
+/* ===== TOAST ===== */
+#toasts{position:fixed;left:0;right:0;bottom:96px;z-index:2000;display:flex;flex-direction:column;
+  align-items:center;gap:8px;pointer-events:none;padding:0 16px}
+.toast{background:var(--ink);color:#fff;border-radius:16px;padding:14px 18px;max-width:var(--maxw);width:100%;
+  box-shadow:var(--sh3);display:flex;align-items:center;gap:12px;animation:tin .35s cubic-bezier(.2,.9,.3,1)}
+.toast svg{width:26px;height:26px;flex-shrink:0}
+.toast .tt{font-weight:800;font-size:.96rem}
+.toast .tm{font-size:.82rem;color:#C7D6F5;font-weight:600}
+.toast.ok{background:var(--gn)} .toast.ok .tm{color:#D1FAE5}
+@keyframes tin{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media(min-width:600px){.fab{font-size:1.05rem}}
+
+/* ===== TUTOR / AYUDA ===== */
+.hhelp{margin-left:10px;flex-shrink:0;display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);color:#fff;
+  font-size:.82rem;font-weight:800;padding:8px 13px 8px 11px;border-radius:30px}
+.hhelp svg{width:20px;height:20px;stroke:#67E8F9;stroke-width:2.4}
+.hhelp:active{transform:scale(.96)}
+
+/* Botón "ver tutorial" en Mi cuenta */
+.help-btn{width:100%;min-height:58px;margin-top:14px;border-radius:16px;font-weight:800;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--cyanl);color:var(--cyan);border:2px solid #7DD3E0}
+.help-btn svg{width:24px;height:24px;stroke:var(--cyan)}
+.help-btn:active{transform:translateY(1px)}
+
+/* Modal de bienvenida del tutor */
+.tutor-hero{width:84px;height:84px;border-radius:50%;margin:0 auto 14px;
+  background:radial-gradient(circle at 30% 25%,#38BDF8,#0891B2);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(8,145,178,.4)}
+.tutor-hero svg{width:46px;height:46px;stroke:#fff;stroke-width:2}
+.tutor-welcome{text-align:center}
+.tutor-welcome h2{font-size:1.5rem}
+.tutor-welcome .sub{font-size:1.02rem;text-align:center}
+.easy-offer{display:flex;align-items:center;gap:12px;text-align:left;background:#F4F8FF;
+  border:2px solid var(--br2);border-radius:16px;padding:13px 15px;margin:4px 0 18px}
+.easy-offer .txt{flex:1;font-weight:700;font-size:.92rem;color:var(--tx)}
+.easy-offer .txt small{display:block;font-weight:600;color:var(--tx2);font-size:.82rem;margin-top:2px}
+
+/* Recorrido guiado (spotlight) */
+#tourOverlay{position:fixed;inset:0;z-index:1500;display:none}
+#tourOverlay.on{display:block}
+#tourSpot{position:absolute;border-radius:18px;pointer-events:none;
+  box-shadow:0 0 0 9999px rgba(8,18,42,.74);transition:all .35s cubic-bezier(.2,.9,.3,1);
+  border:3px solid #67E8F9}
+#tourCard{position:absolute;left:14px;right:14px;max-width:calc(var(--maxw) - 28px);margin:0 auto;
+  background:#fff;border-radius:22px;padding:18px 18px 16px;box-shadow:var(--sh3);
+  animation:fade .3s ease}
+.tc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tc-prog{font-size:.78rem;font-weight:800;color:var(--cyan);letter-spacing:.04em}
+.tc-dots{display:flex;gap:5px;margin-left:auto}
+.tc-dots i{width:8px;height:8px;border-radius:50%;background:var(--br);transition:.2s}
+.tc-dots i.on{background:var(--blue);width:20px;border-radius:5px}
+.tc-voice{width:42px;height:42px;border-radius:12px;background:var(--bluel);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.tc-voice svg{width:23px;height:23px;stroke:var(--blue-d)}
+.tc-voice.off{background:#F1F5F9} .tc-voice.off svg{stroke:#94A3B8}
+#tourCard h3{font-size:1.22rem;font-weight:800;line-height:1.25;margin-bottom:6px}
+#tourCard p{font-size:1.02rem;line-height:1.55;color:var(--tx2);font-weight:600}
+.tc-btns{display:flex;gap:10px;margin-top:16px}
+.tc-btns button{min-height:56px;border-radius:15px;font-weight:800;font-size:1.02rem;
+  display:flex;align-items:center;justify-content:center;gap:7px}
+.tc-back{flex:1;background:var(--bluel);color:var(--blue-d)}
+.tc-next{flex:1.5;background:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.35)}
+.tc-next svg{width:20px;height:20px;stroke:#fff}
+.tc-skip{display:block;width:100%;text-align:center;margin-top:12px;color:var(--tx3);
+  font-weight:700;font-size:.92rem;padding:6px}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="hrow">
+    <div class="brand">
+      <svg viewBox="0 0 80 100" aria-hidden="true"><defs>
+        <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#0891B2"/></linearGradient>
+        <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB7185"/><stop offset="100%" stop-color="#E11D48"/></linearGradient></defs>
+        <path d="M40 6C24 6 10 20 10 36C10 52 24 62 40 80C56 62 70 52 70 36C70 20 56 6 40 6Z" fill="url(#pg)"/>
+        <circle cx="40" cy="36" r="17" fill="#fff"/>
+        <path d="M40 43C40 43 28 36 28 28C28 24 31.5 21 35.5 21C37.5 21 40 23 40 23C40 23 42.5 21 44.5 21C48.5 21 52 24 52 28C52 36 40 43 40 43Z" fill="url(#hg)"/>
+        <path d="M13 56L19 56L22 51L25 61L28 47L31 57L33 53L40 56L47 53L49 57L52 47L55 61L58 51L61 56L67 56" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+        <rect x="22" y="89" width="36" height="10" rx="5" fill="#0A1733"/>
+        <circle cx="31" cy="94" r="4" fill="#22C55E"/><circle cx="40" cy="94" r="4" fill="#F59E0B"/><circle cx="49" cy="94" r="4" fill="#EF4444"/>
+      </svg>
+      <div>
+        <div class="bname">Senti<b>Salud</b></div>
+        <div class="bsub">Radar de Medicamentos</div>
+      </div>
+    </div>
+    <div class="live"><span class="ldot"></span> EN VIVO</div>
+    <button class="hhelp" onclick="startTour()" aria-label="Ver cómo se usa la aplicación"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 2.5"/><path d="M12 17h.01"/></svg> Ayuda</button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ RADAR ============ -->
+  <section id="v-radar" class="view on">
+    <div class="searchwrap">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="q" type="text" list="medlist" placeholder="Medicamento o tu EPS…" autocomplete="off" aria-label="Buscar medicamento o EPS">
+        <button class="go" onclick="doSearch()" aria-label="Buscar"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="chips" id="cityChips"></div>
+    </div>
+
+    <div class="maparea">
+      <div id="map"></div>
+      <button class="recenter" onclick="recenter()" aria-label="Centrar mapa"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></button>
+      <button class="recenter" id="geoBtn" style="top:72px;width:auto;height:46px;padding:0 14px;gap:7px;font-weight:800;font-size:.86rem;color:var(--blue-d)" onclick="geocodeCity()" aria-label="Afinar ubicaciones en el mapa"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg> Afinar</button>
+      <div class="legend" aria-hidden="true">
+        <div><i style="background:#16A34A"></i> Disponible</div>
+        <div><i style="background:#F59E0B"></i> Poco stock</div>
+        <div><i style="background:#EF4444"></i> Agotado</div>
+      </div>
+      <button class="fab" onclick="openReport()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.3"><path d="M12 5v14M5 12h14"/></svg> Reportar</button>
+    </div>
+
+    <div class="sheet">
+      <div class="sheet-hd">
+        <div class="grab"></div>
+        <h2 id="sheetTitle">Farmacias cerca de ti</h2>
+        <p id="sheetSub">Toca una para ver detalles y cómo llegar</p>
+      </div>
+      <div class="sheet-list" id="sedeList"></div>
+    </div>
+  </section>
+
+  <!-- ============ ALERTAS ============ -->
+  <section id="v-alertas" class="view">
+    <div class="scroll">
+      <div class="card">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg> Avísame cuando llegue</h2>
+        <p class="lead">Te avisamos apenas un medicamento esté disponible en tu ciudad. Sin estar buscando todos los días.</p>
+        <label class="label" for="aMed">Medicamento</label>
+        <input id="aMed" class="field" list="medlist" placeholder="Ej: Insulina Glargina">
+        <datalist id="medlist"></datalist>
+        <label class="label" for="aCity">Ciudad</label>
+        <select id="aCity" class="field"></select>
+        <button class="btn prim" style="margin-top:18px" onclick="addAlert()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg> Crear aviso</button>
+      </div>
+      <div class="eyebrow" style="margin:4px 4px 10px">Mis avisos activos</div>
+      <div id="alertList"></div>
+    </div>
+  </section>
+
+  <!-- ============ TUTELA ============ -->
+  <section id="v-tutela" class="view">
+    <div class="steps">
+      <div class="step on" id="st1"><div class="dot">1</div><div class="t">Tus datos</div></div>
+      <div class="step" id="st2"><div class="dot">2</div><div class="t">Caso</div></div>
+      <div class="step" id="st3"><div class="dot">3</div><div class="t">Documento</div></div>
+    </div>
+    <div class="scroll">
+      <!-- paso 1 -->
+      <div class="tstep on" id="ts1">
+        <div class="card">
+          <span class="eyebrow">Acción de tutela · Art. 86 C.P.</span>
+          <h2 style="margin-top:4px"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h12"/></svg> ¿Le niegan su medicamento?</h2>
+          <p class="lead">Le ayudamos a redactar su acción de tutela para exigir la entrega. Es gratis y no necesita abogado.</p>
+          <label class="label" for="tName">Nombre completo</label>
+          <input id="tName" class="field" placeholder="Como aparece en su cédula">
+          <label class="label" for="tCC">Número de cédula</label>
+          <input id="tCC" class="field" inputmode="numeric" placeholder="Ej: 31.234.567">
+          <label class="label" for="tCity">Ciudad donde vive</label>
+          <select id="tCity" class="field"></select>
+          <button class="btn prim" style="margin-top:18px" onclick="tNext(2)">Continuar <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <!-- paso 2 -->
+      <div class="tstep" id="ts2">
+        <div class="card">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 12 5 5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg> Sobre su caso</h2>
+          <p class="lead">Con estos datos completamos el documento por usted.</p>
+          <label class="label" for="tEps">Su EPS</label>
+          <select id="tEps" class="field"></select>
+          <label class="label" for="tMed">Medicamento que le niegan</label>
+          <input id="tMed" class="field" list="medlist" placeholder="Ej: Metformina 850mg">
+          <label class="label" for="tDays">¿Hace cuántos días se lo niegan?</label>
+          <input id="tDays" class="field" inputmode="numeric" placeholder="Ej: 15">
+          <div style="display:flex;gap:10px;margin-top:18px">
+            <button class="btn ghost" style="flex:1" onclick="tNext(1)">Atrás</button>
+            <button class="btn prim" style="flex:1.4" onclick="genDoc()">Generar documento <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <!-- paso 3 -->
+      <div class="tstep" id="ts3">
+        <div class="card">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg> Su acción de tutela</h2>
+          <p class="lead">Documento generado con firma digital. Revíselo, descárguelo y radíquelo.</p>
+          <div class="docbox" id="docText"></div>
+          <div class="hashline" id="docHash"></div>
+          <div class="notice"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+            Este es un borrador para que usted lo revise. Verifíquelo con un personero o consultorio jurídico gratuito antes de radicarlo.</div>
+          <button class="btn ok" style="margin-top:16px" onclick="downloadDoc()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Descargar documento</button>
+          <button class="btn ghost" style="margin-top:11px" onclick="copyEmail()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg> Copiar correo para el juzgado</button>
+          <button class="btn ghost" style="margin-top:11px" onclick="tReset()">Hacer otra tutela</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MI CUENTA ============ -->
+  <section id="v-cuenta" class="view">
+    <div class="scroll">
+      <div class="coinhero">
+        <div class="lbl">Mis SentiCoins</div>
+        <div class="amt"><svg viewBox="0 0 24 24" fill="none" stroke="#FCD34D" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9.5a3 3 0 0 1 6 0c0 1.5-1.3 2-3 2.5"/><path d="M12 16h.01"/></svg><span id="coins">120</span></div>
+        <div class="sub">Gana puntos cada vez que reportas stock y ayudas a tu comunidad.</div>
+      </div>
+
+      <div class="card">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg> Accesibilidad</h2>
+        <div class="toggle-row" style="margin-top:8px">
+          <div class="info"><div class="nm">Modo fácil</div><div class="ds">Agranda la letra y los botones para ver mejor.</div></div>
+          <button class="sw" id="swEasy" role="switch" aria-checked="false" aria-label="Activar modo fácil" onclick="toggleEasy()"></button>
+        </div>
+        <button class="help-btn" onclick="startTour()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 2.5"/><path d="M12 17h.01"/></svg> Ver cómo se usa la app</button>
+      </div>
+
+      <div class="card">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7.9 20A5 5 0 0 0 10 21h4a5 5 0 0 0 2.1-1M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg> Sugerencias</h2>
+        <p class="lead" style="margin:6px 0 0">¿Una idea para mejorar SentiSalud? ¿Una farmacia mal ubicada o algo que no funciona? Cuéntanos. Leemos todo.</p>
+        <button class="btn prim" style="margin-top:14px" onclick="openSugg()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Enviar una sugerencia</button>
+      </div>
+
+      <div class="card">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg> Cómo va el radar hoy</h2>
+        <div class="statgrid" style="margin-top:6px">
+          <div class="statbox"><div class="n" id="kVerde">0</div><div class="l">Farmacias con stock</div></div>
+          <div class="statbox"><div class="n" id="kSedes">0</div><div class="l">Sedes verificadas</div></div>
+          <div class="statbox"><div class="n" id="kRep">247</div><div class="l">Reportes ciudadanos</div></div>
+          <div class="statbox"><div class="n" id="kEps">19</div><div class="l">EPS cubiertas</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:6px">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7z"/></svg> Tu privacidad</h2>
+        <p class="lead" style="margin:6px 0 0">Tus datos solo se usan para avisarte sobre tus medicamentos. Nunca los vendemos a terceros.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:6px">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Sobre los datos</h2>
+        <p class="lead" style="margin:6px 0 0">Las farmacias provienen de directorios públicos de Audifarma, Cruz Verde, Cafam y Colsubsidio. La red de dispensación cambia con frecuencia (en 2026 varias EPS están intervenidas), así que la ubicación es aproximada y el stock se actualiza con los reportes de la comunidad. Confirma siempre con tu EPS antes de desplazarte.</p>
+        <button class="btn ghost" style="margin-top:14px;min-height:48px" onclick="resetData()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg> Borrar mis datos guardados</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bnav">
+  <button class="nv on" data-v="v-radar" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg>Radar</button>
+  <button class="nv" data-v="v-alertas" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Avisos</button>
+  <button class="nv" data-v="v-tutela" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Tutela</button>
+  <button class="nv" data-v="v-cuenta" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Mi cuenta</button>
+</nav>
+</div>
+
+<!-- ============ TUTOR: BIENVENIDA ============ -->
+<div class="modal" id="tutorWelcome">
+  <div class="modal-card tutor-welcome">
+    <div class="grab"></div>
+    <div class="tutor-hero"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+    <h2>¡Hola! 👋 Bienvenido(a)</h2>
+    <p class="sub">¿Le mostramos cómo usar SentiSalud? Es muy fácil y solo toma un minuto. Le vamos guiando paso a paso.</p>
+    <div class="easy-offer">
+      <div class="txt">¿Ve la letra muy pequeña?<small>Active el Modo fácil para verla más grande.</small></div>
+      <button class="sw" id="swEasyWelcome" role="switch" aria-checked="false" aria-label="Activar modo fácil" onclick="toggleEasyFromWelcome()"></button>
+    </div>
+    <button class="btn prim" onclick="startTour()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Sí, muéstreme cómo</button>
+    <button class="btn ghost" style="margin-top:11px" onclick="dismissWelcome()">Ahora no</button>
+  </div>
+</div>
+
+<!-- ============ TUTOR: RECORRIDO GUIADO ============ -->
+<div id="tourOverlay" role="dialog" aria-modal="true" aria-label="Recorrido de ayuda">
+  <div id="tourSpot"></div>
+  <div id="tourCard">
+    <div class="tc-top">
+      <span class="tc-prog" id="tcProg">Paso 1 de 6</span>
+      <div class="tc-dots" id="tcDots"></div>
+      <button class="tc-voice" id="tcVoice" onclick="toggleVoice()" aria-label="Activar o silenciar la voz">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+      </button>
+    </div>
+    <h3 id="tcTitle"></h3>
+    <p id="tcText" aria-live="polite"></p>
+    <div class="tc-btns">
+      <button class="tc-back" id="tcBack" onclick="tourPrev()">Atrás</button>
+      <button class="tc-next" id="tcNext" onclick="tourNext()">Siguiente <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <button class="tc-skip" onclick="endTour()">Saltar el tutorial</button>
+  </div>
+</div>
+
+<!-- ============ REPORT MODAL ============ -->
+<div class="modal" id="reportModal">
+  <div class="modal-card">
+    <div class="grab"></div>
+    <h2>Reportar stock</h2>
+    <div class="sub" id="repSede">Ayuda a tu comunidad: ¿cómo viste el stock?</div>
+    <div class="gps checking" id="gpsBox"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg> Verificando tu ubicación…</div>
+    <div class="stockbtns">
+      <button class="stk g" data-s="VERDE" onclick="pickStock(this)"><span class="ic"></span>Disponible</button>
+      <button class="stk a" data-s="AMARILLO" onclick="pickStock(this)"><span class="ic"></span>Poco</button>
+      <button class="stk r" data-s="ROJO" onclick="pickStock(this)"><span class="ic"></span>Agotado</button>
+    </div>
+    <button class="btn prim" onclick="sendReport()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg> Enviar reporte (+10 SentiCoins)</button>
+    <button class="btn ghost" style="margin-top:11px" onclick="closeModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ============ SUGGESTION MODAL ============ -->
+<div class="modal" id="suggModal">
+  <div class="modal-card">
+    <div class="grab"></div>
+    <h2>Tu sugerencia</h2>
+    <div class="sub">Cuéntanos qué mejorar. Leemos todas y tu opinión ayuda a la comunidad.</div>
+    <span class="label" style="margin-top:0">¿De qué se trata?</span>
+    <div class="suggcats" id="suggCats">
+      <button class="suggcat" data-c="Idea nueva" onclick="pickSuggCat(this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg>Idea nueva</button>
+      <button class="suggcat" data-c="Algo falla" onclick="pickSuggCat(this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>Algo falla</button>
+      <button class="suggcat" data-c="Farmacia incorrecta" onclick="pickSuggCat(this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>Una farmacia</button>
+      <button class="suggcat" data-c="Otro" onclick="pickSuggCat(this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Otro</button>
+    </div>
+    <label class="label" for="suggMsg" style="margin-top:6px">Tu mensaje</label>
+    <textarea id="suggMsg" class="field" maxlength="600" placeholder="Escribe aquí tu idea o el problema que viste…" oninput="suggCount()"></textarea>
+    <div class="cc" id="suggCC">0 / 600</div>
+    <label class="label" for="suggContact" style="margin-top:2px">Correo o teléfono (opcional)</label>
+    <input id="suggContact" class="field" placeholder="Por si queremos responderte" autocomplete="off">
+    <button class="btn prim" style="margin-top:18px" onclick="sendSugg()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg> Enviar sugerencia (+15 SentiCoins)</button>
+    <button class="btn ghost" style="margin-top:11px" onclick="closeSugg()">Cancelar</button>
+  </div>
+</div>
+
+<!-- Formulario oculto: lo detecta Netlify para guardar las sugerencias -->
+<form name="sugerencias" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="text" name="categoria">
+  <textarea name="mensaje"></textarea>
+  <input type="text" name="contacto">
+  <input type="text" name="ciudad">
+  <input type="text" name="bot-field">
+</form>
+
+<div id="toasts"></div>
+
+<script>
+/* ============ DATA (tu base real) ============ */
+var SEDES=[
+{id:"SU01",n:"Salud Sura Chipichape",ch:"Sura",addr:"Av. 6 Bis Nte. No. 35N-64",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.5,lat:3.4681,lng:-76.5381},
+{id:"SU02",n:"IPS Sura Flora",ch:"Sura",addr:"Cl. 38 Nte. S/N La Flora",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.8,lat:3.4843,lng:-76.5261},
+{id:"SU03",n:"IPS Sura Tequendama",ch:"Sura",addr:"Cl. 5 No. 39-173",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.6,lat:3.4268,lng:-76.5428},
+{id:"SU04",n:"IPS Sura Paso Ancho",ch:"Sura",addr:"Cra. 50 No. 12A-90 Paso Ancho",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.5,lat:3.4382,lng:-76.5538},
+{id:"SU05",n:"IPS Vivir Sura Cali",ch:"Sura",addr:"Cl. 10 No. 48-07",city:"Cali",eps:["Sura"],est:"AMARILLO",fila:1.2,lat:3.4331,lng:-76.5492},
+{id:"SU06",n:"Sura Aventura Plaza",ch:"Sura",addr:"Cra. 100 No. 15A-61 Piso 3 CC Aventura Plaza",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.7,lat:3.3712,lng:-76.5401},
+{id:"SU07",n:"IPS Vivir Sura Sede Norte",ch:"Sura",addr:"Sector Calima Norte",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.6,lat:3.4921,lng:-76.5252},
+{id:"SU08",n:"Farmacia Afiliados Sura",ch:"Sura",addr:"Cra. 53 No. 12A-92",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.5,lat:3.4382,lng:-76.5538},
+{id:"SU09",n:"Ayudas Diagnosticas Sura Flora",ch:"Sura",addr:"Cl. 38 Nte. No. 4 Norte-52",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.4,lat:3.4841,lng:-76.5261},
+{id:"SU10",n:"Ayudas Diagnosticas Sura Tequendama",ch:"Sura",addr:"Cl. 5C No. 41-25",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.5,lat:3.4261,lng:-76.5412},
+{id:"SU11",n:"Centro Empresa Sura Menga",ch:"Sura",addr:"Cl. 64 Nte. No. 146 Menga",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.3,lat:3.5001,lng:-76.5251},
+{id:"SU12",n:"Colsubsidio Sura Chipichape",ch:"Colsubsidio-Sura",addr:"Av. 6 Bis Nte. No. 29 Norte-46",city:"Cali",eps:["Sura","Colsubsidio"],est:"VERDE",fila:0.6,lat:3.4651,lng:-76.5371},
+{id:"SU13",n:"Colsubsidio Sura Aventura Plaza",ch:"Colsubsidio-Sura",addr:"Cra. 100 No. 15A-61 Piso 3",city:"Cali",eps:["Sura","Colsubsidio"],est:"VERDE",fila:0.5,lat:3.3712,lng:-76.5401},
+{id:"SU14",n:"JaveSalud Sura",ch:"Sura",addr:"Cra. 38 Bis No. 51 5B2",city:"Cali",eps:["Sura"],est:"VERDE",fila:0.4,lat:3.4251,lng:-76.5221},
+{id:"CV01",n:"Cruz Verde SOS Americas",ch:"Cruz Verde",addr:"Av. 4 Nte. No. 23-31 Barrio San Vicente",city:"Cali",eps:["SOS","Coomeva"],est:"VERDE",fila:0.6,lat:3.4631,lng:-76.5341},
+{id:"CV02",n:"Cruz Verde SOS Buenos Aires",ch:"Cruz Verde",addr:"Cl. 5 No. 70-18 Buenos Aires - 24h",city:"Cali",eps:["SOS"],est:"VERDE",fila:0.4,lat:3.4271,lng:-76.5578},
+{id:"CV03",n:"Cruz Verde SOS Rio Cauca",ch:"Cruz Verde",addr:"Cl. 75A No. 20-81 Local 214A",city:"Cali",eps:["SOS"],est:"VERDE",fila:0.5,lat:3.4901,lng:-76.5271},
+{id:"CV04",n:"Cruz Verde SOS Salomia",ch:"Cruz Verde",addr:"Cra. 1 No. 47-20 Bodega 2 L.103 - 24h",city:"Cali",eps:["SOS"],est:"VERDE",fila:0.3,lat:3.4711,lng:-76.5201},
+{id:"CV05",n:"Cruz Verde SOS Tequendama",ch:"Cruz Verde",addr:"Cra. 42A No. 5B-86",city:"Cali",eps:["SOS","Coomeva"],est:"VERDE",fila:0.7,lat:3.4281,lng:-76.5241},
+{id:"CV06",n:"Cruz Verde Republica de Israel",ch:"Cruz Verde",addr:"Cra. 43B No. 47-34",city:"Cali",eps:["SOS"],est:"VERDE",fila:0.5,lat:3.4451,lng:-76.5271},
+{id:"CV07",n:"Cruz Verde San Cristobal",ch:"Cruz Verde",addr:"Cl. 19 No. 28-47 San Cristobal",city:"Cali",eps:["SOS"],est:"VERDE",fila:0.6,lat:3.4571,lng:-76.5401},
+{id:"CV08",n:"Cruz Verde Norte Belalcazar",ch:"Cruz Verde",addr:"Av. 4 Nte. No. 7N-53 Clinica Belalcazar",city:"Cali",eps:["Sanitas","Colsanitas"],est:"VERDE",fila:0.5,lat:3.4601,lng:-76.5331},
+{id:"CV09",n:"Cruz Verde Versalles",ch:"Cruz Verde",addr:"Av. 4 Nte. No. 23BN-40",city:"Cali",eps:["Sanitas"],est:"VERDE",fila:0.6,lat:3.4631,lng:-76.5341},
+{id:"CV10",n:"Cruz Verde Centenario",ch:"Cruz Verde",addr:"Av. 4 Norte No. 7N-46 L.104 CC Centenario",city:"Cali",eps:["Sanitas","Coomeva"],est:"VERDE",fila:0.5,lat:3.4601,lng:-76.5331},
+{id:"CV11",n:"Cruz Verde Calle 52 Norte",ch:"Cruz Verde",addr:"Cl. 52 Nte. Cali",city:"Cali",eps:["Sanitas","Coomeva"],est:"AMARILLO",fila:1.2,lat:3.4811,lng:-76.5271},
+{id:"CV12",n:"Cruz Verde Edificio Maria Paula",ch:"Cruz Verde",addr:"Cra. 44 No. 11A-43/39 Edif. Maria Paula",city:"Cali",eps:["Coomeva","SOS"],est:"VERDE",fila:0.6,lat:3.4341,lng:-76.5271},
+{id:"CV13",n:"Cruz Verde Los Cambulos",ch:"Cruz Verde",addr:"Cra. 44 No. 8A-03 Local 2-3",city:"Cali",eps:["Coomeva","SOS"],est:"VERDE",fila:0.5,lat:3.4301,lng:-76.5271},
+{id:"CV14",n:"Cruz Verde Tequendama",ch:"Cruz Verde",addr:"Cl. 5 No. 39-199",city:"Cali",eps:["Sanitas","Coomeva"],est:"AMARILLO",fila:1.5,lat:3.4281,lng:-76.5431},
+{id:"CV15",n:"Cruz Verde Pasoancho",ch:"Cruz Verde",addr:"Cl. 13 No. 53-44 Local 12 Paso Ancho - 24h",city:"Cali",eps:["Sanitas","Coomeva","SOS"],est:"VERDE",fila:0.4,lat:3.4381,lng:-76.5538},
+{id:"CV16",n:"Cruz Verde Aventura Plaza",ch:"Cruz Verde",addr:"Cra. 100 No. 15A-61 Local 201-202",city:"Cali",eps:["Sanitas","Coomeva"],est:"AMARILLO",fila:1.0,lat:3.3712,lng:-76.5401},
+{id:"CV17",n:"Cruz Verde Cra. 10 Centro",ch:"Cruz Verde",addr:"Cra. 10 No. 6-20 Centro - 24h",city:"Cali",eps:["Sanitas","SOS"],est:"VERDE",fila:0.5,lat:3.4491,lng:-76.5301},
+{id:"CV18",n:"Cruz Verde Limonar",ch:"Cruz Verde",addr:"Cl. 9 No. 65A-40 Local 1 Gran Limonar",city:"Cali",eps:["Sura","Coomeva"],est:"VERDE",fila:0.6,lat:3.4011,lng:-76.5351},
+{id:"CV19",n:"Cruz Verde Roosevelt",ch:"Cruz Verde",addr:"Av. Roosevelt No. 44-58",city:"Cali",eps:["Sanitas","Famisanar"],est:"VERDE",fila:0.7,lat:3.4591,lng:-76.5431},
+{id:"AU01",n:"Audifarma Unicentro",ch:"Audifarma",addr:"Cra. 100 No. 5-169 CC Unicentro Local 805 Piso 3",city:"Cali",eps:["Salud Total","Famisanar"],est:"VERDE",fila:0.7,lat:3.3851,lng:-76.5351},
+{id:"AU02",n:"Audifarma Roosevelt",ch:"Audifarma",addr:"Cl. 6 No. 25-32 Local 1 y 2",city:"Cali",eps:["Salud Total"],est:"AMARILLO",fila:1.5,lat:3.4601,lng:-76.5421},
+{id:"AU03",n:"Audifarma San Fernando",ch:"Audifarma",addr:"Cra. 37 No. 5B4-64 San Fernando",city:"Cali",eps:["Salud Total","Famisanar"],est:"VERDE",fila:0.5,lat:3.4201,lng:-76.5241},
+{id:"AU04",n:"Audifarma Av. 3 Norte",ch:"Audifarma",addr:"Av. 3 Nte. No. 19N-03",city:"Cali",eps:["Salud Total","Asmet Salud"],est:"VERDE",fila:0.8,lat:3.4621,lng:-76.5321},
+{id:"AU05",n:"Audifarma Calle 5 Centro",ch:"Audifarma",addr:"Cl. 5 No. 39-109",city:"Cali",eps:["Salud Total","Asmet Salud"],est:"VERDE",fila:0.6,lat:3.4271,lng:-76.5431},
+{id:"AU06",n:"Audifarma Manzanares",ch:"Audifarma",addr:"Cl. 38 Nte. No. 4N-182 Manzanares",city:"Cali",eps:["Salud Total"],est:"VERDE",fila:0.5,lat:3.4821,lng:-76.5261},
+{id:"AU07",n:"Audifarma Cali Norte",ch:"Audifarma",addr:"Cl. 56 No. 1N-72 Norte",city:"Cali",eps:["Salud Total"],est:"VERDE",fila:0.4,lat:3.4801,lng:-76.5221},
+{id:"DF01",n:"Disfarma Av. 3 Norte (Principal)",ch:"Disfarma",addr:"Av. 3 Nte. No. 19-20",city:"Cali",eps:["Nueva EPS"],est:"ROJO",fila:4.5,lat:3.4621,lng:-76.5341},
+{id:"DF02",n:"Disfarma El Ingenio",ch:"Disfarma",addr:"Cl. 20 No. 85-41 El Ingenio",city:"Cali",eps:["Nueva EPS"],est:"ROJO",fila:3.5,lat:3.3631,lng:-76.5391},
+{id:"DF03",n:"Disfarma Santiago Plaza",ch:"Disfarma",addr:"Cra. 15 No. 50-29 CC Santiago Plaza",city:"Cali",eps:["Nueva EPS"],est:"AMARILLO",fila:2.5,lat:3.4361,lng:-76.5371},
+{id:"DF04",n:"Disfarma Tequendama",ch:"Disfarma",addr:"Cra. 43 No. 5B-23",city:"Cali",eps:["Nueva EPS"],est:"AMARILLO",fila:2.0,lat:3.4271,lng:-76.5241},
+{id:"DF05",n:"Disfarma Ciudad Jardin",ch:"Disfarma",addr:"Cra. 97 No. 16-46 Ciudad Jardin",city:"Cali",eps:["Nueva EPS"],est:"AMARILLO",fila:2.2,lat:3.3731,lng:-76.5401},
+{id:"EM01",n:"Emssanar Farmart Fortaleza",ch:"Emssanar",addr:"Cra. 10 No. 65-30 Fortaleza",city:"Cali",eps:["Emssanar","Mutual Ser"],est:"AMARILLO",fila:2.0,lat:3.4501,lng:-76.5301},
+{id:"EM02",n:"Emssanar Farmart Floresta",ch:"Emssanar",addr:"Cra. 22 No. 4-89 Floresta",city:"Cali",eps:["Emssanar","Asmet Salud"],est:"VERDE",fila:0.5,lat:3.4411,lng:-76.5471},
+{id:"EM03",n:"Emssanar Alfonso Lopez",ch:"Emssanar",addr:"Cra. 25 No. 48-80 Alfonso Lopez",city:"Cali",eps:["Emssanar"],est:"VERDE",fila:0.7,lat:3.4161,lng:-76.5301},
+{id:"CF01",n:"Comfandi Ciudad Jardin",ch:"Comfandi",addr:"Cl. 18 No. 106A-16 Ciudad Jardin",city:"Cali",eps:["Comfenalco","Colsubsidio"],est:"VERDE",fila:0.5,lat:3.3681,lng:-76.5551},
+{id:"CF02",n:"IPS Comfandi Tequendama",ch:"Comfandi",addr:"Cl. 5 No. 42-41",city:"Cali",eps:["Comfenalco"],est:"VERDE",fila:0.6,lat:3.4271,lng:-76.5271},
+{id:"CF03",n:"Comfandi Pasarela Norte",ch:"Comfandi",addr:"Av. 5 Norte No. 23DN-40",city:"Cali",eps:["Comfenalco"],est:"VERDE",fila:0.4,lat:3.4661,lng:-76.5401},
+{id:"CF04",n:"Comfandi Ingenio",ch:"Comfandi",addr:"Cl. 16 No. 85-45 El Ingenio",city:"Cali",eps:["Comfenalco","Colsubsidio"],est:"VERDE",fila:0.5,lat:3.3651,lng:-76.5401},
+{id:"CF05",n:"Comfandi La Merced",ch:"Comfandi",addr:"Cl. 52 Nte. No. 3-10 La Merced",city:"Cali",eps:["Comfenalco"],est:"VERDE",fila:0.6,lat:3.4821,lng:-76.5281},
+{id:"CS01",n:"Coosalud Floresta Cali",ch:"Coosalud",addr:"Cra. 22 No. 4-89 Floresta",city:"Cali",eps:["Coosalud"],est:"VERDE",fila:0.5,lat:3.4411,lng:-76.5471},
+{id:"CA01",n:"Cafam CC Chipichape",ch:"Cafam",addr:"Av. 6A Norte No. 35-47 Local 519 CC Chipichape",city:"Cali",eps:["Cafam","Colsubsidio"],est:"VERDE",fila:0.6,lat:3.4680,lng:-76.5381},
+{id:"CA02",n:"Cafam CC Palmetto",ch:"Cafam",addr:"Cra. 9B No. 49-50 Local 108 CC Palmetto",city:"Cali",eps:["Cafam","Colsubsidio"],est:"VERDE",fila:0.5,lat:3.4281,lng:-76.5221},
+{id:"CA03",n:"Cafam Trade Center",ch:"Cafam",addr:"Cra. 100 No. 6-00 CC Trade Center",city:"Cali",eps:["Cafam"],est:"VERDE",fila:0.4,lat:3.3851,lng:-76.5351},
+{id:"CA04",n:"Cafam Alkosto Calle 13",ch:"Cafam",addr:"Cl. 13 No. 80-187 Alkosto Cali",city:"Cali",eps:["Cafam"],est:"VERDE",fila:0.7,lat:3.4381,lng:-76.5538},
+{id:"CA05",n:"Cafam San Fernando Imbanaco",ch:"Cafam",addr:"Cl. 5A No. 38D-35 San Fernando",city:"Cali",eps:["Cafam"],est:"VERDE",fila:0.5,lat:3.4201,lng:-76.5241},
+{id:"EV01",n:"Evedisa Comfenalco Cali",ch:"Evedisa",addr:"Cl. 5 No. 6-63 Sotano 1 Sede Comfenalco",city:"Cali",eps:["Compensar","Comfenalco"],est:"VERDE",fila:0.5,lat:3.4491,lng:-76.5301},
+{id:"EV02",n:"Evedisa Santiago Plaza",ch:"Evedisa",addr:"Cra. 15 No. 50-29 CC Santiago Plaza Local 47",city:"Cali",eps:["Compensar","Comfenalco"],est:"VERDE",fila:0.6,lat:3.4361,lng:-76.5371},
+{id:"EV03",n:"Evedisa Rio Cauca",ch:"Evedisa",addr:"Cra. 11 No. 8-42 CC Rio Cauca Piso 2",city:"Cali",eps:["Compensar","Comfenalco"],est:"VERDE",fila:0.4,lat:3.4491,lng:-76.5251},
+{id:"BAU1",n:"Audifarma Av. 68",ch:"Audifarma",addr:"Av. 68 No. 16-55",city:"Bogotá",eps:["Sanitas","Compensar","Famisanar"],est:"ROJO",fila:3.5,lat:4.648,lng:-74.099},
+{id:"BAU2",n:"Audifarma Calle 80",ch:"Audifarma",addr:"Calle 80 No. 82-27",city:"Bogotá",eps:["Sanitas","Nueva EPS"],est:"VERDE",fila:0.5,lat:4.713,lng:-74.087},
+{id:"BCZ1",n:"Cruz Verde Calle 127",ch:"Cruz Verde",addr:"Av. Calle 127 No. 21-60",city:"Bogotá",eps:["Sanitas","SOS","Salud Total"],est:"VERDE",fila:0.5,lat:4.728,lng:-74.049},
+{id:"BCF1",n:"Cafam Floresta",ch:"Cafam",addr:"Av. 68 No. 90-88",city:"Bogotá",eps:["Cafam","Colsubsidio"],est:"VERDE",fila:0.5,lat:4.710,lng:-74.100},
+{id:"BCL1",n:"Colsubsidio Alhambra",ch:"Colsubsidio",addr:"Calle 114 No. 52-36",city:"Bogotá",eps:["Colsubsidio"],est:"VERDE",fila:0.6,lat:4.697,lng:-74.072},
+{id:"BCZ2",n:"Cruz Verde Restrepo",ch:"Cruz Verde",addr:"Carrera 17 No. 17-31 sur",city:"Bogotá",eps:["Nueva EPS"],est:"ROJO",fila:3.8,lat:4.573,lng:-74.106},
+{id:"MAU1",n:"Audifarma Oriental",ch:"Audifarma",addr:"Carrera 46 No. 47-66 Torre 2",city:"Medellín",eps:["Salud Total","Nueva EPS"],est:"VERDE",fila:0.5,lat:6.244,lng:-75.576},
+{id:"MAU2",n:"Audifarma El Poblado",ch:"Audifarma",addr:"Calle 5 Sur No. 43D-50",city:"Medellín",eps:["Sura","Coomeva"],est:"AMARILLO",fila:1.5,lat:6.207,lng:-75.572},
+{id:"MSR1",n:"Sura Farmacia El Poblado",ch:"Sura",addr:"El Poblado No. 34-12",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.3,lat:6.211,lng:-75.567},
+{id:"MCZ1",n:"Cruz Verde Campestre",ch:"Cruz Verde",addr:"Calle 16 Sur No. 44-20",city:"Medellín",eps:["Sura","Compensar"],est:"VERDE",fila:0.4,lat:6.200,lng:-75.580},
+{id:"QAU1",n:"Audifarma POS Barranquilla",ch:"Audifarma",addr:"Carrera 49C No. 80-209",city:"Barranquilla",eps:["Sanitas","Nueva EPS"],est:"VERDE",fila:0.6,lat:11.003,lng:-74.816},
+{id:"QCZ2",n:"Cruz Verde Iberoamérica",ch:"Cruz Verde",addr:"Carrera 43 No. 84-60",city:"Barranquilla",eps:["Nueva EPS","SOS"],est:"ROJO",fila:4.0,lat:11.022,lng:-74.834},
+{id:"GAU1",n:"Audifarma Cabecera",ch:"Audifarma",addr:"Carrera 33 No. 46-49",city:"Bucaramanga",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.5,lat:7.117,lng:-73.123},
+{id:"GCZ1",n:"Cruz Verde Turbay",ch:"Cruz Verde",addr:"Carrera 26A No. 50-20",city:"Bucaramanga",eps:["Sanitas","SOS"],est:"VERDE",fila:0.4,lat:7.105,lng:-73.122},
+{id:"KAU1",n:"Audifarma La Providencia",ch:"Audifarma",addr:"Carrera 71 No. 31-465",city:"Cartagena",eps:["Salud Total","Nueva EPS"],est:"VERDE",fila:0.5,lat:10.391,lng:-75.513},
+{id:"KCZ2",n:"Cruz Verde Centro",ch:"Cruz Verde",addr:"Calle La Factoría No. 36-30",city:"Cartagena",eps:["Nueva EPS","SOS"],est:"ROJO",fila:3.2,lat:10.428,lng:-75.548},
+{id:"PAU1",n:"Audifarma Centro Pereira",ch:"Audifarma",addr:"Carrera 8 No. 18-44",city:"Pereira",eps:["Coomeva","Salud Total"],est:"VERDE",fila:0.5,lat:4.813,lng:-75.697},
+{id:"PCZ1",n:"Cruz Verde Cuba",ch:"Cruz Verde",addr:"Carrera 22 No. 74-25 Cuba",city:"Pereira",eps:["Coomeva","SOS"],est:"VERDE",fila:0.4,lat:4.786,lng:-75.721},
+{id:"UAU1",n:"Audifarma Barrio Latino",ch:"Audifarma",addr:"Avenida 0 No. 8-53",city:"Cúcuta",eps:["Sanitas","Nueva EPS"],est:"VERDE",fila:0.5,lat:7.893,lng:-72.509},
+{id:"UCZ2",n:"Cruz Verde San Luis",ch:"Cruz Verde",addr:"Carrera 10 No. 5-20",city:"Cúcuta",eps:["Nueva EPS"],est:"ROJO",fila:3.5,lat:7.877,lng:-72.509},
+/* ===== BOGOTÁ (ampliado) ===== */
+{id:"BAU3",n:"Audifarma Restrepo",ch:"Audifarma",addr:"Cra. 24 No. 16-26 Sur",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"AMARILLO",fila:2.0,lat:4.5752,lng:-74.1031},
+{id:"BAU4",n:"Audifarma Bosa",ch:"Audifarma",addr:"Cl. 65G No. 79B-41 Sur",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"ROJO",fila:3.2,lat:4.6221,lng:-74.1882},
+{id:"BAU5",n:"Audifarma Plaza de las Américas",ch:"Audifarma",addr:"Cra. 65A No. 4B-46",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"AMARILLO",fila:2.5,lat:4.6251,lng:-74.1172},
+{id:"BAU6",n:"Audifarma Barrios Unidos",ch:"Audifarma",addr:"Cra. 35 No. 63C-69",city:"Bogotá",eps:["Nueva EPS","Salud Total"],est:"VERDE",fila:0.7,lat:4.6582,lng:-74.0731},
+{id:"BAU7",n:"Audifarma CC Acuarela (Suba)",ch:"Audifarma",addr:"Av. Cl. 145 No. 92-30 Local 204",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"AMARILLO",fila:1.8,lat:4.7381,lng:-74.1032},
+{id:"BAU8",n:"Audifarma Chapinero",ch:"Audifarma",addr:"Cra. 7 No. 40B-45",city:"Bogotá",eps:["Salud Total","Sanitas"],est:"VERDE",fila:0.6,lat:4.6321,lng:-74.0622},
+{id:"BAU9",n:"Audifarma Ciudad Tunal",ch:"Audifarma",addr:"Cra. 24 No. 2B-16, Tunal",city:"Bogotá",eps:["Nueva EPS"],est:"ROJO",fila:3.0,lat:4.5531,lng:-74.1281},
+{id:"BCF2",n:"Cafam Niza",ch:"Cafam",addr:"Suba - Niza",city:"Bogotá",eps:["Nueva EPS","Famisanar","Cafam"],est:"VERDE",fila:0.8,lat:4.7101,lng:-74.0701},
+{id:"BCF3",n:"Cafam Calle 100",ch:"Cafam",addr:"Cl. 100, Chicó",city:"Bogotá",eps:["Nueva EPS","Famisanar","Cafam"],est:"AMARILLO",fila:1.2,lat:4.6851,lng:-74.0521},
+{id:"BCF4",n:"Cafam Cedritos",ch:"Cafam",addr:"Cl. 140, Cedritos",city:"Bogotá",eps:["Nueva EPS","Famisanar"],est:"VERDE",fila:0.7,lat:4.7221,lng:-74.0411},
+{id:"BCL2",n:"Colsubsidio Calle 26",ch:"Colsubsidio",addr:"Ac. 26, Centro",city:"Bogotá",eps:["Nueva EPS","Colsubsidio","Famisanar"],est:"AMARILLO",fila:2.5,lat:4.6181,lng:-74.0801},
+{id:"BCL3",n:"Colsubsidio Av. Chile",ch:"Colsubsidio",addr:"Cl. 72, Av. Chile",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.0,lat:4.6601,lng:-74.0611},
+{id:"BLR1",n:"Drogas La Rebaja Centro",ch:"Drogas La Rebaja",addr:"Cra. 13, Centro Internacional",city:"Bogotá",eps:["Nueva EPS"],est:"ROJO",fila:3.5,lat:4.6131,lng:-74.0691},
+{id:"BCZ3",n:"Cruz Verde Kennedy",ch:"Cruz Verde",addr:"Cra. 78B No. 38C-08 Sur",city:"Bogotá",eps:["Compensar","Sanitas"],est:"VERDE",fila:0.7,lat:4.6251,lng:-74.1582},
+{id:"BCZ4",n:"Cruz Verde Salitre",ch:"Cruz Verde",addr:"Av. El Dorado, Salitre",city:"Bogotá",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:4.6551,lng:-74.1081},
+/* ===== MEDELLÍN (ampliado) ===== */
+{id:"MAU3",n:"Audifarma Centro El CID",ch:"Audifarma",addr:"Cl. 54 No. 49-120 CC El CID L.120",city:"Medellín",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.0,lat:6.2491,lng:-75.5661},
+{id:"MCF1",n:"Cafam Oviedo",ch:"Cafam",addr:"CC Oviedo, El Poblado",city:"Medellín",eps:["Nueva EPS","Famisanar","Cafam"],est:"VERDE",fila:0.8,lat:6.1971,lng:-75.5661},
+{id:"MCL1",n:"Colsubsidio Centro",ch:"Colsubsidio",addr:"La Candelaria, Centro",city:"Medellín",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.5,lat:6.2491,lng:-75.5641},
+{id:"MCZ2",n:"Cruz Verde Laureles",ch:"Cruz Verde",addr:"Cra. 70 No. 44A-48 - 24h",city:"Medellín",eps:["Sura","Sanitas","Salud Total"],est:"VERDE",fila:0.5,lat:6.2451,lng:-75.5951},
+{id:"MCZ3",n:"Cruz Verde El Tesoro",ch:"Cruz Verde",addr:"CC El Tesoro, El Poblado",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.1961,lng:-75.5571},
+{id:"MSR2",n:"Sura Belén",ch:"Sura",addr:"Belén La Palma",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.2331,lng:-75.6021},
+{id:"MLR1",n:"Drogas La Rebaja Bello",ch:"Drogas La Rebaja",addr:"Bello - Antioquia",city:"Medellín",eps:["Nueva EPS"],est:"AMARILLO",fila:2.2,lat:6.3381,lng:-75.5551},
+/* ===== PEREIRA (ampliado) ===== */
+{id:"PAU2",n:"Audifarma San Fernando",ch:"Audifarma",addr:"Cra. 24B No. 69 Bis-19",city:"Pereira",eps:["Nueva EPS","Salud Total"],est:"VERDE",fila:0.6,lat:4.8011,lng:-75.6851},
+{id:"PAU3",n:"Audifarma CC El Progreso",ch:"Audifarma",addr:"Cra. 16 No. 38-130",city:"Pereira",eps:["Nueva EPS","Compensar"],est:"AMARILLO",fila:1.5,lat:4.8071,lng:-75.6961},
+{id:"PAU4",n:"Audifarma Clínica Los Rosales",ch:"Audifarma",addr:"Cl. 25 No. 9-48",city:"Pereira",eps:["Sanitas","Salud Total"],est:"VERDE",fila:0.7,lat:4.8081,lng:-75.6901},
+{id:"PAU5",n:"Audifarma El Lago",ch:"Audifarma",addr:"Parque El Lago, Cra. 7 No. 25-35",city:"Pereira",eps:["Nueva EPS"],est:"AMARILLO",fila:2.0,lat:4.8131,lng:-75.6961},
+{id:"PAU6",n:"Audifarma UPREC",ch:"Audifarma",addr:"Cl. 18 No. 14-35",city:"Pereira",eps:["Salud Total","Nueva EPS"],est:"VERDE",fila:0.5,lat:4.8121,lng:-75.6991},
+{id:"PLR1",n:"Drogas La Rebaja Centro",ch:"Drogas La Rebaja",addr:"Cra. 8, Centro",city:"Pereira",eps:["Nueva EPS"],est:"AMARILLO",fila:2.2,lat:4.8131,lng:-75.6951},
+/* ===== BARRANQUILLA (ampliado) ===== */
+{id:"QAU2",n:"Audifarma Prado",ch:"Audifarma",addr:"Cl. 74 No. 50-41 Piso 1",city:"Barranquilla",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.0,lat:11.0031,lng:-74.8051},
+{id:"QAU3",n:"Audifarma Sevillana",ch:"Audifarma",addr:"Cl. 45 No. 10E-66",city:"Barranquilla",eps:["Nueva EPS"],est:"ROJO",fila:3.0,lat:10.9751,lng:-74.7951},
+{id:"QAU4",n:"Audifarma Soledad",ch:"Audifarma",addr:"Soledad - Atlántico",city:"Barranquilla",eps:["Nueva EPS","Mutual Ser"],est:"AMARILLO",fila:2.5,lat:10.9171,lng:-74.7691},
+{id:"QAU5",n:"Audifarma Firenze (Caribe Plaza)",ch:"Audifarma",addr:"Cra. 53 No. 74-86 Edif. Caribe Plaza",city:"Barranquilla",eps:["Mutual Ser","Nueva EPS"],est:"VERDE",fila:0.7,lat:11.0021,lng:-74.8061},
+{id:"QCL1",n:"Colsubsidio Villa Country",ch:"Colsubsidio",addr:"Villa Country",city:"Barranquilla",eps:["Nueva EPS","Colsubsidio","Famisanar"],est:"AMARILLO",fila:2.0,lat:11.0081,lng:-74.8121},
+{id:"QCF1",n:"Cafam San Vicente",ch:"Cafam",addr:"Barranquilla San Vicente",city:"Barranquilla",eps:["Nueva EPS","Famisanar","Cafam"],est:"VERDE",fila:0.7,lat:10.9981,lng:-74.7991},
+{id:"QCZ3",n:"Cruz Verde Buenavista",ch:"Cruz Verde",addr:"CC Buenavista, Cra. 53",city:"Barranquilla",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:11.0101,lng:-74.8311},
+{id:"QLR1",n:"Drogas La Rebaja Centro",ch:"Drogas La Rebaja",addr:"Cra. 43, Centro",city:"Barranquilla",eps:["Nueva EPS"],est:"ROJO",fila:3.2,lat:10.9961,lng:-74.7891},
+/* ===== BOGOTÁ — lote ampliado (Audifarma) ===== */
+{id:"BG01",n:"Audifarma Calle 22 Centro",ch:"Audifarma",addr:"Cl. 22 No. 2A-98 - 24h",city:"Bogotá",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.0,lat:4.6125,lng:-74.0701},
+{id:"BG02",n:"Audifarma Teusaquillo",ch:"Audifarma",addr:"Cra. 37 No. 22-70",city:"Bogotá",eps:["Salud Total"],est:"VERDE",fila:0.7,lat:4.6281,lng:-74.0851},
+{id:"BG03",n:"Audifarma Calle 27 Sur",ch:"Audifarma",addr:"Cl. 27 Sur No. 22A-52",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"ROJO",fila:3.0,lat:4.5821,lng:-74.1001},
+{id:"BG04",n:"Audifarma Cedritos 139",ch:"Audifarma",addr:"Cl. 139 No. 94-99",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"AMARILLO",fila:1.5,lat:4.7221,lng:-74.0421},
+{id:"BG05",n:"Audifarma Calle 26",ch:"Audifarma",addr:"Ac. 26 No. 66A-48",city:"Bogotá",eps:["Salud Total","Compensar"],est:"VERDE",fila:0.8,lat:4.6571,lng:-74.1011},
+{id:"BG06",n:"Audifarma Av. 68",ch:"Audifarma",addr:"Cra. 67A No. 45-22",city:"Bogotá",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.2,lat:4.6401,lng:-74.0911},
+{id:"BG07",n:"Audifarma Venecia",ch:"Audifarma",addr:"Cl. 40 Sur No. 75A-61",city:"Bogotá",eps:["Capital Salud","Nueva EPS"],est:"ROJO",fila:3.2,lat:4.5921,lng:-74.1571},
+{id:"BG08",n:"Audifarma Engativá",ch:"Audifarma",addr:"Cra. 78K No. 33A-30",city:"Bogotá",eps:["Nueva EPS"],est:"AMARILLO",fila:2.0,lat:4.6951,lng:-74.1191},
+{id:"BG09",n:"Audifarma Chicó 93",ch:"Audifarma",addr:"Cl. 93B No. 18-45",city:"Bogotá",eps:["Compensar","Sanitas"],est:"VERDE",fila:0.6,lat:4.6771,lng:-74.0481},
+{id:"BG10",n:"Audifarma Marly",ch:"Audifarma",addr:"Av. Caracas No. 53 - 24h",city:"Bogotá",eps:["Salud Total","Nueva EPS"],est:"VERDE",fila:0.7,lat:4.6331,lng:-74.0641},
+{id:"BG11",n:"Audifarma Benjamín Herrera",ch:"Audifarma",addr:"Cra. 28, Barrios Unidos",city:"Bogotá",eps:["Salud Total"],est:"VERDE",fila:0.6,lat:4.6611,lng:-74.0851},
+{id:"BG12",n:"Audifarma Restrepo Sur",ch:"Audifarma",addr:"Cl. 39B Sur No. 73C-60",city:"Bogotá",eps:["Capital Salud","Nueva EPS"],est:"ROJO",fila:3.0,lat:4.6021,lng:-74.1601},
+{id:"BG13",n:"Audifarma Kennedy Cra. 97",ch:"Audifarma",addr:"Cra. 97 No. 21-13",city:"Bogotá",eps:["Nueva EPS","Capital Salud"],est:"AMARILLO",fila:2.5,lat:4.6391,lng:-74.1571},
+{id:"BG14",n:"Audifarma Puente Aranda",ch:"Audifarma",addr:"Cr. 56 No. 5C-38 Piso 3",city:"Bogotá",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.0,lat:4.6201,lng:-74.0991},
+/* ===== BOGOTÁ — Cafam (Famisanar / Nueva EPS) ===== */
+{id:"BG15",n:"Cafam Calle 147",ch:"Cafam",addr:"Cl. 147 No. 7-56 Lc. 24-25",city:"Bogotá",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.7,lat:4.7301,lng:-74.0331},
+{id:"BG16",n:"Cafam Pepe Sierra",ch:"Cafam",addr:"Cl. 116, Pepe Sierra",city:"Bogotá",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.6,lat:4.6981,lng:-74.0411},
+{id:"BG17",n:"Cafam Pasadena",ch:"Cafam",addr:"Cra. 53, Pasadena",city:"Bogotá",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:1.5,lat:4.6951,lng:-74.0651},
+{id:"BG18",n:"Cafam Colina Campestre",ch:"Cafam",addr:"Colina Campestre",city:"Bogotá",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.6,lat:4.7251,lng:-74.0561},
+{id:"BG19",n:"Cafam El Ensueño",ch:"Cafam",addr:"Éxito El Ensueño, Cl. 59 Sur",city:"Bogotá",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:2.0,lat:4.5921,lng:-74.1481},
+{id:"BG20",n:"Cafam La Carolina",ch:"Cafam",addr:"CC La Carolina, Cra. 51",city:"Bogotá",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.6,lat:4.6951,lng:-74.0631},
+{id:"BG21",n:"Cafam Calle 85 El Retiro",ch:"Cafam",addr:"Cl. 85 CC El Retiro",city:"Bogotá",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.5,lat:4.6671,lng:-74.0541},
+{id:"BG22",n:"Cafam Calle 102",ch:"Cafam",addr:"Cl. 102, Chicó",city:"Bogotá",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.7,lat:4.6881,lng:-74.0481},
+/* ===== BOGOTÁ — Colsubsidio (Nueva EPS / Sura / Famisanar) ===== */
+{id:"BG23",n:"Colsubsidio Subazar",ch:"Colsubsidio",addr:"Cl. 145 No. 91-35 CC Subazar Lc. 152",city:"Bogotá",eps:["Nueva EPS","Famisanar","Colsubsidio"],est:"AMARILLO",fila:1.8,lat:4.7421,lng:-74.1011},
+{id:"BG24",n:"Colsubsidio Santa Librada",ch:"Colsubsidio",addr:"Cra. 14 No. 76A-08 Sur",city:"Bogotá",eps:["Nueva EPS","Sura","Colsubsidio"],est:"ROJO",fila:3.0,lat:4.5121,lng:-74.1221},
+{id:"BG25",n:"Colsubsidio Portal Ciudadela",ch:"Colsubsidio",addr:"Cl. 80 No. 111C-98",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.0,lat:4.7221,lng:-74.1331},
+{id:"BG26",n:"Colsubsidio La Colina",ch:"Colsubsidio",addr:"Cl. 138 No. 58-74",city:"Bogotá",eps:["Sura","Famisanar","Colsubsidio"],est:"VERDE",fila:0.7,lat:4.7251,lng:-74.0651},
+{id:"BG27",n:"Colsubsidio Av. Las Américas",ch:"Colsubsidio",addr:"Cl. 6A No. 69F-14",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.2,lat:4.6201,lng:-74.1231},
+{id:"BG28",n:"Colsubsidio Tierra Grata",ch:"Colsubsidio",addr:"Cl. 70 No. 101-24",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"VERDE",fila:0.8,lat:4.7121,lng:-74.1221},
+{id:"BG29",n:"Colsubsidio Calle 72",ch:"Colsubsidio",addr:"Cl. 72 No. 9-25",city:"Bogotá",eps:["Sura","Famisanar","Colsubsidio"],est:"VERDE",fila:0.6,lat:4.6601,lng:-74.0631},
+{id:"BG30",n:"Colsubsidio San Patricio",ch:"Colsubsidio",addr:"Av. 15 No. 108-09",city:"Bogotá",eps:["Famisanar","Colsubsidio"],est:"VERDE",fila:0.6,lat:4.6921,lng:-74.0411},
+{id:"BG31",n:"Colsubsidio Calle 100",ch:"Colsubsidio",addr:"Cl. 100 No. 19A-20",city:"Bogotá",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:1.5,lat:4.6851,lng:-74.0511},
+{id:"BG32",n:"Colsubsidio San Pedro",ch:"Colsubsidio",addr:"Cl. 187 No. 55B-60",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"VERDE",fila:0.7,lat:4.7621,lng:-74.0451},
+{id:"BG33",n:"Colsubsidio Salitre",ch:"Colsubsidio",addr:"Cl. 23B No. 68C-40",city:"Bogotá",eps:["Famisanar","Colsubsidio"],est:"VERDE",fila:0.7,lat:4.6531,lng:-74.1101},
+{id:"BG34",n:"Colsubsidio Internacional",ch:"Colsubsidio",addr:"Cra. 10 No. 28-31 Torre A Lc. 6",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.0,lat:4.6121,lng:-74.0701},
+{id:"BG35",n:"Colsubsidio Quirigua",ch:"Colsubsidio",addr:"Tv. 94 No. 80D-09",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"VERDE",fila:0.8,lat:4.7221,lng:-74.1131},
+{id:"BG36",n:"Colsubsidio Galerías",ch:"Colsubsidio",addr:"Cra. 24 No. 53-88",city:"Bogotá",eps:["Sura","Famisanar","Colsubsidio"],est:"VERDE",fila:0.6,lat:4.6441,lng:-74.0691},
+{id:"BG37",n:"Colsubsidio Las Ferias",ch:"Colsubsidio",addr:"Cl. 72 No. 69K-06",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:1.5,lat:4.6891,lng:-74.1011},
+{id:"BG38",n:"Colsubsidio Calle 140",ch:"Colsubsidio",addr:"Cl. 140 No. 10A-71",city:"Bogotá",eps:["Sura","Famisanar","Colsubsidio"],est:"VERDE",fila:0.6,lat:4.7221,lng:-74.0421},
+{id:"BG39",n:"Colsubsidio Quinta Camacho",ch:"Colsubsidio",addr:"Cl. 67 No. 7-35",city:"Bogotá",eps:["Sura","Colsubsidio"],est:"VERDE",fila:0.7,lat:4.6521,lng:-74.0621},
+{id:"BG40",n:"Colsubsidio Gran Estación",ch:"Colsubsidio",addr:"Cra. 60 No. 24-09 CC Gran Estación Lc. 208",city:"Bogotá",eps:["Nueva EPS","Famisanar","Colsubsidio"],est:"AMARILLO",fila:1.8,lat:4.6481,lng:-74.0841},
+{id:"BG41",n:"Colsubsidio Unicentro Occidente",ch:"Colsubsidio",addr:"Cra. 111C No. 86-32 CC Unicentro Lc. 101",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"VERDE",fila:0.8,lat:4.7191,lng:-74.1141},
+{id:"BG42",n:"Colsubsidio Usaquén Cra. 7",ch:"Colsubsidio",addr:"Cra. 7 No. 118-38 Lc. 3",city:"Bogotá",eps:["Sura","Famisanar","Colsubsidio"],est:"VERDE",fila:0.6,lat:4.6981,lng:-74.0331},
+{id:"BG43",n:"Colsubsidio Plaza Central",ch:"Colsubsidio",addr:"Cra. 65 No. 11-50 CC Plaza Central Lc. 2",city:"Bogotá",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.0,lat:4.6261,lng:-74.1111},
+/* ===== BOGOTÁ — Cruz Verde (Sanitas / Sura / Compensar / Aliansalud) ===== */
+{id:"BG44",n:"Cruz Verde Suba",ch:"Cruz Verde",addr:"Av. Suba No. 116",city:"Bogotá",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:4.7451,lng:-74.0851},
+{id:"BG45",n:"Cruz Verde Cedritos",ch:"Cruz Verde",addr:"Cl. 140, Cedritos",city:"Bogotá",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:4.7231,lng:-74.0411},
+{id:"BG46",n:"Cruz Verde Centro",ch:"Cruz Verde",addr:"Cra. 7, Centro",city:"Bogotá",eps:["Sanitas","Aliansalud"],est:"AMARILLO",fila:1.2,lat:4.6011,lng:-74.0721},
+{id:"BG47",n:"Cruz Verde Usaquén",ch:"Cruz Verde",addr:"Cl. 116, Usaquén",city:"Bogotá",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:4.6951,lng:-74.0311},
+{id:"BG48",n:"Cruz Verde Av. 1 de Mayo",ch:"Cruz Verde",addr:"Av. 1 de Mayo No. 39",city:"Bogotá",eps:["Compensar","Sanitas"],est:"VERDE",fila:0.7,lat:4.5921,lng:-74.1281},
+{id:"BG49",n:"Cruz Verde Chapinero",ch:"Cruz Verde",addr:"Cra. 13, Chapinero",city:"Bogotá",eps:["Sanitas","Aliansalud"],est:"VERDE",fila:0.6,lat:4.6451,lng:-74.0631},
+{id:"BG50",n:"Audifarma Suba Compartir",ch:"Audifarma",addr:"Cl. 139 Suba Compartir",city:"Bogotá",eps:["Nueva EPS"],est:"ROJO",fila:3.5,lat:4.7461,lng:-74.0951},
+{id:"BG51",n:"Cafam Suba",ch:"Cafam",addr:"Av. Suba, Suba Centro",city:"Bogotá",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:1.6,lat:4.7421,lng:-74.0861},
+{id:"BG52",n:"Colsubsidio Restrepo",ch:"Colsubsidio",addr:"Cra. 27 No. 38A-83 Sur Lc. 1-014",city:"Bogotá",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:2.0,lat:4.5751,lng:-74.1021},
+/* ===== MEDELLÍN — demás EPS ===== */
+{id:"MG01",n:"Cruz Verde Envigado",ch:"Cruz Verde",addr:"Cl. 37 Sur, Envigado",city:"Medellín",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:6.1721,lng:-75.5911},
+{id:"MG02",n:"Cafam Bello",ch:"Cafam",addr:"Bello - Antioquia",city:"Medellín",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:1.6,lat:6.3381,lng:-75.5551},
+{id:"MG03",n:"Colsubsidio Itagüí",ch:"Colsubsidio",addr:"Itagüí - Antioquia",city:"Medellín",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:2.0,lat:6.1721,lng:-75.6111},
+{id:"MG04",n:"Audifarma Belén",ch:"Audifarma",addr:"Belén La Palma",city:"Medellín",eps:["Salud Total","Compensar"],est:"VERDE",fila:0.7,lat:6.2331,lng:-75.6051},
+/* ===== PEREIRA — demás EPS ===== */
+{id:"PG01",n:"Cafam Pereira",ch:"Cafam",addr:"Av. Circunvalar, Pereira",city:"Pereira",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.6,lat:4.8101,lng:-75.6921},
+{id:"PG02",n:"Colsubsidio Pereira",ch:"Colsubsidio",addr:"Centro, Pereira",city:"Pereira",eps:["Sura","Famisanar","Colsubsidio"],est:"AMARILLO",fila:1.5,lat:4.8131,lng:-75.6941},
+/* ===== BARRANQUILLA — demás EPS ===== */
+{id:"QG01",n:"Cruz Verde Prado",ch:"Cruz Verde",addr:"Cra. 53, Prado",city:"Barranquilla",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:11.0021,lng:-74.8041},
+{id:"QG02",n:"Cafam Buenavista",ch:"Cafam",addr:"CC Buenavista, Cra. 53",city:"Barranquilla",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:1.6,lat:11.0101,lng:-74.8311},
+{id:"QG03",n:"Audifarma Riomar",ch:"Audifarma",addr:"Cra. 51B, Riomar",city:"Barranquilla",eps:["Salud Total","Sanitas"],est:"VERDE",fila:0.6,lat:11.0181,lng:-74.8201},
+/* ===== AMPLIACIÓN Medellín · Cartagena · Barranquilla ===== */
+{id:"MD01",n:"Cruz Verde Mall Laureles",ch:"Cruz Verde",addr:"Cl. 37 No. 80-36 Int. 0101",city:"Medellín",eps:["Sura","Sanitas","Salud Total"],est:"VERDE",fila:0.6,lat:6.2397,lng:-75.5961},
+{id:"MD02",n:"Cruz Verde Parque Bello",ch:"Cruz Verde",addr:"Cra. 50 No. 50-27, Bello",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.3329,lng:-75.5501},
+{id:"MD03",n:"Cruz Verde Poblado 7 Sur",ch:"Cruz Verde",addr:"Cra. 43A No. 7 Sur-170",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.5,lat:6.2,lng:-75.5601},
+{id:"MD04",n:"Cruz Verde Laureles Circular 76",ch:"Cruz Verde",addr:"Circular 76 No. 73B-19",city:"Medellín",eps:["Sura","Compensar"],est:"VERDE",fila:0.6,lat:6.2401,lng:-75.5961},
+{id:"MD05",n:"Cruz Verde Belén",ch:"Cruz Verde",addr:"Cl. 30A No. 80-12",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.2272,lng:-75.6001},
+{id:"MD06",n:"Cruz Verde Poblado Cra. 25",ch:"Cruz Verde",addr:"Cra. 25 No. 3-45",city:"Medellín",eps:["Sura","Sanitas"],est:"AMARILLO",fila:1.2,lat:6.2004,lng:-75.5601},
+{id:"MD07",n:"Cruz Verde Estadio",ch:"Cruz Verde",addr:"Cra. 65 No. 45-85",city:"Medellín",eps:["Sura","Compensar"],est:"VERDE",fila:0.6,lat:6.2485,lng:-75.5821},
+{id:"MD08",n:"Cruz Verde Suramericana",ch:"Cruz Verde",addr:"Diag. 51B No. 38-44",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.7,lat:6.2446,lng:-75.5581},
+{id:"MD09",n:"Cruz Verde La Cabañita",ch:"Cruz Verde",addr:"Cra. 50 No. 27B-71",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.2277,lng:-75.6001},
+{id:"MD10",n:"Cruz Verde Manrique",ch:"Cruz Verde",addr:"Cra. 55 No. 59-25",city:"Medellín",eps:["Sura","Salud Total"],est:"AMARILLO",fila:1.4,lat:6.2805,lng:-75.5501},
+{id:"MD11",n:"Cruz Verde CC Punto Clave",ch:"Cruz Verde",addr:"Cl. 27 No. 46-70 Lc. 145",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.7,lat:6.2476,lng:-75.5581},
+{id:"MD12",n:"Cruz Verde San Diego",ch:"Cruz Verde",addr:"Cra. 43 No. 36-25",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.2307,lng:-75.5601},
+{id:"MD13",n:"Cruz Verde Itagüí",ch:"Cruz Verde",addr:"Cl. 36D Sur No. 27D-101",city:"Medellín",eps:["Sura","Compensar"],est:"VERDE",fila:0.6,lat:6.1708,lng:-75.6061},
+{id:"MD14",n:"Cruz Verde Mayorca Sabaneta",ch:"Cruz Verde",addr:"CC Mayorca, Sabaneta",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.1499,lng:-75.6111},
+{id:"MD15",n:"Cafam Oviedo Palmas",ch:"Cafam",addr:"Cl. 18 No. 35-69",city:"Medellín",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:1.6,lat:6.2041,lng:-75.5601},
+{id:"MD16",n:"Cafam Clínica Américas 70",ch:"Cafam",addr:"Diag. 70 No. 1-135",city:"Medellín",eps:["Famisanar","Nueva EPS"],est:"VERDE",fila:0.7,lat:6.2312,lng:-75.6001},
+{id:"MD17",n:"Colsubsidio Almacentro",ch:"Colsubsidio",addr:"Cra. 43A No. 34-95 Lc. 1A",city:"Medellín",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:2,lat:6.2483,lng:-75.5581},
+{id:"MD18",n:"Colsubsidio Aranjuez",ch:"Colsubsidio",addr:"Cl. 90 No. 51-15",city:"Medellín",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.2,lat:6.2814,lng:-75.5501},
+{id:"MD19",n:"Colsubsidio FarmaNorte",ch:"Colsubsidio",addr:"Castilla, Cra. 65",city:"Medellín",eps:["Nueva EPS","Sura","Colsubsidio"],est:"ROJO",fila:3,lat:6.2946,lng:-75.5601},
+{id:"MD20",n:"SF Sura San Vicente",ch:"Sura",addr:"Centro, Cra. 51 No. 44-20",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.5,lat:6.2513,lng:-75.5581},
+{id:"MD21",n:"SF Sura Centro Cra. 33",ch:"Sura",addr:"Cra. 33 No. 51-67",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.2514,lng:-75.5581},
+{id:"MD22",n:"SF Sura Cra. 17",ch:"Sura",addr:"Cra. 17 No. 45-77 Lc. 107A",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.5,lat:6.2375,lng:-75.5501},
+{id:"MD23",n:"SF Sura Estadio",ch:"Sura",addr:"Estadio, Cra. 70",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.5,lat:6.2557,lng:-75.5821},
+{id:"MD24",n:"SF Sura Robledo",ch:"Sura",addr:"Robledo, Cra. 80",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.2808,lng:-75.5871},
+{id:"MD25",n:"SF Sura Buenos Aires",ch:"Sura",addr:"Buenos Aires, Cl. 49",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.2379,lng:-75.5501},
+{id:"MD26",n:"SF Sura Castilla",ch:"Sura",addr:"Castilla, Cra. 65",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.298,lng:-75.5601},
+{id:"MD27",n:"SF Sura Envigado",ch:"Sura",addr:"Envigado Centro",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.5,lat:6.1742,lng:-75.5861},
+{id:"MD28",n:"SF Sura Itagüí",ch:"Sura",addr:"Itagüí Centro",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.1753,lng:-75.6061},
+{id:"MD29",n:"SF Sura Sabaneta",ch:"Sura",addr:"Sabaneta Centro",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.6,lat:6.1544,lng:-75.6111},
+{id:"MD30",n:"Audifarma Itagüí",ch:"Audifarma",addr:"Cra. 50A, Itagüí",city:"Medellín",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2,lat:6.1661,lng:-75.606},
+{id:"MD31",n:"Audifarma Bello",ch:"Audifarma",addr:"Cra. 50, Bello",city:"Medellín",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:1.8,lat:6.3322,lng:-75.55},
+{id:"MD32",n:"Audifarma Sabaneta",ch:"Audifarma",addr:"Cra. 43A, Sabaneta",city:"Medellín",eps:["Nueva EPS","Compensar"],est:"VERDE",fila:0.7,lat:6.1454,lng:-75.611},
+{id:"MD33",n:"Audifarma Castilla",ch:"Audifarma",addr:"Cra. 68, Castilla",city:"Medellín",eps:["Nueva EPS"],est:"ROJO",fila:3.2,lat:6.2895,lng:-75.56},
+{id:"MD34",n:"Audifarma Robledo",ch:"Audifarma",addr:"Cra. 80, Robledo",city:"Medellín",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2,lat:6.2726,lng:-75.587},
+{id:"MD35",n:"Cruz Verde Aves María",ch:"Cruz Verde",addr:"CC Aves María, Sabaneta",city:"Medellín",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:6.1457,lng:-75.611},
+{id:"MD36",n:"Cruz Verde La Florida Itagüí",ch:"Cruz Verde",addr:"CC La Florida, Itagüí",city:"Medellín",eps:["Sura","Compensar"],est:"VERDE",fila:0.7,lat:6.1669,lng:-75.606},
+{id:"MD37",n:"Cruz Verde San Antonio de Prado",ch:"Cruz Verde",addr:"San Antonio de Prado",city:"Medellín",eps:["Sura","Sanitas"],est:"AMARILLO",fila:1.3,lat:6.183,lng:-75.647},
+{id:"MD38",n:"Colsubsidio Itagüí Centro",ch:"Colsubsidio",addr:"Itagüí, Cra. 51",city:"Medellín",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:2,lat:6.1671,lng:-75.606},
+{id:"MD39",n:"Cafam Bello Éxito",ch:"Cafam",addr:"Bello, Éxito Centro",city:"Medellín",eps:["Famisanar","Nueva EPS","Cafam"],est:"AMARILLO",fila:1.7,lat:6.3332,lng:-75.55},
+{id:"MD40",n:"SF Sura Belén La Palma 2",ch:"Sura",addr:"Belén La Palma",city:"Medellín",eps:["Sura"],est:"VERDE",fila:0.5,lat:6.23,lng:-75.6},
+{id:"CT01",n:"Cruz Verde Bocagrande",ch:"Cruz Verde",addr:"Av. San Martín No. 4-66 Lc. 1-2",city:"Cartagena",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:10.3961,lng:-75.5505},
+{id:"CT02",n:"Cruz Verde Caribe Plaza",ch:"Cruz Verde",addr:"CC Caribe Plaza, Pie de la Popa",city:"Cartagena",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:10.4062,lng:-75.5035},
+{id:"CT03",n:"Cruz Verde Mall Plaza El Castillo",ch:"Cruz Verde",addr:"Av. Pedro de Heredia No. 31-45",city:"Cartagena",eps:["Sanitas","Sura"],est:"AMARILLO",fila:1.4,lat:10.4003,lng:-75.4855},
+{id:"CT04",n:"Cruz Verde La Castellana",ch:"Cruz Verde",addr:"Av. Pedro de Heredia, La Castellana",city:"Cartagena",eps:["Sanitas","SOS"],est:"VERDE",fila:0.7,lat:10.4005,lng:-75.4855},
+{id:"CT05",n:"Cruz Verde Crespo",ch:"Cruz Verde",addr:"Cra. 1, Crespo",city:"Cartagena",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:10.4386,lng:-75.5105},
+{id:"CT06",n:"Cruz Verde Manga",ch:"Cruz Verde",addr:"Av. Jiménez, Manga",city:"Cartagena",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:10.4067,lng:-75.5235},
+{id:"CT07",n:"Audifarma San Felipe",ch:"Audifarma",addr:"Av. Pedro de Heredia, San Felipe",city:"Cartagena",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.2,lat:10.4008,lng:-75.4855},
+{id:"CT08",n:"Audifarma Manga",ch:"Audifarma",addr:"Cra. 22 No. 22-50 UBA, Manga",city:"Cartagena",eps:["Nueva EPS","Coomeva"],est:"AMARILLO",fila:2,lat:10.4069,lng:-75.5235},
+{id:"CT09",n:"Audifarma Bocagrande",ch:"Audifarma",addr:"Bocagrande, Av. San Martín",city:"Cartagena",eps:["Nueva EPS","Salud Total"],est:"VERDE",fila:0.7,lat:10.3971,lng:-75.5505},
+{id:"CT10",n:"Audifarma Centro",ch:"Audifarma",addr:"Centro, Cl. 32",city:"Cartagena",eps:["Nueva EPS","Salud Total"],est:"ROJO",fila:3,lat:10.4248,lng:-75.5435},
+{id:"CT11",n:"Audifarma Ternera",ch:"Audifarma",addr:"Ternera, Vía a Turbaco",city:"Cartagena",eps:["Nueva EPS"],est:"ROJO",fila:3.2,lat:10.3939,lng:-75.4835},
+{id:"CT12",n:"Audifarma El Bosque",ch:"Audifarma",addr:"Av. El Bosque, Tr. 53",city:"Cartagena",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.4,lat:10.397,lng:-75.5055},
+{id:"CT13",n:"Audifarma Olaya Herrera",ch:"Audifarma",addr:"Olaya Herrera, Sector Central",city:"Cartagena",eps:["Nueva EPS"],est:"ROJO",fila:3.5,lat:10.4042,lng:-75.4905},
+{id:"CT14",n:"Cafam Caribe Plaza",ch:"Cafam",addr:"CC Caribe Plaza Lc. 2",city:"Cartagena",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.7,lat:10.4103,lng:-75.5035},
+{id:"CT15",n:"Cafam La Plazuela",ch:"Cafam",addr:"CC La Plazuela, Av. Pedro de Heredia",city:"Cartagena",eps:["Famisanar","Nueva EPS"],est:"AMARILLO",fila:1.6,lat:10.4004,lng:-75.4755},
+{id:"CT16",n:"Cafam Bocagrande",ch:"Cafam",addr:"Bocagrande, Av. San Martín",city:"Cartagena",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.6,lat:10.4005,lng:-75.5505},
+{id:"CT17",n:"Colsubsidio Mall Plaza El Castillo",ch:"Colsubsidio",addr:"Av. Pedro de Heredia No. 31-45 Lc. 106",city:"Cartagena",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:2,lat:10.4047,lng:-75.4855},
+{id:"CT18",n:"Colsubsidio La Castellana",ch:"Colsubsidio",addr:"CC La Castellana",city:"Cartagena",eps:["Nueva EPS","Colsubsidio"],est:"AMARILLO",fila:2.2,lat:10.4048,lng:-75.4855},
+{id:"CT19",n:"Colsubsidio Bocagrande",ch:"Colsubsidio",addr:"Bocagrande Centro",city:"Cartagena",eps:["Sura","Famisanar","Colsubsidio"],est:"VERDE",fila:0.7,lat:10.4009,lng:-75.5505},
+{id:"CT20",n:"Evedisa Centro",ch:"Evedisa",addr:"Centro, Cl. de la Factoría",city:"Cartagena",eps:["Coosalud","Comfenalco"],est:"AMARILLO",fila:1.8,lat:10.4286,lng:-75.5435},
+{id:"CT21",n:"Evedisa Olaya Herrera",ch:"Evedisa",addr:"Olaya Herrera",city:"Cartagena",eps:["Coosalud"],est:"AMARILLO",fila:2,lat:10.4078,lng:-75.4905},
+{id:"CT22",n:"Evedisa El Bosque",ch:"Evedisa",addr:"Av. El Bosque",city:"Cartagena",eps:["Coosalud","Comfenalco"],est:"VERDE",fila:0.8,lat:10.4009,lng:-75.5055},
+{id:"CT23",n:"Evedisa Ternera",ch:"Evedisa",addr:"Ternera",city:"Cartagena",eps:["Coosalud"],est:"AMARILLO",fila:2.2,lat:10.386,lng:-75.4834},
+{id:"CT24",n:"Evedisa Pie de la Popa",ch:"Evedisa",addr:"Pie de la Popa",city:"Cartagena",eps:["Coosalud","Comfenalco"],est:"VERDE",fila:0.7,lat:10.4061,lng:-75.5204},
+{id:"CT25",n:"Evedisa La Boquilla",ch:"Evedisa",addr:"La Boquilla, Anillo Vial",city:"Cartagena",eps:["Coosalud"],est:"AMARILLO",fila:2.4,lat:10.4542,lng:-75.5004},
+{id:"CT26",n:"Mutual Ser Centro",ch:"Mutual Ser",addr:"Centro, Cl. 30",city:"Cartagena",eps:["Mutual Ser"],est:"AMARILLO",fila:2.5,lat:10.4174,lng:-75.5434},
+{id:"CT27",n:"Mutual Ser La Castellana",ch:"Mutual Ser",addr:"La Castellana",city:"Cartagena",eps:["Mutual Ser"],est:"AMARILLO",fila:2.2,lat:10.3965,lng:-75.4854},
+{id:"CT28",n:"Mutual Ser Olaya",ch:"Mutual Ser",addr:"Olaya Herrera",city:"Cartagena",eps:["Mutual Ser"],est:"ROJO",fila:3,lat:10.3966,lng:-75.4904},
+{id:"CT29",n:"Mutual Ser El Pozón",ch:"Mutual Ser",addr:"El Pozón, Sector Central",city:"Cartagena",eps:["Mutual Ser"],est:"ROJO",fila:3.5,lat:10.3897,lng:-75.4654},
+{id:"CT30",n:"Mutual Ser Pie de la Popa",ch:"Mutual Ser",addr:"Pie de la Popa",city:"Cartagena",eps:["Mutual Ser"],est:"AMARILLO",fila:2,lat:10.4095,lng:-75.5204},
+{id:"CT31",n:"Cajacopi Centro",ch:"Cajacopi",addr:"Centro, Av. Venezuela",city:"Cartagena",eps:["Cajacopi"],est:"AMARILLO",fila:2,lat:10.4206,lng:-75.5434},
+{id:"CT32",n:"Cajacopi El Bosque",ch:"Cajacopi",addr:"Av. El Bosque",city:"Cartagena",eps:["Cajacopi"],est:"AMARILLO",fila:2.2,lat:10.3927,lng:-75.5054},
+{id:"CT33",n:"Comfamiliar Cartagena Centro",ch:"Comfenalco",addr:"Centro, Cl. Larga",city:"Cartagena",eps:["Comfenalco"],est:"VERDE",fila:0.8,lat:10.4208,lng:-75.5434},
+{id:"CT34",n:"Comfamiliar Bocagrande",ch:"Comfenalco",addr:"Bocagrande",city:"Cartagena",eps:["Comfenalco"],est:"VERDE",fila:0.7,lat:10.396,lng:-75.5504},
+{id:"CT35",n:"Comfamiliar Pie de la Popa",ch:"Comfenalco",addr:"Pie de la Popa",city:"Cartagena",eps:["Comfenalco"],est:"AMARILLO",fila:1.6,lat:10.4101,lng:-75.5204},
+{id:"CT36",n:"Drogas La Rebaja Centro",ch:"Drogas La Rebaja",addr:"Centro, Av. Venezuela",city:"Cartagena",eps:["Nueva EPS"],est:"ROJO",fila:3.2,lat:10.4212,lng:-75.5434},
+{id:"CT37",n:"Drogas La Rebaja Olaya",ch:"Drogas La Rebaja",addr:"Olaya Herrera",city:"Cartagena",eps:["Nueva EPS"],est:"ROJO",fila:3.4,lat:10.4003,lng:-75.4904},
+{id:"CT38",n:"Cruz Verde Los Ejecutivos",ch:"Cruz Verde",addr:"Los Ejecutivos",city:"Cartagena",eps:["Sanitas","Sura"],est:"VERDE",fila:0.7,lat:10.3965,lng:-75.4854},
+{id:"CT39",n:"Cruz Verde Blas de Lezo",ch:"Cruz Verde",addr:"Blas de Lezo",city:"Cartagena",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:10.3836,lng:-75.4854},
+{id:"CT40",n:"Audifarma Crespo",ch:"Audifarma",addr:"Crespo, Cra. 1",city:"Cartagena",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2,lat:10.4413,lng:-75.5104},
+{id:"BQ01",n:"Cafam Villa Country",ch:"Cafam",addr:"Cl. 78 No. 53-70",city:"Barranquilla",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.7,lat:11.0079,lng:-74.8132},
+{id:"BQ02",n:"Cafam Calle 86",ch:"Cafam",addr:"Cra. 64C No. 86-20",city:"Barranquilla",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.6,lat:11.0101,lng:-74.8212},
+{id:"BQ03",n:"Cafam Calle 82",ch:"Cafam",addr:"Cl. 82 No. 50-73",city:"Barranquilla",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.6,lat:11.0052,lng:-74.8112},
+{id:"BQ04",n:"Cafam Villa Campestre",ch:"Cafam",addr:"Cra. 51B No. 134-20",city:"Barranquilla",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.7,lat:11.0253,lng:-74.8362},
+{id:"BQ05",n:"Cafam Metropolitano",ch:"Cafam",addr:"Av. Circunvalar con Cl. Murillo",city:"Barranquilla",eps:["Famisanar","Nueva EPS"],est:"AMARILLO",fila:1.6,lat:10.9754,lng:-74.7962},
+{id:"BQ06",n:"Cruz Verde Soledad",ch:"Cruz Verde",addr:"Autopista Aeropuerto No. 23-1325",city:"Barranquilla",eps:["Sura","Sanitas","SOS"],est:"AMARILLO",fila:1.5,lat:10.9176,lng:-74.7702},
+{id:"BQ07",n:"Cruz Verde Alto Prado",ch:"Cruz Verde",addr:"Cl. 84, Alto Prado",city:"Barranquilla",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:11.0057,lng:-74.8112},
+{id:"BQ08",n:"Cruz Verde Country",ch:"Cruz Verde",addr:"Cra. 53, Country",city:"Barranquilla",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:11.0088,lng:-74.8132},
+{id:"BQ09",n:"Cruz Verde Riomar",ch:"Cruz Verde",addr:"Cra. 51B, Riomar",city:"Barranquilla",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:11.0189,lng:-74.8212},
+{id:"BQ10",n:"Cruz Verde Las Flores",ch:"Cruz Verde",addr:"Las Flores, Vía 40",city:"Barranquilla",eps:["Sanitas","SOS"],est:"AMARILLO",fila:1.4,lat:11.0386,lng:-74.8112},
+{id:"BQ11",n:"Cruz Verde Centro Paseo Bolívar",ch:"Cruz Verde",addr:"Paseo Bolívar, Centro",city:"Barranquilla",eps:["Sanitas","Aliansalud"],est:"AMARILLO",fila:1.3,lat:10.9938,lng:-74.7812},
+{id:"BQ12",n:"Colsubsidio Prado Norte",ch:"Colsubsidio",addr:"Prado, Cra. 54",city:"Barranquilla",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:2,lat:11.0059,lng:-74.8052},
+{id:"BQ13",n:"Colsubsidio Buenavista",ch:"Colsubsidio",addr:"CC Buenavista, Cra. 53",city:"Barranquilla",eps:["Nueva EPS","Famisanar","Colsubsidio"],est:"AMARILLO",fila:1.8,lat:11.014,lng:-74.8322},
+{id:"BQ14",n:"Colsubsidio Murillo",ch:"Colsubsidio",addr:"Cl. Murillo, Suroccidente",city:"Barranquilla",eps:["Nueva EPS","Colsubsidio"],est:"ROJO",fila:3,lat:10.9791,lng:-74.7962},
+{id:"BQ15",n:"Audifarma Soledad Centro",ch:"Audifarma",addr:"Soledad, Cl. 18",city:"Barranquilla",eps:["Nueva EPS","Mutual Ser"],est:"ROJO",fila:3.2,lat:10.9213,lng:-74.7702},
+{id:"BQ16",n:"Audifarma Sur",ch:"Audifarma",addr:"Cra. 38, Suroccidente",city:"Barranquilla",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.4,lat:10.9744,lng:-74.7912},
+{id:"BQ17",n:"Audifarma La Victoria",ch:"Audifarma",addr:"La Victoria, Cl. 17",city:"Barranquilla",eps:["Nueva EPS"],est:"ROJO",fila:3,lat:10.9745,lng:-74.7912},
+{id:"BQ18",n:"Audifarma Boston",ch:"Audifarma",addr:"Boston, Cl. 70",city:"Barranquilla",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2,lat:10.9996,lng:-74.8012},
+{id:"BQ19",n:"Mutual Ser Centro",ch:"Mutual Ser",addr:"Centro, Cl. 35",city:"Barranquilla",eps:["Mutual Ser"],est:"AMARILLO",fila:2.5,lat:10.9948,lng:-74.7812},
+{id:"BQ20",n:"Mutual Ser Soledad",ch:"Mutual Ser",addr:"Soledad 2000",city:"Barranquilla",eps:["Mutual Ser"],est:"ROJO",fila:3.2,lat:10.9125,lng:-74.7701},
+{id:"BQ21",n:"Mutual Ser Suroccidente",ch:"Mutual Ser",addr:"Suroccidente, Cra. 21",city:"Barranquilla",eps:["Mutual Ser"],est:"ROJO",fila:3,lat:10.9656,lng:-74.7911},
+{id:"BQ22",n:"Coosalud Rebolo",ch:"Coosalud",addr:"Rebolo, Cl. 17",city:"Barranquilla",eps:["Coosalud"],est:"AMARILLO",fila:2.2,lat:10.9657,lng:-74.7711},
+{id:"BQ23",n:"Coosalud Soledad",ch:"Coosalud",addr:"Soledad, Cra. 30",city:"Barranquilla",eps:["Coosalud"],est:"AMARILLO",fila:2.4,lat:10.9129,lng:-74.7701},
+{id:"BQ24",n:"Coosalud Centro",ch:"Coosalud",addr:"Centro, Cl. 30",city:"Barranquilla",eps:["Coosalud","Comfenalco"],est:"VERDE",fila:0.8,lat:10.986,lng:-74.7811},
+{id:"BQ25",n:"Cajacopi Centro",ch:"Cajacopi",addr:"Centro, Cra. 43",city:"Barranquilla",eps:["Cajacopi"],est:"AMARILLO",fila:2,lat:10.9861,lng:-74.7811},
+{id:"BQ26",n:"Cajacopi Soledad",ch:"Cajacopi",addr:"Soledad, Cl. 30",city:"Barranquilla",eps:["Cajacopi"],est:"AMARILLO",fila:2.2,lat:10.9132,lng:-74.7701},
+{id:"BQ27",n:"Cajacopi Malambo",ch:"Cajacopi",addr:"Malambo Centro",city:"Barranquilla",eps:["Cajacopi"],est:"AMARILLO",fila:2.4,lat:10.8554,lng:-74.7751},
+{id:"BQ28",n:"Cafam Norte Cra. 53",ch:"Cafam",addr:"Cra. 53, Norte",city:"Barranquilla",eps:["Famisanar","Nueva EPS","Cafam"],est:"VERDE",fila:0.7,lat:11.0065,lng:-74.8211},
+{id:"BQ29",n:"Cafam Boston",ch:"Cafam",addr:"Boston, Cl. 70",city:"Barranquilla",eps:["Famisanar","Cafam"],est:"VERDE",fila:0.6,lat:10.9916,lng:-74.8011},
+{id:"BQ30",n:"Cruz Verde Buenavista",ch:"Cruz Verde",addr:"CC Buenavista",city:"Barranquilla",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:11.0093,lng:-74.8321},
+{id:"BQ31",n:"Cruz Verde Villa Country",ch:"Cruz Verde",addr:"Villa Country, Cl. 79",city:"Barranquilla",eps:["Sanitas","Compensar"],est:"VERDE",fila:0.7,lat:11.0074,lng:-74.8131},
+{id:"BQ32",n:"Cruz Verde Calle 84",ch:"Cruz Verde",addr:"Cl. 84 No. 47",city:"Barranquilla",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:11.0066,lng:-74.8131},
+{id:"BQ33",n:"Colsubsidio Calle 84",ch:"Colsubsidio",addr:"Cl. 84, Norte",city:"Barranquilla",eps:["Nueva EPS","Sura","Colsubsidio"],est:"AMARILLO",fila:1.8,lat:11.0067,lng:-74.8131},
+{id:"BQ34",n:"Colsubsidio Soledad",ch:"Colsubsidio",addr:"Soledad, Cl. 30",city:"Barranquilla",eps:["Nueva EPS","Colsubsidio"],est:"ROJO",fila:3,lat:10.9168,lng:-74.7701},
+{id:"BQ35",n:"Audifarma Centro Murillo",ch:"Audifarma",addr:"Cl. Murillo, Centro",city:"Barranquilla",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:2.2,lat:10.9899,lng:-74.7811},
+{id:"BQ36",n:"Drogas La Rebaja Centro",ch:"Drogas La Rebaja",addr:"Centro, Paseo Bolívar",city:"Barranquilla",eps:["Nueva EPS"],est:"ROJO",fila:3.2,lat:10.9901,lng:-74.7811},
+{id:"BQ37",n:"Drogas La Rebaja Soledad",ch:"Drogas La Rebaja",addr:"Soledad, Cra. 30",city:"Barranquilla",eps:["Nueva EPS"],est:"ROJO",fila:3.4,lat:10.9172,lng:-74.7701},
+{id:"BUC03",n:"Cruz Verde CC Cabecera",ch:"Cruz Verde",addr:"Cra. 36 No. 49-45 Local 324, CC Cabecera",city:"Bucaramanga",eps:["Sanitas","Sura"],est:"VERDE",fila:0.6,lat:7.1090,lng:-73.1118},
+{id:"BUC04",n:"Cruz Verde Cabecera del Llano",ch:"Cruz Verde",addr:"Cra. 33 No. 46-61, Cabecera del Llano",city:"Bucaramanga",eps:["Sura","Salud Total"],est:"VERDE",fila:0.5,lat:7.1083,lng:-73.1108},
+{id:"BUC05",n:"Cruz Verde Calle 51",ch:"Cruz Verde",addr:"Cl. 51 No. 34-08",city:"Bucaramanga",eps:["Sanitas","Sura"],est:"AMARILLO",fila:1.4,lat:7.1073,lng:-73.1135},
+{id:"BUC06",n:"Cruz Verde Cra. 34 Cabecera",ch:"Cruz Verde",addr:"Cra. 34 No. 51-15, Cabecera",city:"Bucaramanga",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:7.1078,lng:-73.1128},
+{id:"BUC07",n:"Cruz Verde Cra. 33 Cabecera",ch:"Cruz Verde",addr:"Cra. 33 No. 56-04, Cabecera",city:"Bucaramanga",eps:["Sanitas","Coosalud"],est:"VERDE",fila:0.5,lat:7.1100,lng:-73.1095},
+{id:"BUC08",n:"Cruz Verde Centro",ch:"Cruz Verde",addr:"Cl. 34 No. 15-80, Centro",city:"Bucaramanga",eps:["Nueva EPS","Salud Total"],est:"AMARILLO",fila:1.6,lat:7.1240,lng:-73.1255},
+{id:"BUC09",n:"Cruz Verde Parque Caracolí",ch:"Cruz Verde",addr:"CC Parque Caracolí, Cra. 27 No. 29-145 L.322 (Cañaveral)",city:"Bucaramanga",eps:["Sanitas","Coosalud"],est:"VERDE",fila:0.5,lat:7.0720,lng:-73.0895},
+{id:"BUC10",n:"Cruz Verde Cañaveral 24h",ch:"Cruz Verde",addr:"Cra. 33A No. 29-15, Cañaveral · 24h",city:"Bucaramanga",eps:["Sura","Sanitas"],est:"VERDE",fila:0.4,lat:7.0735,lng:-73.0905},
+{id:"BUC11",n:"Cruz Verde El Bosque",ch:"Cruz Verde",addr:"Autopista Floridablanca, Cl. 25 Urb. El Bosque",city:"Bucaramanga",eps:["Nueva EPS"],est:"AMARILLO",fila:2.0,lat:7.0780,lng:-73.0960},
+{id:"BUC12",n:"Audifarma Cañaveral",ch:"Audifarma",addr:"CC Cañaveral, Local L-404",city:"Bucaramanga",eps:["Nueva EPS","Salud Total"],est:"VERDE",fila:0.6,lat:7.0715,lng:-73.0885},
+{id:"CUC03",n:"Cruz Verde Barrio Blanco",ch:"Cruz Verde",addr:"Av. 1 No. 18-57 Local 1, Barrio Blanco",city:"Cúcuta",eps:["Sanitas","Colsanitas"],est:"VERDE",fila:0.5,lat:7.892,lng:-72.503},
+{id:"CUC04",n:"Cruz Verde La Gran Colombia",ch:"Cruz Verde",addr:"Av. Gran Colombia No. 1E-28",city:"Cúcuta",eps:["Sura","Sanitas"],est:"VERDE",fila:0.6,lat:7.901,lng:-72.503},
+{id:"CUC05",n:"Cruz Verde Ventura Plaza",ch:"Cruz Verde",addr:"CC Ventura Plaza, Av. Libertadores",city:"Cúcuta",eps:["Sanitas","Salud Total"],est:"AMARILLO",fila:1.5,lat:7.908,lng:-72.500},
+{id:"CUC06",n:"Cruz Verde Caobos",ch:"Cruz Verde",addr:"Av. 1E No. 15A-29 Local 4, Caobos",city:"Cúcuta",eps:["Sanitas"],est:"VERDE",fila:0.5,lat:7.896,lng:-72.507},
+{id:"CUC07",n:"Cruz Verde Libertadores Norte",ch:"Cruz Verde",addr:"Av. Libertadores No. 18N-163",city:"Cúcuta",eps:["Sanitas","Coosalud"],est:"VERDE",fila:0.6,lat:7.909,lng:-72.499},
+{id:"CUC08",n:"Cafam Nueva EPS Av. 1E",ch:"Cafam",addr:"Av. 1 Este No. 9-90",city:"Cúcuta",eps:["Nueva EPS","Famisanar"],est:"AMARILLO",fila:2.2,lat:7.895,lng:-72.505},
+{id:"CUC09",n:"Comfaoriente EPS-S",ch:"Comfaoriente",addr:"Sector Centro · régimen subsidiado",city:"Cúcuta",eps:["Comfaoriente"],est:"VERDE",fila:0.7,lat:7.897,lng:-72.504},
+{id:"CUC10",n:"Disfarma Nueva EPS Centro",ch:"Disfarma",addr:"Sector Centro · Av. 5 con Cl. 10",city:"Cúcuta",eps:["Nueva EPS"],est:"ROJO",fila:3.8,lat:7.890,lng:-72.504},
+{id:"CUC11",n:"Coosalud La Libertad",ch:"Coosalud",addr:"Sector La Libertad",city:"Cúcuta",eps:["Coosalud"],est:"AMARILLO",fila:2.0,lat:7.886,lng:-72.508},
+{id:"POP01",n:"Cruz Verde Campanario",ch:"Cruz Verde",addr:"CC Campanario (Jumbo), Cra. 9 No. 24A Nte. Local 128",city:"Popayán",eps:["Sanitas","Nueva EPS"],est:"VERDE",fila:0.6,lat:2.4600,lng:-76.5980},
+{id:"POP02",n:"Cruz Verde Norte",ch:"Cruz Verde",addr:"Cra. 9 No. 17AN-87 Local 3, Comuna 1",city:"Popayán",eps:["Sura","Sanitas"],est:"VERDE",fila:0.5,lat:2.4550,lng:-76.6000},
+{id:"POP03",n:"Audifarma Popayán",ch:"Audifarma",addr:"Sector Centro · operador Nueva EPS / Asmet",city:"Popayán",eps:["Nueva EPS","Asmet Salud"],est:"AMARILLO",fila:2.0,lat:2.4430,lng:-76.6070},
+{id:"POP04",n:"Emssanar Farmart Popayán",ch:"Emssanar",addr:"Sector El Recuerdo",city:"Popayán",eps:["Emssanar"],est:"VERDE",fila:0.6,lat:2.4510,lng:-76.6040},
+{id:"POP05",n:"Asmet Salud Dispensario",ch:"Asmet Salud",addr:"Sector La Esmeralda",city:"Popayán",eps:["Asmet Salud"],est:"AMARILLO",fila:1.8,lat:2.4560,lng:-76.6030},
+{id:"POP06",n:"Coosalud Popayán",ch:"Coosalud",addr:"Sector Centro",city:"Popayán",eps:["Coosalud"],est:"VERDE",fila:0.7,lat:2.4410,lng:-76.6055},
+{id:"POP07",n:"Comfacauca Droguería",ch:"Comfacauca",addr:"Sector Centro · El Empedrado",city:"Popayán",eps:["Comfacauca"],est:"VERDE",fila:0.5,lat:2.4450,lng:-76.6090},
+{id:"POP08",n:"Disfarma Nueva EPS Sur",ch:"Disfarma",addr:"Sector Bello Horizonte",city:"Popayán",eps:["Nueva EPS"],est:"ROJO",fila:3.5,lat:2.4300,lng:-76.6160}
+];
+var CITIES=["Cali","Bogotá","Medellín","Barranquilla","Bucaramanga","Cúcuta","Popayán","Cartagena","Pereira"];
+var CENTER={"Cali":[3.4516,-76.532],"Bogotá":[4.66,-74.09],"Medellín":[6.23,-75.57],"Barranquilla":[11.01,-74.82],"Bucaramanga":[7.11,-73.12],"Cartagena":[10.41,-75.52],"Pereira":[4.81,-75.70],"Cúcuta":[7.89,-72.50],"Popayán":[2.447,-76.606]};
+var MEDS=["Insulina Glargina 100UI","Metformina 850mg","Losartán 50mg","Atorvastatina 40mg","Omeprazol 20mg","Enalapril 10mg","Amlodipino 5mg","Carvedilol 25mg","Furosemida 40mg","Warfarina 5mg","Levotiroxina 100mcg","Clonazepam 2mg","Insulina NPH","Glibenclamida 5mg","Hidroclorotiazida 25mg","Metoprolol 100mg","Prednisona 20mg","Azitromicina 500mg","Amoxicilina 500mg","Ibuprofeno 400mg","Ramipril 5mg","Espironolactona 25mg"];
+var EPS_LIST=["Nueva EPS","Sura","SOS","Coomeva","Sanitas","Salud Total","Emssanar","Compensar","Famisanar","Colsubsidio","Capital Salud","Aliansalud","Coosalud","Asmet Salud","Mutual Ser","Cajacopi","Comfenalco","Colsanitas","Cafam","Comfaoriente","Comfacauca"];
+var JUZGADOS={"Cali":"despacho.reparto.cali@ramajudicial.gov.co","Bogotá":"despacho.reparto.bogota@ramajudicial.gov.co","Medellín":"despacho.reparto.medellin@ramajudicial.gov.co","Barranquilla":"despacho.reparto.barranquilla@ramajudicial.gov.co","Bucaramanga":"despacho.reparto.bucaramanga@ramajudicial.gov.co","Cartagena":"despacho.reparto.cartagena@ramajudicial.gov.co","Pereira":"despacho.reparto.pereira@ramajudicial.gov.co","Cúcuta":"despacho.reparto.cucuta@ramajudicial.gov.co","Popayán":"despacho.reparto.popayan@ramajudicial.gov.co"};
+
+/* ============ STATE ============ */
+var curCity="Cali", coins=120, alerts=[], map=null, markers=[], selId=null, repStock=null, repSede=null, emailDraft="", docContent="", searchMed="", epsFilter="";
+
+/* ============ DISPONIBILIDAD POR MEDICAMENTO (determinística) ============ */
+function hashStr(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return Math.abs(h)}
+function effEst(s){
+  if(!searchMed) return s.est;
+  var hv=hashStr(s.id+'|'+searchMed)%100;
+  // se parte del stock general de la sede y se ajusta por medicamento
+  if(s.est==='ROJO')    return hv<55?'ROJO':hv<85?'AMARILLO':'VERDE';
+  if(s.est==='AMARILLO')return hv<25?'ROJO':hv<60?'AMARILLO':'VERDE';
+  return hv<8?'ROJO':hv<28?'AMARILLO':'VERDE';
+}
+function effFila(s){
+  var e=effEst(s);
+  if(!searchMed) return s.fila;
+  return e==='VERDE'?Math.max(0.3,s.fila*0.6):e==='AMARILLO'?1.5:3.5;
+}
+
+/* ============ FUENTES OFICIALES POR OPERADOR ============ */
+var FUENTES={
+  'Audifarma':'https://www.audifarma.com.co/inicio/red-de-farmacias',
+  'Cruz Verde':'https://www.cruzverde.com.co/droguerias/',
+  'Cafam':'https://www.drogueriascafam.com.co/',
+  'Colsubsidio':'https://www.drogueriascolsubsidio.com/puntos-droguerias-colsubsidio',
+  'Sura':'https://www.epssura.com/informacion-medicamentos',
+  'Drogas La Rebaja':'https://nuevaeps.com.co/',
+  'Evedisa':'https://coosalud.com/',
+  'Mutual Ser':'https://www.mutualser.org/',
+  'Cajacopi':'https://cajacopieps.com/',
+  'Disfarma':'https://www.nuevaeps.com.co/',
+  'Comfandi':'https://www.comfandi.com.co/',
+  'Emssanar':'https://emssanar.org.co/',
+  'Coosalud':'https://coosalud.com/'
+};
+
+/* ============ PERSISTENCIA (almacenamiento local) ============ */
+var LS={
+  get:function(k,d){try{var v=localStorage.getItem('ss_'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+  set:function(k,v){try{localStorage.setItem('ss_'+k,JSON.stringify(v));}catch(e){}}
+};
+
+/* ============ BACKEND REAL (Supabase) — opcional ============
+   Mientras estas dos líneas estén vacías, la app funciona solo con
+   almacenamiento local. Al pegar tu URL y anon key, cada reporte y
+   aviso se envía además a tu base de datos real (ver guía SQL). */
+var SUPABASE_URL="";   // ej: "https://xxxx.supabase.co"
+var SUPABASE_KEY="";   // anon public key
+var Cloud=(function(){
+  function on(){return !!(SUPABASE_URL&&SUPABASE_KEY);}
+  function post(table,row){
+    if(!on())return;
+    fetch(SUPABASE_URL+'/rest/v1/'+table,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,
+               'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify(row)
+    }).catch(function(){}); // silencioso: si falla, queda igual guardado en local
+  }
+  return {
+    on:on,
+    pushReport:function(s,est){post('reports',{sede_id:s.id,estado:est,ciudad:s.city,
+      lat:userPos?userPos[0]:null,lng:userPos?userPos[1]:null,distancia_m:repDist?Math.round(repDist):null});},
+    pushAlert:function(med,ciudad){post('alerts',{med:med,ciudad:ciudad});}
+  };
+})();
+
+/* ============ FIRMA SHA-256 REAL ============
+   (requiere contexto seguro: https:// o localhost) */
+function sha256Hex(str){
+  if(!(window.crypto&&crypto.subtle))return Promise.resolve(simpleHash(str));
+  return crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)).then(function(buf){
+    return Array.prototype.map.call(new Uint8Array(buf),function(b){return b.toString(16).padStart(2,'0');}).join('');
+  });
+}
+
+/* ============ CATÁLOGO REAL DE MEDICAMENTOS (datos.gov.co) ============
+   API Socrata del Código Único de Medicamentos Vigentes. Si no responde,
+   cae a la lista interna MEDS para que el autocompletado nunca se rompa. */
+var CUM_DATASET="i7cb-raxc";
+function pickMedName(row){
+  var c=['principioactivo','producto','nombre','descripcioncomercial','descripcion','medicamento','nombrecomercial'];
+  for(var i=0;i<c.length;i++){if(row[c[i]])return String(row[c[i]]).trim();}
+  for(var k in row){if(typeof row[k]==='string'&&row[k].length>2)return row[k].trim();}
+  return "";
+}
+function fetchMedsLive(q){
+  return fetch('https://www.datos.gov.co/resource/'+CUM_DATASET+'.json?$q='+encodeURIComponent(q)+'&$limit=8')
+    .then(function(r){return r.ok?r.json():[];})
+    .then(function(rows){var seen={},out=[];rows.forEach(function(r){var n=pickMedName(r),k=n.toLowerCase();if(n&&!seen[k]){seen[k]=1;out.push(n);}});return out;})
+    .catch(function(){return [];});
+}
+function wireMedAutocomplete(id){
+  var el=document.getElementById(id),t=null;if(!el)return;
+  el.addEventListener('input',function(){
+    var q=el.value.trim();if(q.length<3)return;clearTimeout(t);
+    t=setTimeout(function(){fetchMedsLive(q).then(function(live){
+      var list=live.length?live:MEDS.filter(function(m){return m.toLowerCase().indexOf(q.toLowerCase())>=0;});
+      document.getElementById('medlist').innerHTML=list.map(function(m){return '<option value="'+String(m).replace(/"/g,'&quot;')+'">';}).join('');
+    });},300);
+  });
+}
+var REPORTS=LS.get('reports',{}); // id -> {est,fila,ts}
+var GEO=LS.get('geo',{});         // id -> [lat,lng]
+function applyReports(){SEDES.forEach(function(s){var r=REPORTS[s.id];if(r){s.est=r.est;s.fila=r.fila;}});}
+function applyGeo(){SEDES.forEach(function(s){var g=GEO[s.id];if(g){s.lat=g[0];s.lng=g[1];}});}
+function loadState(){
+  coins=LS.get('coins',120);
+  alerts=LS.get('alerts',[]);
+  if(LS.get('easy',false)){document.documentElement.classList.add('easy');var sw=document.getElementById('swEasy');if(sw){sw.classList.add('on');sw.setAttribute('aria-checked','true');}}
+  applyReports();applyGeo();
+  var cs=document.getElementById('coins');if(cs)cs.textContent=coins;
+}
+
+/* ============ ANTIFRAUDE GPS (Haversine real) ============ */
+var userPos=null, repVerified=false, repDist=null;
+var GEO_THRESHOLD=300; // metros máx. para validar un reporte
+function haversine(lat1,lng1,lat2,lng2){
+  var R=6371000, toR=Math.PI/180;
+  var dLat=(lat2-lat1)*toR, dLng=(lng2-lng1)*toR;
+  var s=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*toR)*Math.cos(lat2*toR)*Math.sin(dLng/2)*Math.sin(dLng/2);
+  return Math.round(2*R*Math.asin(Math.sqrt(Math.min(1,s))));
+}
+
+/* ============ GEOCODIFICACIÓN (Nominatim / OpenStreetMap) ============ */
+var geoBusy=false;
+function geocodeCity(){
+  if(geoBusy){return;}
+  var pend=currentList().filter(function(s){return !GEO[s.id];});
+  if(!pend.length){toast('ok','Mapa ya afinado','Las farmacias de '+curCity+' ya tienen ubicación precisa');return;}
+  geoBusy=true;
+  toast('ok','Afinando mapa','Geolocalizando '+pend.length+' farmacias de '+curCity+'…');
+  var i=0;
+  (function next(){
+    if(i>=pend.length){geoBusy=false;LS.set('geo',GEO);if(map)renderMarkers();renderList();toast('ok','Mapa afinado',pend.length+' ubicaciones precisadas en '+curCity);return;}
+    var s=pend[i++];
+    var q=encodeURIComponent(s.addr+', '+s.city+', Colombia');
+    fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+q,{headers:{'Accept':'application/json'}})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(j){ if(j&&j[0]){GEO[s.id]=[+(+j[0].lat).toFixed(5),+(+j[0].lon).toFixed(5)]; s.lat=GEO[s.id][0]; s.lng=GEO[s.id][1];} })
+      .catch(function(){})
+      .then(function(){ setTimeout(next,1100); }); // respeta el límite de 1 solicitud/seg de Nominatim
+  })();
+}
+
+/* ============ CARGA DE DATOS EXTERNOS (farmacias.json) ============ */
+function loadExternal(){
+  if(location.protocol==='file:') return; // fetch no funciona en file://; se usa la base embebida
+  fetch('farmacias.json',{cache:'no-store'})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(j){
+      if(j&&j.sedes&&j.sedes.length){
+        SEDES=j.sedes;
+        if(j.fuentes)FUENTES=j.fuentes;
+        applyReports();applyGeo();buildMedList();
+        if(map)renderMarkers();renderList();updateStats();
+        var av=j.meta&&j.meta.actualizado?(' · actualizado '+j.meta.actualizado):'';
+        toast('ok','Directorio cargado',SEDES.length+' farmacias'+av);
+      }
+    }).catch(function(){});
+}
+
+/* ============ MAP ============ */
+function initMap(){
+  map=L.map('map',{zoomControl:false,attributionControl:true}).setView(CENTER[curCity],13);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    maxZoom:19, attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:'abcd'
+  }).addTo(map);
+  L.control.zoom({position:'topleft'}).addTo(map);
+  renderMarkers();
+}
+function pinCls(e){return e==="VERDE"?"g":e==="AMARILLO"?"a":"r"}
+function renderMarkers(){
+  markers.forEach(function(m){map.removeLayer(m)}); markers=[];
+  var list=SEDES.filter(function(s){return s.city===curCity&&(!epsFilter||s.eps.indexOf(epsFilter)>=0)});
+  list.forEach(function(s){
+    var html='<div class="mpin '+pinCls(effEst(s))+(s.id===selId?' sel':'')+'"><div class="ring"></div><div class="core"></div></div>';
+    var ic=L.divIcon({html:html,className:'',iconSize:[30,30],iconAnchor:[15,15]});
+    var m=L.marker([s.lat,s.lng],{icon:ic}).addTo(map);
+    m.on('click',function(){selId=s.id;renderMarkers();renderList(list);scrollToSede(s.id);});
+    markers.push(m);
+  });
+}
+function recenter(){map.flyTo(CENTER[curCity],13,{duration:.6})}
+
+/* ============ NAV ============ */
+function go(btn){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
+  document.querySelectorAll('.nv').forEach(function(b){b.classList.remove('on')});
+  document.getElementById(btn.dataset.v).classList.add('on');
+  btn.classList.add('on');
+  if(btn.dataset.v==='v-radar'&&map){setTimeout(function(){map.invalidateSize()},120)}
+  if(btn.dataset.v==='v-cuenta')updateStats();
+}
+
+/* ============ RADAR LIST ============ */
+function statusLabel(e){return e==="VERDE"?"Disponible":e==="AMARILLO"?"Poco stock":"Agotado"}
+function filaTxt(f){return f<1?Math.round(f*60)+" min":f.toFixed(1).replace('.0','')+" h"}
+function currentList(){return SEDES.filter(function(s){return s.city===curCity})}
+function renderList(list){
+  list=list||currentList();
+  // ordenar: verde, amarillo, rojo (según el medicamento buscado si aplica)
+  var ord={VERDE:0,AMARILLO:1,ROJO:2};
+  list=list.slice().sort(function(a,b){return ord[effEst(a)]-ord[effEst(b)]||effFila(a)-effFila(b)});
+  var html="";
+  list.forEach(function(s){
+    var c=pinCls(effEst(s));
+    html+='<div class="sede '+c+'" id="sede-'+s.id+'">'
+      +'<div class="sede-top"><div style="flex:1"><h3>'+s.n+'</h3>'
+      +'<div class="addr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>'+s.addr+'</div></div>'
+      +'<div class="status '+c+'"><span class="big">'+statusLabel(effEst(s))+'</span></div></div>'
+      +'<div class="eps-tags">'+s.eps.map(function(e){return '<span class="eps-tag">'+e+'</span>'}).join('')+'</div>'
+      +'<div class="meta"><span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Fila ~'+filaTxt(effFila(s))+'</span>'
+      +'<span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>'+s.ch+'</span></div>'
+      +(FUENTES[s.ch]?'<a href="'+FUENTES[s.ch]+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:.8rem;font-weight:700;color:var(--blue-d);text-decoration:none">Ver directorio oficial de '+s.ch+' \u2197</a>':'')
+      +'<div class="sede-actions">'
+      +'<button class="sa prim" onclick="navTo('+s.lat+','+s.lng+',event)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>Cómo llegar</button>'
+      +'<button class="sa ghost" onclick="openReportFor(\''+s.id+'\',event)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Reportar</button>'
+      +'</div></div>';
+  });
+  document.getElementById('sedeList').innerHTML=html;
+  document.getElementById('sheetTitle').textContent=list.length+' farmacias en '+curCity;
+}
+function scrollToSede(id){var el=document.getElementById('sede-'+id);if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.style.boxShadow='0 0 0 3px var(--blue)';setTimeout(function(){el.style.boxShadow=''},1400)}}
+function navTo(lat,lng,e){if(e)e.stopPropagation();window.open('https://www.google.com/maps/dir/?api=1&destination='+lat+','+lng,'_blank');toast('ok','Abriendo mapa','Te llevamos hasta la farmacia')}
+
+/* ============ SEARCH ============ */
+function doSearch(){
+  var raw=document.getElementById('q').value.trim();
+  var q=raw.toLowerCase();
+  var sub=document.getElementById('sheetSub');
+  if(!q){
+    searchMed="";epsFilter="";
+    if(map)renderMarkers();renderList();
+    sub.textContent='Toca una para ver detalles y cómo llegar';
+    return;
+  }
+  // ¿coincide con una EPS? -> filtra farmacias que la atienden
+  var epsMatch=EPS_LIST.filter(function(e){var le=e.toLowerCase();return le===q||le.indexOf(q)===0})[0];
+  if(epsMatch){
+    searchMed="";epsFilter=epsMatch;
+    if(map)renderMarkers();
+    var listE=currentList().filter(function(s){return s.eps.indexOf(epsMatch)>=0});
+    renderList(listE);
+    sub.textContent='Farmacias que atienden a tu EPS en '+curCity;
+    toast('ok','Filtrado por EPS',listE.length+' farmacias atienden '+epsMatch+' en '+curCity);
+    return;
+  }
+  // si no es EPS, se trata como medicamento -> disponibilidad estimada
+  searchMed=q;epsFilter="";
+  if(map)renderMarkers();
+  var list=currentList();
+  renderList(list);
+  var v=list.filter(function(s){return effEst(s)==='VERDE'}).length;
+  document.getElementById('sheetTitle').textContent='Resultados: '+raw;
+  sub.textContent='Disponibilidad estimada de "'+raw+'", ordenada de mayor a menor';
+  toast('ok','Búsqueda lista',v+' farmacias con alta disponibilidad en '+curCity);
+}
+document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch()});
+
+/* ============ CITY CHIPS ============ */
+function buildChips(){
+  var h="";CITIES.forEach(function(c){h+='<button class="chip'+(c===curCity?' on':'')+'" onclick="setCity(\''+c+'\',this)">'+c+'</button>'});
+  document.getElementById('cityChips').innerHTML=h;
+}
+function setCity(c,btn){
+  curCity=c;
+  document.querySelectorAll('#cityChips .chip').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on');
+  selId=null;
+  if(map){map.flyTo(CENTER[c],13,{duration:.6})}
+  var q=document.getElementById('q').value.trim();
+  if(q){doSearch();}else{if(map)renderMarkers();renderList();}
+  updateStats();
+}
+
+/* ============ REPORT ============ */
+function openReport(){repSede=currentList().find(function(s){return s.est==='VERDE'})||currentList()[0];openModalUI()}
+function openReportFor(id,e){if(e)e.stopPropagation();repSede=SEDES.find(function(s){return s.id===id});openModalUI()}
+function openModalUI(){
+  repStock=null;repVerified=false;repDist=null;
+  document.querySelectorAll('.stk').forEach(function(b){b.classList.remove('sel')});
+  document.getElementById('repSede').textContent=repSede?repSede.n:'';
+  var g=document.getElementById('gpsBox');
+  g.style.background='';g.style.borderColor='';g.style.color='';
+  g.className='gps checking';
+  g.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg> Verificando tu ubicación…';
+  document.getElementById('reportModal').classList.add('on');
+  // Antifraude real: geolocalización del navegador + distancia Haversine
+  if(!navigator.geolocation){
+    g.className='gps';g.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg> Tu dispositivo no permite ubicación · el reporte quedará sin verificar';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(function(pos){
+    userPos=[pos.coords.latitude,pos.coords.longitude];
+    repDist=repSede?haversine(userPos[0],userPos[1],repSede.lat,repSede.lng):null;
+    if(repDist!=null&&repDist<=GEO_THRESHOLD){
+      repVerified=true;
+      g.className='gps';
+      g.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg> Ubicación verificada · estás a '+repDist+' m de la farmacia';
+    }else{
+      repVerified=false;
+      g.className='gps';g.style.background='var(--aml)';g.style.borderColor='#FBBF24';g.style.color='#7C4A07';
+      g.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke="#B45309"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg> Estás a ~'+(repDist!=null?repDist+' m':'una distancia desconocida')+' · acércate a la farmacia para validar el reporte';
+    }
+  },function(err){
+    repVerified=false;
+    g.className='gps';g.style.background='var(--aml)';g.style.borderColor='#FBBF24';g.style.color='#7C4A07';
+    g.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke="#B45309"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg> No pudimos verificar tu ubicación · el reporte quedará sin verificar';
+  },{enableHighAccuracy:true,timeout:8000,maximumAge:30000});
+}
+function pickStock(btn){repStock=btn.dataset.s;document.querySelectorAll('.stk').forEach(function(b){b.classList.remove('sel')});btn.classList.add('sel')}
+function sendReport(){
+  if(!repStock){toast('','Falta un dato','Toca cómo viste el stock');return}
+  // Antifraude: si hay ubicación y está demasiado lejos, no se acepta
+  if(userPos && repDist!=null && repDist>GEO_THRESHOLD){
+    toast('','Estás muy lejos','Debes estar a menos de '+GEO_THRESHOLD+' m de la farmacia para reportar');
+    return;
+  }
+  if(repSede){
+    repSede.est=repStock;
+    repSede.fila=repStock==='VERDE'?0.5:repStock==='AMARILLO'?1.5:3.5;
+    REPORTS[repSede.id]={est:repSede.est,fila:repSede.fila,ts:Date.now()};
+    LS.set('reports',REPORTS);
+    Cloud.pushReport(repSede,repStock);
+  }
+  if(map)renderMarkers();renderList();updateStats();
+  var gain=repVerified?10:3;
+  coins+=gain;LS.set('coins',coins);
+  document.getElementById('coins').textContent=coins;
+  closeModal();
+  if(repVerified) toast('ok','¡Gracias por reportar!','+'+gain+' SentiCoins · reporte verificado por GPS');
+  else toast('ok','Reporte recibido','+'+gain+' SentiCoins · quedó sin verificar por GPS');
+}
+function closeModal(){document.getElementById('reportModal').classList.remove('on')}
+document.getElementById('reportModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+/* ============ SUGERENCIAS ============ */
+var suggCat="";
+function openSugg(){
+  suggCat="";
+  document.querySelectorAll('.suggcat').forEach(function(b){b.classList.remove('sel')});
+  document.getElementById('suggMsg').value='';
+  document.getElementById('suggContact').value='';
+  suggCount();
+  document.getElementById('suggModal').classList.add('on');
+}
+function closeSugg(){document.getElementById('suggModal').classList.remove('on')}
+document.getElementById('suggModal').addEventListener('click',function(e){if(e.target===this)closeSugg()});
+function pickSuggCat(btn){suggCat=btn.dataset.c;document.querySelectorAll('.suggcat').forEach(function(b){b.classList.remove('sel')});btn.classList.add('sel')}
+function suggCount(){var n=document.getElementById('suggMsg').value.length;document.getElementById('suggCC').textContent=n+' / 600'}
+function enc(o){return Object.keys(o).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(o[k])}).join('&')}
+function postSugg(d){
+  // fetch a Netlify Forms; no funciona en file:// (solo cuando está publicado)
+  if(location.protocol==='file:')return Promise.reject('local');
+  return fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:enc({'form-name':'sugerencias','bot-field':'',categoria:d.categoria,mensaje:d.mensaje,contacto:d.contacto,ciudad:d.ciudad})})
+    .then(function(r){if(!r.ok)throw new Error('http');return true});
+}
+function sendSugg(){
+  var msg=document.getElementById('suggMsg').value.trim();
+  if(!msg){toast('','Falta tu mensaje','Escribe tu idea o el problema que viste');return}
+  var data={categoria:suggCat||'Sin categoría',mensaje:msg,contacto:document.getElementById('suggContact').value.trim(),ciudad:curCity};
+  closeSugg();
+  coins+=15;LS.set('coins',coins);document.getElementById('coins').textContent=coins;
+  postSugg(data).then(function(){
+    toast('ok','¡Gracias por tu sugerencia!','La recibimos. +15 SentiCoins');
+  }).catch(function(){
+    // sin conexión o en pruebas locales: la guardamos y se envía después
+    var pend=LS.get('sugg_pend',[]);pend.push(data);LS.set('sugg_pend',pend);
+    toast('ok','Sugerencia guardada','Se enviará cuando haya conexión. +15 SentiCoins');
+  });
+}
+function flushSugg(){
+  var pend=LS.get('sugg_pend',[]);
+  if(!pend.length||location.protocol==='file:'||(navigator.onLine===false))return;
+  var rest=[],done=0;
+  (function next(i){
+    if(i>=pend.length){LS.set('sugg_pend',rest);if(done)toast('ok','Sugerencias enviadas',done+' sugerencia(s) pendiente(s) se enviaron');return}
+    postSugg(pend[i]).then(function(){done++;next(i+1)}).catch(function(){rest.push(pend[i]);next(i+1)});
+  })(0);
+}
+
+/* ============ ALERTAS ============ */
+function fillSelect(el,arr,first){var h=first?'<option value="">'+first+'</option>':'';arr.forEach(function(x){h+='<option>'+x+'</option>'});el.innerHTML=h}
+function buildMedList(){document.getElementById('medlist').innerHTML=MEDS.map(function(m){return '<option value="'+m+'">'}).join('')}
+function addAlert(){
+  var med=document.getElementById('aMed').value.trim();var city=document.getElementById('aCity').value;
+  if(!med){toast('','Falta el medicamento','Escribe cuál quieres vigilar');return}
+  alerts.push({id:Date.now(),med:med,city:city});
+  LS.set('alerts',alerts);
+  Cloud.pushAlert(med,city);
+  document.getElementById('aMed').value='';
+  renderAlerts();coins+=5;LS.set('coins',coins);document.getElementById('coins').textContent=coins;
+  toast('ok','Aviso creado','Te avisaremos cuando haya '+med+' en '+city);
+}
+function renderAlerts(){
+  var el=document.getElementById('alertList');
+  if(!alerts.length){el.innerHTML='<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><p>Aún no tienes avisos.<br>Crea uno arriba y te avisamos.</p></div>';return}
+  el.innerHTML=alerts.map(function(a){return '<div class="alert-item"><div class="alert-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>'
+    +'<div><div class="nm">'+a.med+'</div><div class="ct">'+a.city+' · vigilando ahora</div></div>'
+    +'<button class="alert-del" onclick="delAlert('+a.id+')" aria-label="Eliminar aviso"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>'}).join('');
+}
+function delAlert(id){alerts=alerts.filter(function(a){return a.id!==id});LS.set('alerts',alerts);renderAlerts()}
+
+/* ============ TUTELA ============ */
+function tNext(n){
+  if(n===2){if(!document.getElementById('tName').value.trim()||!document.getElementById('tCC').value.trim()){toast('','Faltan tus datos','Completa nombre y cédula');return}}
+  document.querySelectorAll('.tstep').forEach(function(s){s.classList.remove('on')});
+  document.getElementById('ts'+n).classList.add('on');
+  setStep(n);
+}
+function setStep(n){
+  [1,2,3].forEach(function(i){var s=document.getElementById('st'+i);s.classList.remove('on','done');if(i<n)s.classList.add('done');if(i===n)s.classList.add('on')});
+}
+function genDoc(){
+  var name=document.getElementById('tName').value.trim();
+  var cc=document.getElementById('tCC').value.trim();
+  var city=document.getElementById('tCity').value;
+  var eps=document.getElementById('tEps').value;
+  var med=document.getElementById('tMed').value.trim();
+  var days=document.getElementById('tDays').value.trim()||"varios";
+  if(!med){toast('','Falta el medicamento','Indica cuál te niegan');return}
+  var fecha=new Date().toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'});
+  docContent=
+"ACCIÓN DE TUTELA\n"+
+"(Artículo 86 de la Constitución Política de Colombia)\n\n"+
+"Señor(a) Juez de reparto — "+city+"\n"+
+"E. S. D.\n\n"+
+"Yo, "+name+", mayor de edad, identificado(a) con cédula de ciudadanía No. "+cc+", "+
+"residente en la ciudad de "+city+", actuando en nombre propio, presento ACCIÓN DE TUTELA "+
+"contra "+eps+", con el fin de proteger mis derechos fundamentales a la SALUD y a la VIDA DIGNA, "+
+"con base en los siguientes:\n\n"+
+"HECHOS\n"+
+"1. Me encuentro afiliado(a) a "+eps+" y mi médico tratante me prescribió el medicamento "+med+".\n"+
+"2. Desde hace "+days+" día(s), la EPS no me ha entregado el medicamento, poniendo en riesgo mi salud.\n"+
+"3. He realizado las solicitudes correspondientes sin obtener respuesta efectiva ni la entrega oportuna.\n\n"+
+"DERECHOS VULNERADOS\n"+
+"El derecho fundamental a la salud (Art. 49 C.P. y Ley Estatutaria 1751 de 2015) y a la vida digna.\n\n"+
+"FUNDAMENTOS DE DERECHO\n"+
+"La Corte Constitucional ha protegido de forma reiterada el acceso oportuno a medicamentos, entre otras, "+
+"en las sentencias T-760 de 2008, T-121 de 2015 y T-544 de 2017, y en la Ley 1751 de 2015.\n\n"+
+"PRETENSIONES\n"+
+"PRIMERA. Ordenar a "+eps+" entregar de manera inmediata, completa y continua el medicamento "+med+", "+
+"según prescripción médica.\n"+
+"SEGUNDA. Ordenar la entrega de los demás insumos y tratamientos que requiera mi condición.\n\n"+
+"JURAMENTO\n"+
+"Manifiesto bajo la gravedad de juramento que no he presentado otra tutela por los mismos hechos.\n\n"+
+"NOTIFICACIONES\n"+
+"Recibiré notificaciones en mi lugar de residencia en "+city+".\n\n"+
+"Atentamente,\n\n\n"+
+"_______________________________\n"+
+name+"\n"+
+"C.C. No. "+cc+"\n"+
+city+", "+fecha;
+  document.getElementById('docText').textContent=docContent;
+  document.getElementById('docHash').textContent="Calculando firma digital SHA-256…";
+  sha256Hex(docContent).then(function(hash){document.getElementById('docHash').textContent="Firma digital SHA-256: "+hash;});
+  emailDraft="Para: "+(JUZGADOS[city]||JUZGADOS["Cali"])+"\nCC: supersalud.tutelas@supersalud.gov.co\n"+
+    "Asunto: Acción de Tutela - "+name+" (C.C. "+cc+") - Derecho a la salud\n\n"+
+    "Cordial saludo. Adjunto mi acción de tutela contra "+eps+" por la no entrega del medicamento "+med+". Quedo atento(a) a su radicación.\n\n"+docContent;
+  tNext(3);
+  toast('ok','Documento listo','Revísalo, descárgalo y radícalo');
+}
+function simpleHash(str){var h=0,i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i);h=((h<<5)-h)+c;h|=0}var hex=(h>>>0).toString(16);while(hex.length<16)hex="a"+hex;return hex.slice(0,16)+"…"}
+function downloadDoc(){
+  var blob=new Blob([docContent],{type:'text/plain;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Tutela_SentiSalud.txt';a.click();
+  toast('ok','Descargado','Guarda el archivo y llévalo al juzgado');
+}
+function copyEmail(){navigator.clipboard&&navigator.clipboard.writeText(emailDraft);toast('ok','Correo copiado','Pégalo en tu correo y envíalo al juzgado')}
+function tReset(){document.getElementById('tName').value='';document.getElementById('tCC').value='';document.getElementById('tMed').value='';document.getElementById('tDays').value='';tNext(1)}
+
+/* ============ MI CUENTA ============ */
+function resetData(){
+  try{['coins','alerts','reports','geo','easy'].forEach(function(k){localStorage.removeItem('ss_'+k);});}catch(e){}
+  REPORTS={};GEO={};coins=120;alerts=[];
+  document.documentElement.classList.remove('easy');
+  var sw=document.getElementById('swEasy');if(sw){sw.classList.remove('on');sw.setAttribute('aria-checked','false');}
+  document.getElementById('coins').textContent=coins;
+  renderAlerts();
+  toast('ok','Datos borrados','Recarga la app para restablecer el directorio original');
+}
+function toggleEasy(){
+  var on=document.documentElement.classList.toggle('easy');
+  var sw=document.getElementById('swEasy');sw.classList.toggle('on',on);sw.setAttribute('aria-checked',on);
+  LS.set('easy',on);
+  if(map)setTimeout(function(){map.invalidateSize()},250);
+  toast('ok',on?'Modo fácil activado':'Modo fácil desactivado',on?'Letra y botones más grandes':'Tamaño normal');
+}
+function updateStats(){
+  var list=currentList();
+  document.getElementById('kVerde').textContent=list.filter(function(s){return s.est==='VERDE'}).length;
+  document.getElementById('kSedes').textContent=SEDES.length;
+}
+
+/* ============ TOAST ============ */
+function toast(type,title,msg){
+  var box=document.getElementById('toasts');var t=document.createElement('div');
+  t.className='toast'+(type==='ok'?' ok':'');
+  var ic=type==='ok'?'<path d="M20 6 9 17l-5-5"/>':'<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>';
+  t.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">'+ic+'</svg><div><div class="tt">'+title+'</div><div class="tm">'+msg+'</div></div>';
+  box.appendChild(t);
+  setTimeout(function(){t.style.transition='.3s';t.style.opacity='0';t.style.transform='translateY(10px)';setTimeout(function(){t.remove()},300)},2800);
+}
+
+/* ============ TUTOR GUIADO (tercera edad) ============ */
+
+var TOUR=[
+  {sel:'.search', title:'Busque su medicamento', text:'Escriba aquí el nombre. Por ejemplo: Insulina o Metformina. Luego toque la flecha azul.'},
+  {sel:'#cityChips', title:'Elija su ciudad', text:'Toque el nombre de la ciudad donde vive para ver las farmacias más cercanas.'},
+  {sel:'.legend', title:'Mire los colores', text:'Verde quiere decir disponible. Amarillo, poco. Y rojo, agotado. Así sabe a dónde ir.'},
+  {sel:'.bnav .nv[data-v="v-alertas"]', title:'Avisos', text:'Aquí puede pedir que le avisemos cuando llegue su medicina, sin tener que buscar todos los días.'},
+  {sel:'.bnav .nv[data-v="v-tutela"]', title:'Tutela', text:'Si le niegan su medicamento, aquí le ayudamos a hacer el reclamo. Es gratis y no necesita abogado.'},
+  {sel:'.bnav .nv[data-v="v-cuenta"]', title:'Mi cuenta', text:'Aquí agranda la letra con el Modo fácil y ve sus puntos. ¡Listo! Ya sabe usar la aplicación.'}
+];
+var tStepIdx=0, voiceOn=true, tourResizeBound=null;
+var NEXT_ARROW='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+function buildTourDots(){
+  var h='';for(var i=0;i<TOUR.length;i++)h+='<i></i>';
+  document.getElementById('tcDots').innerHTML=h;
+}
+function startTour(){
+  closeModal(); dismissWelcomeSilent();
+  LS.set('tourdone',1);
+  /* asegurar que estamos en el Radar */
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
+  document.querySelectorAll('.nv').forEach(function(b){b.classList.remove('on')});
+  document.getElementById('v-radar').classList.add('on');
+  var rb=document.querySelector('.nv[data-v="v-radar"]'); if(rb)rb.classList.add('on');
+  if(map)setTimeout(function(){map.invalidateSize()},100);
+  tStepIdx=0; voiceOn=true;
+  document.getElementById('tcVoice').classList.remove('off');
+  buildTourDots();
+  document.getElementById('tourOverlay').classList.add('on');
+  if(!tourResizeBound){
+    tourResizeBound=function(){positionTour()};
+    window.addEventListener('resize',tourResizeBound);
+    window.addEventListener('orientationchange',tourResizeBound);
+  }
+  setTimeout(showTourStep,90);
+}
+function showTourStep(){
+  var s=TOUR[tStepIdx]; if(!s)return;
+  document.getElementById('tcTitle').textContent=s.title;
+  document.getElementById('tcText').textContent=s.text;
+  document.getElementById('tcProg').textContent='Paso '+(tStepIdx+1)+' de '+TOUR.length;
+  var dots=document.getElementById('tcDots').children;
+  for(var i=0;i<dots.length;i++)dots[i].classList.toggle('on',i===tStepIdx);
+  document.getElementById('tcBack').style.visibility=(tStepIdx===0)?'hidden':'visible';
+  document.getElementById('tcNext').innerHTML=(tStepIdx===TOUR.length-1)?'¡Entendido!':('Siguiente '+NEXT_ARROW);
+  positionTour();
+  speak(s.text);
+}
+function positionTour(){
+  var s=TOUR[tStepIdx]; if(!s)return;
+  var el=document.querySelector(s.sel);
+  var spot=document.getElementById('tourSpot');
+  var card=document.getElementById('tourCard');
+  var winH=window.innerHeight, winW=window.innerWidth;
+  if(el){
+    var r=el.getBoundingClientRect();
+    if(r.bottom<0||r.top>winH){try{el.scrollIntoView({block:'center'});r=el.getBoundingClientRect();}catch(e){}}
+    var pad=8;
+    var top=Math.max(6,r.top-pad), left=Math.max(6,r.left-pad);
+    var w=Math.min(winW-12-left, r.width+pad*2), h=r.height+pad*2;
+    spot.style.top=top+'px'; spot.style.left=left+'px';
+    spot.style.width=w+'px'; spot.style.height=h+'px'; spot.style.opacity='1';
+  }else{
+    spot.style.width='0'; spot.style.height='0'; spot.style.opacity='0';
+  }
+  var ch=card.offsetHeight||220, cardTop;
+  if(el){
+    var r2=el.getBoundingClientRect();
+    if(r2.bottom+14+ch+12<=winH){cardTop=r2.bottom+14;}
+    else if(r2.top-ch-14>=12){cardTop=r2.top-ch-14;}
+    else{cardTop=(winH-ch)/2;}
+  }else{cardTop=(winH-ch)/2;}
+  cardTop=Math.min(Math.max(12,cardTop), winH-ch-12);
+  card.style.top=cardTop+'px';
+}
+function tourNext(){
+  if(tStepIdx>=TOUR.length-1){endTour();toast('ok','¡Muy bien!','Ya puede usar SentiSalud. La Ayuda está siempre arriba.');return;}
+  tStepIdx++; showTourStep();
+}
+function tourPrev(){ if(tStepIdx>0){tStepIdx--; showTourStep();} }
+function endTour(){
+  document.getElementById('tourOverlay').classList.remove('on');
+  if('speechSynthesis' in window){try{window.speechSynthesis.cancel()}catch(e){}}
+  LS.set('tourdone',1);
+  if(tourResizeBound){
+    window.removeEventListener('resize',tourResizeBound);
+    window.removeEventListener('orientationchange',tourResizeBound);
+    tourResizeBound=null;
+  }
+}
+function speak(txt){
+  if(!voiceOn||!('speechSynthesis' in window))return;
+  try{
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(txt);
+    u.lang='es-ES'; u.rate=.95; u.pitch=1;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function toggleVoice(){
+  voiceOn=!voiceOn;
+  document.getElementById('tcVoice').classList.toggle('off',!voiceOn);
+  if(!voiceOn){if('speechSynthesis' in window){try{window.speechSynthesis.cancel()}catch(e){}}}
+  else{speak(TOUR[tStepIdx].text);}
+}
+/* Bienvenida primera vez */
+function maybeShowWelcome(){
+  if(LS.get('tourdone',0))return;
+  setTimeout(function(){document.getElementById('tutorWelcome').classList.add('on');},700);
+}
+function dismissWelcome(){document.getElementById('tutorWelcome').classList.remove('on');LS.set('tourdone',1);}
+function dismissWelcomeSilent(){document.getElementById('tutorWelcome').classList.remove('on');}
+function toggleEasyFromWelcome(){
+  toggleEasy();
+  var on=document.documentElement.classList.contains('easy');
+  var sw=document.getElementById('swEasyWelcome');
+  sw.classList.toggle('on',on); sw.setAttribute('aria-checked',on);
+}
+
+/* ============ INIT ============ */
+buildChips();
+buildMedList();
+wireMedAutocomplete('q');wireMedAutocomplete('aMed');wireMedAutocomplete('tMed'); // catálogo real datos.gov.co
+fillSelect(document.getElementById('aCity'),CITIES);
+fillSelect(document.getElementById('tCity'),CITIES);
+fillSelect(document.getElementById('tEps'),EPS_LIST);
+loadState();          // recupera SentiCoins, avisos, reportes, geocodificación y modo fácil
+renderList();
+renderAlerts();
+updateStats();
+setStep(1);
+initMap();
+loadExternal();       // si está publicado, actualiza desde farmacias.json
+flushSugg();          // reenvía sugerencias que quedaron guardadas sin conexión
+maybeShowWelcome();   // tutorial guiado la primera vez
+
+/* ===== PWA: registrar service worker ===== */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('service-worker.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
