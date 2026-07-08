@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagnóstico SentiSalud</title>
+<style>
+  body{font-family:system-ui,sans-serif;padding:20px;background:#0F2044;color:#fff;line-height:1.6}
+  h1{font-size:1.2rem}
+  .box{background:#16285A;border-radius:12px;padding:14px;margin:12px 0;font-size:.9rem;word-break:break-word}
+  .ok{border-left:5px solid #22C55E}
+  .bad{border-left:5px solid #EF4444}
+  .warn{border-left:5px solid #F59E0B}
+  pre{white-space:pre-wrap;font-size:.78rem;background:#0A1733;padding:10px;border-radius:8px;max-height:300px;overflow:auto}
+  button{background:#2563EB;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:700;font-size:1rem;margin:10px 0}
+</style>
+</head>
+<body>
+<h1>Diagnóstico: conexión a datos abiertos de Bogotá</h1>
+<button onclick="runTest()">Probar conexión ahora</button>
+<div id="out"></div>
+
+<script>
+function box(cls,title,body){
+  var d=document.createElement('div');
+  d.className='box '+cls;
+  d.innerHTML='<b>'+title+'</b><br>'+body;
+  document.getElementById('out').appendChild(d);
+}
+function runTest(){
+  document.getElementById('out').innerHTML='';
+  box('warn','Paso 1','Intentando conectar a la API de datosabiertos.bogota.gov.co...');
+  var url='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search?resource_id=c2c2527d-fcbc-49a7-9745-21d8fde2ab5f&q=insulina&limit=3';
+  fetch(url)
+    .then(function(r){
+      box(r.ok?'ok':'bad','Paso 2 — Respuesta HTTP','Código de estado: '+r.status+' '+r.statusText);
+      return r.json();
+    })
+    .then(function(data){
+      box('ok','Paso 3 — Datos recibidos','success: '+data.success+' · total registros: '+(data.result?data.result.total:'?'));
+      if(data.result && data.result.records && data.result.records.length){
+        box('ok','Ejemplo de registro','<pre>'+JSON.stringify(data.result.records[0],null,2)+'</pre>');
+      } else {
+        box('warn','Sin registros','La búsqueda de prueba (insulina) no devolvió resultados.');
+      }
+    })
+    .catch(function(err){
+      box('bad','ERROR — esto es lo importante','Mensaje: '+err.message+'<br><br>Si dice algo como "Failed to fetch" o "CORS", significa que el navegador está bloqueando la conexión a esta API desde tu sitio. Copia este mensaje completo y compártelo.');
+    });
+}
+</script>
+</body>
+</html>
