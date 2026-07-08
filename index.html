@@ -204,6 +204,15 @@ textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5
   font-size:.84rem;font-weight:700;color:#7C4A07;margin-top:14px;display:flex;gap:9px}
 .notice svg{width:22px;height:22px;stroke:var(--am);flex-shrink:0}
 
+/* ===== BADGE INVIMA/SDS (contexto nacional/distrital de desabastecimiento) ===== */
+.invima-badge{display:flex;gap:9px;align-items:flex-start;border-radius:14px;padding:11px 13px;
+  margin-top:9px;font-size:.8rem;font-weight:700;line-height:1.4}
+.invima-badge svg{width:20px;height:20px;flex-shrink:0;margin-top:1px}
+.invima-badge.warn{background:var(--aml);color:#7C4A07} .invima-badge.warn svg{stroke:var(--am)}
+.invima-badge.bad{background:var(--rdl);color:var(--rd)} .invima-badge.bad svg{stroke:var(--rd)}
+.invima-badge.ok{background:var(--gnl);color:var(--gn)} .invima-badge.ok svg{stroke:var(--gn)}
+.invima-badge a{color:inherit;text-decoration:underline}
+
 /* ===== MI CUENTA ===== */
 .coinhero{background:linear-gradient(135deg,var(--ink),var(--blue-d));border-radius:var(--r2);
   padding:22px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;box-shadow:var(--sh2)}
@@ -396,6 +405,7 @@ textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5
         <div class="grab"></div>
         <h2 id="sheetTitle">Farmacias cerca de ti</h2>
         <p id="sheetSub">Toca una para ver detalles y cómo llegar</p>
+        <div id="invimaBadge" style="display:none"></div>
       </div>
       <div class="sheet-list" id="sedeList"></div>
     </div>
@@ -519,6 +529,22 @@ textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5
         <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Sobre los datos</h2>
         <p class="lead" style="margin:6px 0 0">Las farmacias provienen de directorios públicos de Audifarma, Cruz Verde, Cafam y Colsubsidio. La red de dispensación cambia con frecuencia (en 2026 varias EPS están intervenidas), así que la ubicación es aproximada y el stock se actualiza con los reportes de la comunidad. Confirma siempre con tu EPS antes de desplazarte.</p>
         <button class="btn ghost" style="margin-top:14px;min-height:48px" onclick="resetData()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg> Borrar mis datos guardados</button>
+      </div>
+
+      <div class="card" style="margin-bottom:6px">
+        <h2><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Fuentes oficiales de desabastecimiento</h2>
+        <p class="lead" style="margin:6px 0 0">
+          Para Bogotá, al buscar un medicamento consultamos en vivo el monitoreo distrital de la
+          Secretaría Distrital de Salud / INVIMA — un reporte mensual de prestadores del Distrito,
+          no un inventario de farmacias en tiempo real.
+          Para el resto del país, INVIMA publica un listado nacional de abastecimiento y
+          desabastecimiento, pero solo como documento (no como datos estructurados), así que
+          preferimos enlazarlo directo en vez de intentar interpretarlo automáticamente:
+        </p>
+        <a href="https://www.invima.gov.co/desabastecimientos" target="_blank" rel="noopener" class="btn ghost" style="margin-top:14px;min-height:48px;text-decoration:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
+          Ver listado nacional en invima.gov.co
+        </a>
       </div>
     </div>
   </section>
@@ -1068,6 +1094,68 @@ function wireMedAutocomplete(id){
     });},300);
   });
 }
+/* ============ CONTEXTO OFICIAL DE DESABASTECIMIENTO ============
+   Dos fuentes DISTINTAS, con alcance distinto — no se deben mezclar:
+
+   1) SDS Bogotá / INVIMA (monitoreo distrital) — dataset real, estructurado,
+      consultable en vivo vía API CKAN. Solo tiene sentido para farmacias en
+      Bogotá: es un reporte mensual de prestadores del Distrito, no un
+      inventario en tiempo real ni cubre las demás ciudades.
+   2) Listado nacional de INVIMA (invima.gov.co/desabastecimientos) — es la
+      fuente más completa a nivel país, pero se publica como PDF narrativo
+      (no tabular), sin API. Parsearlo automáticamente es frágil y, tratándose
+      de información de salud, un error de interpretación podría inducir a
+      alguien a pensar que un medicamento SÍ o NO está desabastecido cuando no
+      es cierto. Por eso NO se auto-parsea: se enlaza directo a la fuente
+      oficial para que el usuario la consulte él mismo si lo necesita.
+*/
+var INVIMA_BOGOTA_RESOURCE="c2c2527d-fcbc-49a7-9745-21d8fde2ab5f";
+var INVIMA_NACIONAL_URL="https://www.invima.gov.co/desabastecimientos";
+
+function invimaBogotaBadgeHTML(cls,iconPath,html){
+  return '<div class="invima-badge '+cls+'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2">'+iconPath+'</svg><div>'+html+'</div></div>';
+}
+function hideInvimaBadge(){
+  var el=document.getElementById('invimaBadge'); if(el){el.style.display='none'; el.innerHTML='';}
+}
+function showInvimaBadge(html,cls){
+  var el=document.getElementById('invimaBadge'); if(!el)return;
+  el.className=''; el.innerHTML=invimaBogotaBadgeHTML(cls,'<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>',html);
+  el.style.display='block';
+}
+// Consulta en vivo la API pública (CKAN) de la SDS Bogotá / INVIMA.
+// Solo se llama cuando la ciudad activa es Bogotá y hay un término de medicamento.
+function checkInvimaBogota(term){
+  hideInvimaBadge();
+  if(curCity!=='Bogotá'||!term||term.trim().length<3) return;
+  var url='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search'
+    +'?resource_id='+INVIMA_BOGOTA_RESOURCE
+    +'&q='+encodeURIComponent(term.trim())+'&limit=5';
+  fetch(url).then(function(r){return r.ok?r.json():null;}).then(function(data){
+    if(!data||!data.success||!data.result||!data.result.records||!data.result.records.length) return;
+    // Nos quedamos con el registro más reciente por fecha.
+    var rec=data.result.records.slice().sort(function(a,b){
+      return new Date(b.Fecha||b.fecha||0)-new Date(a.Fecha||a.fecha||0);
+    })[0];
+    var nombre=rec['Nombre del medicamento']||rec.nombre||term;
+    var estado=(rec.Estado||rec.estado||'').trim();
+    var causa=rec.Causa||rec.causa||'';
+    var fecha=rec.Fecha||rec.fecha||'';
+    if(!estado) return;
+    var low=estado.toLowerCase();
+    var cls='ok', etiqueta='Sin alertas activas';
+    if(low.indexOf('desabastecido')>=0){cls='bad';etiqueta='Desabastecido';}
+    else if(low.indexOf('riesgo')>=0){cls='warn';etiqueta='En riesgo de desabastecimiento';}
+    else if(low.indexOf('monitor')>=0){cls='warn';etiqueta='En monitorización';}
+    else if(low.indexOf('no hay')>=0||low.indexOf('no desabastecido')>=0){return;} // sin novedad, no distrae
+    var html='<b>Monitoreo distrital SDS Bogotá / INVIMA:</b> '+nombre+' — '+etiqueta
+      +(causa?' <span style="opacity:.85">('+causa+')</span>':'')
+      +(fecha?' <span style="opacity:.7">· '+fecha+'</span>':'')
+      +'<br><span style="font-weight:600;opacity:.85">Reporte mensual de prestadores del Distrito, no es inventario en tiempo real de farmacias.</span>';
+    showInvimaBadge(html,cls);
+  }).catch(function(){ /* si falla la API, no se muestra nada — no bloquea la búsqueda */ });
+}
+
 var REPORTS=LS.get('reports',{}); // id -> {est,fila,ts}
 var GEO=LS.get('geo',{});         // id -> [lat,lng]
 function applyReports(){SEDES.forEach(function(s){var r=REPORTS[s.id];if(r){s.est=r.est;s.fila=r.fila;}});}
@@ -1201,6 +1289,7 @@ function doSearch(){
     searchMed="";epsFilter="";
     if(map)renderMarkers();renderList();
     sub.textContent='Toca una para ver detalles y cómo llegar';
+    hideInvimaBadge();
     return;
   }
   // ¿coincide con una EPS? -> filtra farmacias que la atienden
@@ -1223,6 +1312,7 @@ function doSearch(){
   document.getElementById('sheetTitle').textContent='Resultados: '+raw;
   sub.textContent='Disponibilidad estimada de "'+raw+'", ordenada de mayor a menor';
   toast('ok','Búsqueda lista',v+' farmacias con alta disponibilidad en '+curCity);
+  checkInvimaBogota(raw);
 }
 document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch()});
 
@@ -1238,7 +1328,7 @@ function setCity(c,btn){
   selId=null;
   if(map){map.flyTo(CENTER[c],13,{duration:.6})}
   var q=document.getElementById('q').value.trim();
-  if(q){doSearch();}else{if(map)renderMarkers();renderList();}
+  if(q){doSearch();}else{if(map)renderMarkers();renderList();hideInvimaBadge();}
   updateStats();
 }
 
