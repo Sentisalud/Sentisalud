@@ -29,8 +29,9 @@ function box(cls,title,body){
 }
 function runTest(){
   document.getElementById('out').innerHTML='';
-  box('warn','Paso 1','Intentando conectar a la API de datosabiertos.bogota.gov.co...');
-  var url='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search?resource_id=c2c2527d-fcbc-49a7-9745-21d8fde2ab5f&q=insulina&limit=3';
+  box('warn','Paso 1','Intentando conectar a través del proxy CORS...');
+  var apiUrl='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search?resource_id=c2c2527d-fcbc-49a7-9745-21d8fde2ab5f&q=insulina&limit=3';
+  var url='https://api.allorigins.win/raw?url='+encodeURIComponent(apiUrl);
   fetch(url)
     .then(function(r){
       box(r.ok?'ok':'bad','Paso 2 — Respuesta HTTP','Código de estado: '+r.status+' '+r.statusText);
