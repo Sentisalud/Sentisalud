@@ -536,10 +536,9 @@ textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5
         <p class="lead" style="margin:6px 0 0">
           Para Bogotá, al buscar un medicamento consultamos en vivo el monitoreo distrital de la
           Secretaría Distrital de Salud / INVIMA — un reporte mensual de prestadores del Distrito,
-          no un inventario de farmacias en tiempo real.
-          Para el resto del país, INVIMA publica un listado nacional de abastecimiento y
-          desabastecimiento, pero solo como documento (no como datos estructurados), así que
-          preferimos enlazarlo directo en vez de intentar interpretarlo automáticamente:
+          no un inventario de farmacias en tiempo real. Para el resto del país, INVIMA publica un
+          listado nacional, pero solo como documento (no como datos estructurados), así que lo
+          enlazamos directo en vez de intentar interpretarlo automáticamente:
         </p>
         <a href="https://www.invima.gov.co/productos-vigilados/medicamentos-y-productos-biologicos/desabastecimientos" target="_blank" rel="noopener" class="btn ghost" style="margin-top:14px;min-height:48px;text-decoration:none">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
@@ -1094,49 +1093,35 @@ function wireMedAutocomplete(id){
     });},300);
   });
 }
-/* ============ CONTEXTO OFICIAL DE DESABASTECIMIENTO ============
-   Dos fuentes DISTINTAS, con alcance distinto — no se deben mezclar:
-
-   1) SDS Bogotá / INVIMA (monitoreo distrital) — dataset real, estructurado,
-      consultable en vivo vía API CKAN. Solo tiene sentido para farmacias en
-      Bogotá: es un reporte mensual de prestadores del Distrito, no un
-      inventario en tiempo real ni cubre las demás ciudades.
-   2) Listado nacional de INVIMA (invima.gov.co/desabastecimientos) — es la
-      fuente más completa a nivel país, pero se publica como PDF narrativo
-      (no tabular), sin API. Parsearlo automáticamente es frágil y, tratándose
-      de información de salud, un error de interpretación podría inducir a
-      alguien a pensar que un medicamento SÍ o NO está desabastecido cuando no
-      es cierto. Por eso NO se auto-parsea: se enlaza directo a la fuente
-      oficial para que el usuario la consulte él mismo si lo necesita.
-*/
+/* ============ CONTEXTO OFICIAL EN VIVO — SDS Bogotá / INVIMA ============
+   La API CKAN de Bogotá bloquea peticiones fetch() normales por CORS, pero
+   sí soporta JSONP de forma nativa (parámetro &callback=), que es la técnica
+   que el propio proveedor documenta para consumo desde el navegador. JSONP
+   carga la respuesta como un <script>, evitando CORS sin depender de ningún
+   proxy de terceros. Solo aplica a Bogotá; es un reporte mensual de
+   prestadores del Distrito, no un inventario de farmacias en tiempo real. */
 var INVIMA_BOGOTA_RESOURCE="c2c2527d-fcbc-49a7-9745-21d8fde2ab5f";
 var INVIMA_NACIONAL_URL="https://www.invima.gov.co/productos-vigilados/medicamentos-y-productos-biologicos/desabastecimientos";
 
-function invimaBogotaBadgeHTML(cls,iconPath,html){
-  return '<div class="invima-badge '+cls+'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2">'+iconPath+'</svg><div>'+html+'</div></div>';
-}
 function hideInvimaBadge(){
   var el=document.getElementById('invimaBadge'); if(el){el.style.display='none'; el.innerHTML='';}
 }
-function showInvimaBadge(html,cls){
-  var el=document.getElementById('invimaBadge'); if(!el)return;
-  el.className=''; el.innerHTML=invimaBogotaBadgeHTML(cls,'<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>',html);
-  el.style.display='block';
+function invimaBadgeHTML(cls,html){
+  return '<div class="invima-badge '+cls+'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><div>'+html+'</div></div>';
 }
-// Consulta en vivo la API pública (CKAN) de la SDS Bogotá / INVIMA.
-// Solo se llama cuando la ciudad activa es Bogotá y hay un término de medicamento.
 function checkInvimaBogota(term){
   hideInvimaBadge();
   if(curCity!=='Bogotá'||!term||term.trim().length<3) return;
-  var apiUrl='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search'
-    +'?resource_id='+INVIMA_BOGOTA_RESOURCE
-    +'&q='+encodeURIComponent(term.trim())+'&limit=5';
-  // La API de Bogotá no permite peticiones directas desde otros sitios (CORS),
-  // así que la pedimos a través de un proxy público que sí la reenvía tal cual.
-  var url='https://api.allorigins.win/raw?url='+encodeURIComponent(apiUrl);
-  fetch(url).then(function(r){return r.ok?r.json():null;}).then(function(data){
+  var cbName='invimaCb_'+Date.now();
+  var timeout=setTimeout(function(){cleanup();},6000); // si no responde en 6s, se rinde en silencio
+  function cleanup(){
+    clearTimeout(timeout);
+    if(window[cbName])delete window[cbName];
+    if(script.parentNode)script.parentNode.removeChild(script);
+  }
+  window[cbName]=function(data){
+    cleanup();
     if(!data||!data.success||!data.result||!data.result.records||!data.result.records.length) return;
-    // Nos quedamos con el registro más reciente por fecha.
     var rec=data.result.records.slice().sort(function(a,b){
       return new Date(b.Fecha||b.fecha||0)-new Date(a.Fecha||a.fecha||0);
     })[0];
@@ -1150,13 +1135,21 @@ function checkInvimaBogota(term){
     if(low.indexOf('desabastecido')>=0){cls='bad';etiqueta='Desabastecido';}
     else if(low.indexOf('riesgo')>=0){cls='warn';etiqueta='En riesgo de desabastecimiento';}
     else if(low.indexOf('monitor')>=0){cls='warn';etiqueta='En monitorización';}
-    else if(low.indexOf('no hay')>=0||low.indexOf('no desabastecido')>=0){return;} // sin novedad, no distrae
-    var html='<b>Monitoreo distrital SDS Bogotá / INVIMA:</b> '+nombre+' — '+etiqueta
+    else if(low.indexOf('no hay')>=0||low.indexOf('no desabastecido')>=0){return;}
+    var el=document.getElementById('invimaBadge'); if(!el)return;
+    el.innerHTML=invimaBadgeHTML(cls,'<b>Monitoreo distrital SDS Bogotá / INVIMA:</b> '+nombre+' — '+etiqueta
       +(causa?' <span style="opacity:.85">('+causa+')</span>':'')
       +(fecha?' <span style="opacity:.7">· '+fecha+'</span>':'')
-      +'<br><span style="font-weight:600;opacity:.85">Reporte mensual de prestadores del Distrito, no es inventario en tiempo real de farmacias.</span>';
-    showInvimaBadge(html,cls);
-  }).catch(function(){ /* si falla la API, no se muestra nada — no bloquea la búsqueda */ });
+      +'<br><span style="font-weight:600;opacity:.85">Reporte mensual de prestadores del Distrito, no es inventario en tiempo real de farmacias.</span>');
+    el.style.display='block';
+  };
+  var apiUrl='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search'
+    +'?resource_id='+INVIMA_BOGOTA_RESOURCE
+    +'&q='+encodeURIComponent(term.trim())+'&limit=5&callback='+cbName;
+  var script=document.createElement('script');
+  script.src=apiUrl;
+  script.onerror=function(){cleanup();};
+  document.body.appendChild(script);
 }
 
 var REPORTS=LS.get('reports',{}); // id -> {est,fila,ts}
