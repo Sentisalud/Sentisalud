@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Diagnóstico SentiSalud</title>
+<title>Diagnóstico SentiSalud (JSONP)</title>
 <style>
   body{font-family:system-ui,sans-serif;padding:20px;background:#0F2044;color:#fff;line-height:1.6}
   h1{font-size:1.2rem}
@@ -16,8 +16,8 @@
 </style>
 </head>
 <body>
-<h1>Diagnóstico: conexión a datos abiertos de Bogotá</h1>
-<button onclick="runTest()">Probar conexión ahora</button>
+<h1>Diagnóstico: JSONP a datos abiertos de Bogotá</h1>
+<button onclick="runTest()">Probar conexión ahora (JSONP)</button>
 <div id="out"></div>
 
 <script>
@@ -29,25 +29,35 @@ function box(cls,title,body){
 }
 function runTest(){
   document.getElementById('out').innerHTML='';
-  box('warn','Paso 1','Intentando conectar a través del proxy CORS...');
-  var apiUrl='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search?resource_id=c2c2527d-fcbc-49a7-9745-21d8fde2ab5f&q=insulina&limit=3';
-  var url='https://api.allorigins.win/raw?url='+encodeURIComponent(apiUrl);
-  fetch(url)
-    .then(function(r){
-      box(r.ok?'ok':'bad','Paso 2 — Respuesta HTTP','Código de estado: '+r.status+' '+r.statusText);
-      return r.json();
-    })
-    .then(function(data){
-      box('ok','Paso 3 — Datos recibidos','success: '+data.success+' · total registros: '+(data.result?data.result.total:'?'));
-      if(data.result && data.result.records && data.result.records.length){
-        box('ok','Ejemplo de registro','<pre>'+JSON.stringify(data.result.records[0],null,2)+'</pre>');
-      } else {
-        box('warn','Sin registros','La búsqueda de prueba (insulina) no devolvió resultados.');
-      }
-    })
-    .catch(function(err){
-      box('bad','ERROR — esto es lo importante','Mensaje: '+err.message+'<br><br>Si dice algo como "Failed to fetch" o "CORS", significa que el navegador está bloqueando la conexión a esta API desde tu sitio. Copia este mensaje completo y compártelo.');
-    });
+  box('warn','Paso 1','Cargando vía JSONP (etiqueta <script>, no fetch)...');
+  var cbName='diagCb_'+Date.now();
+  var timeout=setTimeout(function(){
+    box('bad','ERROR — Timeout','No respondió en 8 segundos. Puede que la API esté lenta o caída ahora mismo.');
+    cleanup();
+  },8000);
+  function cleanup(){
+    clearTimeout(timeout);
+    if(window[cbName]) delete window[cbName];
+    if(script.parentNode) script.parentNode.removeChild(script);
+  }
+  window[cbName]=function(data){
+    cleanup();
+    box('ok','Paso 2 — Respuesta recibida','success: '+data.success+' · total registros en el dataset: '+(data.result?data.result.total:'?'));
+    if(data.result && data.result.records && data.result.records.length){
+      box('ok','Ejemplo de registro (búsqueda: insulina)','<pre>'+JSON.stringify(data.result.records[0],null,2)+'</pre>');
+    } else {
+      box('warn','Sin registros','La búsqueda de prueba (insulina) no devolvió resultados en este momento.');
+    }
+  };
+  var apiUrl='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search'
+    +'?resource_id=c2c2527d-fcbc-49a7-9745-21d8fde2ab5f&q=insulina&limit=3&callback='+cbName;
+  var script=document.createElement('script');
+  script.src=apiUrl;
+  script.onerror=function(){
+    box('bad','ERROR — esto es lo importante','El navegador no pudo cargar el script JSONP. Copia este mensaje completo y compártelo.');
+    cleanup();
+  };
+  document.body.appendChild(script);
 }
 </script>
 </body>
