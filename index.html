@@ -541,7 +541,7 @@ textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5
           desabastecimiento, pero solo como documento (no como datos estructurados), así que
           preferimos enlazarlo directo en vez de intentar interpretarlo automáticamente:
         </p>
-        <a href="https://www.invima.gov.co/desabastecimientos" target="_blank" rel="noopener" class="btn ghost" style="margin-top:14px;min-height:48px;text-decoration:none">
+        <a href="https://www.invima.gov.co/productos-vigilados/medicamentos-y-productos-biologicos/desabastecimientos" target="_blank" rel="noopener" class="btn ghost" style="margin-top:14px;min-height:48px;text-decoration:none">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>
           Ver listado nacional en invima.gov.co
         </a>
@@ -1110,7 +1110,7 @@ function wireMedAutocomplete(id){
       oficial para que el usuario la consulte él mismo si lo necesita.
 */
 var INVIMA_BOGOTA_RESOURCE="c2c2527d-fcbc-49a7-9745-21d8fde2ab5f";
-var INVIMA_NACIONAL_URL="https://www.invima.gov.co/desabastecimientos";
+var INVIMA_NACIONAL_URL="https://www.invima.gov.co/productos-vigilados/medicamentos-y-productos-biologicos/desabastecimientos";
 
 function invimaBogotaBadgeHTML(cls,iconPath,html){
   return '<div class="invima-badge '+cls+'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2">'+iconPath+'</svg><div>'+html+'</div></div>';
@@ -1128,9 +1128,12 @@ function showInvimaBadge(html,cls){
 function checkInvimaBogota(term){
   hideInvimaBadge();
   if(curCity!=='Bogotá'||!term||term.trim().length<3) return;
-  var url='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search'
+  var apiUrl='https://datosabiertos.bogota.gov.co/api/3/action/datastore_search'
     +'?resource_id='+INVIMA_BOGOTA_RESOURCE
     +'&q='+encodeURIComponent(term.trim())+'&limit=5';
+  // La API de Bogotá no permite peticiones directas desde otros sitios (CORS),
+  // así que la pedimos a través de un proxy público que sí la reenvía tal cual.
+  var url='https://api.allorigins.win/raw?url='+encodeURIComponent(apiUrl);
   fetch(url).then(function(r){return r.ok?r.json():null;}).then(function(data){
     if(!data||!data.success||!data.result||!data.result.records||!data.result.records.length) return;
     // Nos quedamos con el registro más reciente por fecha.
