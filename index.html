@@ -1037,8 +1037,8 @@ var LS={
    Mientras estas dos líneas estén vacías, la app funciona solo con
    almacenamiento local. Al pegar tu URL y anon key, cada reporte y
    aviso se envía además a tu base de datos real (ver guía SQL). */
-var SUPABASE_URL="";   // ej: "https://xxxx.supabase.co"
-var SUPABASE_KEY="";   // anon public key
+var SUPABASE_URL="https://efeavdyvsalyawzqdpjw.supabase.co";
+var SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZWF2ZHl2c2FseWF3enFkcGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MjA5MDgsImV4cCI6MjA5OTE5NjkwOH0.F4THrpK4Kh3H7leLdC8NdugOzuOuyfEQsjsq1_uNToE";
 var Cloud=(function(){
   function on(){return !!(SUPABASE_URL&&SUPABASE_KEY);}
   function post(table,row){
@@ -1054,7 +1054,15 @@ var Cloud=(function(){
     on:on,
     pushReport:function(s,est){post('reports',{sede_id:s.id,estado:est,ciudad:s.city,
       lat:userPos?userPos[0]:null,lng:userPos?userPos[1]:null,distancia_m:repDist?Math.round(repDist):null});},
-    pushAlert:function(med,ciudad){post('alerts',{med:med,ciudad:ciudad});}
+    pushAlert:function(med,ciudad){post('alerts',{med:med,ciudad:ciudad});},
+    // Trae el estado más reciente reportado por CUALQUIER usuario, por farmacia.
+    // Esto es lo que hace que los reportes se compartan entre todos los celulares.
+    pullSedeStock:function(){
+      if(!on())return Promise.resolve(null);
+      return fetch(SUPABASE_URL+'/rest/v1/sede_stock?select=sede_id,estado,created_at',{
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+      }).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+    }
   };
 })();
 
@@ -1156,6 +1164,26 @@ var REPORTS=LS.get('reports',{}); // id -> {est,fila,ts}
 var GEO=LS.get('geo',{});         // id -> [lat,lng]
 function applyReports(){SEDES.forEach(function(s){var r=REPORTS[s.id];if(r){s.est=r.est;s.fila=r.fila;}});}
 function applyGeo(){SEDES.forEach(function(s){var g=GEO[s.id];if(g){s.lat=g[0];s.lng=g[1];}});}
+// Trae el stock reportado por TODOS los usuarios (Supabase) y lo aplica sobre
+// el estado local. Es asíncrono: la app abre igual de rápido con datos locales
+// y se actualiza sola en cuanto llega la respuesta del servidor.
+function applyCloudStock(){
+  if(!Cloud.on())return;
+  Cloud.pullSedeStock().then(function(rows){
+    if(!rows||!rows.length)return;
+    var byId={}; rows.forEach(function(r){byId[r.sede_id]=r.estado;});
+    var changed=false;
+    SEDES.forEach(function(s){
+      var est=byId[s.id];
+      if(est && est!==s.est){
+        s.est=est;
+        s.fila=est==='VERDE'?0.5:est==='AMARILLO'?1.5:3.5;
+        changed=true;
+      }
+    });
+    if(changed){ if(map)renderMarkers(); renderList(); updateStats(); }
+  });
+}
 function loadState(){
   coins=LS.get('coins',120);
   alerts=LS.get('alerts',[]);
@@ -1692,6 +1720,7 @@ updateStats();
 setStep(1);
 initMap();
 loadExternal();       // si está publicado, actualiza desde farmacias.json
+applyCloudStock();    // trae el stock reportado por todos los usuarios (Supabase)
 flushSugg();          // reenvía sugerencias que quedaron guardadas sin conexión
 maybeShowWelcome();   // tutorial guiado la primera vez
 
