@@ -5,7 +5,7 @@
    - Cualquier origen externo (mapas CARTO, Leaflet CDN, datos.gov.co, Supabase):
      NO se intercepta ni se cachea — va directo a la red.
    Sube el número de versión para forzar actualización del shell. */
-var VERSION = 'sentisalud-v3';
+var VERSION = 'sentisalud-v4';
 var SHELL = [
   './',
   './index.html',
