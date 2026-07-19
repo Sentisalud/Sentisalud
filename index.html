@@ -1033,6 +1033,27 @@ var LS={
   set:function(k,v){try{localStorage.setItem('ss_'+k,JSON.stringify(v));}catch(e){}}
 };
 
+/* ID anónimo de este dispositivo, se crea una sola vez y se reutiliza siempre.
+   Sirve para identificar los movimientos de SentiCoins de esta persona en la nube,
+   sin necesidad de que inicie sesión. */
+function getDeviceId(){
+  var id=LS.get('device_id',null);
+  if(!id){
+    if(window.crypto&&crypto.randomUUID){
+      id=crypto.randomUUID();
+    }else{
+      // Respaldo para navegadores muy antiguos: arma un UUID v4 válido a mano,
+      // porque la columna user_id en Supabase requiere formato UUID exacto.
+      id='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){
+        var r=(Math.random()*16)|0, v=c==='x'?r:(r&0x3|0x8);
+        return v.toString(16);
+      });
+    }
+    LS.set('device_id',id);
+  }
+  return id;
+}
+
 /* ============ BACKEND REAL (Supabase) — opcional ============
    Mientras estas dos líneas estén vacías, la app funciona solo con
    almacenamiento local. Al pegar tu URL y anon key, cada reporte y
@@ -1055,6 +1076,7 @@ var Cloud=(function(){
     pushReport:function(s,est){post('reports',{sede_id:s.id,estado:est,ciudad:s.city,
       lat:userPos?userPos[0]:null,lng:userPos?userPos[1]:null,distancia_m:repDist?Math.round(repDist):null});},
     pushAlert:function(med,ciudad){post('alerts',{med:med,ciudad:ciudad});},
+    pushCoins:function(delta,motivo){post('coins_ledger',{user_id:getDeviceId(),delta:delta,motivo:motivo});},
     // Trae el estado más reciente reportado por CUALQUIER usuario, por farmacia.
     // Esto es lo que hace que los reportes se compartan entre todos los celulares.
     pullSedeStock:function(){
@@ -1399,6 +1421,19 @@ function sendReport(){
     toast('','Estás muy lejos','Debes estar a menos de '+GEO_THRESHOLD+' m de la farmacia para reportar');
     return;
   }
+  // Antifraude: evita que la misma persona reporte la misma sede varias veces seguidas
+  if(repSede){
+    var COOLDOWN_MS=30*60*1000; // 30 minutos
+    var lastReports=LS.get('last_reports',{});
+    var last=lastReports[repSede.id];
+    if(last && (Date.now()-last)<COOLDOWN_MS){
+      var minsLeft=Math.ceil((COOLDOWN_MS-(Date.now()-last))/60000);
+      toast('','Ya reportaste esta farmacia','Puedes reportarla de nuevo en '+minsLeft+' min');
+      return;
+    }
+    lastReports[repSede.id]=Date.now();
+    LS.set('last_reports',lastReports);
+  }
   if(repSede){
     repSede.est=repStock;
     repSede.fila=repStock==='VERDE'?0.5:repStock==='AMARILLO'?1.5:3.5;
@@ -1409,6 +1444,7 @@ function sendReport(){
   if(map)renderMarkers();renderList();updateStats();
   var gain=repVerified?10:3;
   coins+=gain;LS.set('coins',coins);
+  Cloud.pushCoins(gain,repVerified?'reporte_verificado':'reporte_sin_verificar');
   document.getElementById('coins').textContent=coins;
   closeModal();
   if(repVerified) toast('ok','¡Gracias por reportar!','+'+gain+' SentiCoins · reporte verificado por GPS');
@@ -1445,6 +1481,7 @@ function sendSugg(){
   var data={categoria:suggCat||'Sin categoría',mensaje:msg,contacto:document.getElementById('suggContact').value.trim(),ciudad:curCity};
   closeSugg();
   coins+=15;LS.set('coins',coins);document.getElementById('coins').textContent=coins;
+  Cloud.pushCoins(15,'sugerencia');
   postSugg(data).then(function(){
     toast('ok','¡Gracias por tu sugerencia!','La recibimos. +15 SentiCoins');
   }).catch(function(){
@@ -1474,6 +1511,7 @@ function addAlert(){
   Cloud.pushAlert(med,city);
   document.getElementById('aMed').value='';
   renderAlerts();coins+=5;LS.set('coins',coins);document.getElementById('coins').textContent=coins;
+  Cloud.pushCoins(5,'crear_aviso');
   toast('ok','Aviso creado','Te avisaremos cuando haya '+med+' en '+city);
 }
 function renderAlerts(){
@@ -1487,7 +1525,11 @@ function delAlert(id){alerts=alerts.filter(function(a){return a.id!==id});LS.set
 
 /* ============ TUTELA ============ */
 function tNext(n){
-  if(n===2){if(!document.getElementById('tName').value.trim()||!document.getElementById('tCC').value.trim()){toast('','Faltan tus datos','Completa nombre y cédula');return}}
+  if(n===2){
+    var tccVal=document.getElementById('tCC').value.trim();
+    if(!document.getElementById('tName').value.trim()||!tccVal){toast('','Faltan tus datos','Completa nombre y cédula');return}
+    if(!/^[0-9.]+$/.test(tccVal)){toast('','Cédula inválida','El número de cédula solo debe contener números');return}
+  }
   document.querySelectorAll('.tstep').forEach(function(s){s.classList.remove('on')});
   document.getElementById('ts'+n).classList.add('on');
   setStep(n);
