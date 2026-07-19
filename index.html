@@ -1290,7 +1290,7 @@ function renderList(list){
       +'<div class="addr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>'+s.addr+'</div></div>'
       +'<div class="status '+c+'"><span class="big">'+statusLabel(effEst(s))+'</span></div></div>'
       +'<div class="eps-tags">'+s.eps.map(function(e){return '<span class="eps-tag">'+e+'</span>'}).join('')+'</div>'
-      +'<div class="meta"><span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Fila ~'+filaTxt(effFila(s))+'</span>'
+      +'<div class="meta"><span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Espera est. ~'+filaTxt(effFila(s))+'</span>'
       +'<span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>'+s.ch+'</span></div>'
       +(FUENTES[s.ch]?'<a href="'+FUENTES[s.ch]+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:.8rem;font-weight:700;color:var(--blue-d);text-decoration:none">Ver directorio oficial de '+s.ch+' \u2197</a>':'')
       +'<div class="sede-actions">'
