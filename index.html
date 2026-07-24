@@ -635,15 +635,6 @@ textarea.field{min-height:90px;padding:14px 16px;resize:vertical;line-height:1.5
   </div>
 </div>
 
-<!-- Formulario oculto: lo detecta Netlify para guardar las sugerencias -->
-<form name="sugerencias" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
-  <input type="text" name="categoria">
-  <textarea name="mensaje"></textarea>
-  <input type="text" name="contacto">
-  <input type="text" name="ciudad">
-  <input type="text" name="bot-field">
-</form>
-
 <div id="toasts"></div>
 
 <script>
@@ -1084,6 +1075,8 @@ var Cloud=(function(){
     pushReport:function(s,est){return post('reports',{sede_id:s.id,estado:est,ciudad:s.city,
       lat:userPos?userPos[0]:null,lng:userPos?userPos[1]:null,distancia_m:repDist?Math.round(repDist):null});},
     pushAlert:function(med,ciudad){return post('alerts',{med:med,ciudad:ciudad});},
+    pushSugerencia:function(d){return post('sugerencias',{categoria:d.categoria,mensaje:d.mensaje,
+      contacto:d.contacto||null,ciudad:d.ciudad||null});},
     pushCoins:function(delta,motivo){return post('coins_ledger',{user_id:getDeviceId(),delta:delta,motivo:motivo});},
     pushTutela:function(t){return post('tutelas',{nombre:t.nombre,cedula:t.cedula,ciudad:t.ciudad,eps:t.eps,
       medicamento:t.medicamento,dias_negacion:t.dias,texto_documento:t.texto,hash_documento:t.hash});},
@@ -1477,13 +1470,15 @@ function closeSugg(){document.getElementById('suggModal').classList.remove('on')
 document.getElementById('suggModal').addEventListener('click',function(e){if(e.target===this)closeSugg()});
 function pickSuggCat(btn){suggCat=btn.dataset.c;document.querySelectorAll('.suggcat').forEach(function(b){b.classList.remove('sel')});btn.classList.add('sel')}
 function suggCount(){var n=document.getElementById('suggMsg').value.length;document.getElementById('suggCC').textContent=n+' / 600'}
-function enc(o){return Object.keys(o).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(o[k])}).join('&')}
 function postSugg(d){
-  // fetch a Netlify Forms; no funciona en file:// (solo cuando está publicado)
+  // Envía a la tabla "sugerencias" de Supabase, usando el mismo módulo Cloud
+  // que ya usan los reportes, avisos y tutelas.
   if(location.protocol==='file:')return Promise.reject('local');
-  return fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:enc({'form-name':'sugerencias','bot-field':'',categoria:d.categoria,mensaje:d.mensaje,contacto:d.contacto,ciudad:d.ciudad})})
-    .then(function(r){if(!r.ok)throw new Error('http');return true});
+  if(!Cloud.on())return Promise.reject('sin backend');
+  return Cloud.pushSugerencia(d).then(function(r){
+    if(!r||!r.ok)throw new Error(r&&r.err?r.err:'rechazado');
+    return true;
+  });
 }
 function sendSugg(){
   var msg=document.getElementById('suggMsg').value.trim();
