@@ -30,9 +30,11 @@ SentiSalud procura recolectar el mínimo de datos posible. Según la función qu
 | Función              | Datos                                              | Dónde se guardan |
 |----------------------|----------------------------------------------------|------------------|
 | Verificar un reporte | Ubicación GPS aproximada en el momento del reporte | Dispositivo y, si está activado, servidor |
-| Reportar stock       | Farmacia, estado, ciudad, distancia al punto       | Dispositivo y, si está activado, servidor |
+| Reportar stock       | Farmacia, medicamento reportado, estado, ciudad, distancia al punto | Dispositivo y, si está activado, servidor |
 | Avisos               | Medicamento y ciudad de interés                    | Dispositivo y, si está activado, servidor |
 | Acción de tutela     | Nombre completo, número de cédula, EPS, ciudad     | **Solo en tu dispositivo** |
+| Estadística de tutelas | Ciudad, EPS, medicamento y días de negación, **sin nombre ni cédula** | Servidor, de forma anónima |
+| Sugerencias          | Tu mensaje, la categoría, la ciudad y —solo si tú lo escribes— un correo o teléfono de contacto | Servidor |
 | SentiCoins / modo fácil | Preferencias de uso                             | Dispositivo |
 
 **Datos sensibles:** la información relacionada con tu salud y la generación de
@@ -48,9 +50,14 @@ compartimos tus datos con terceros con fines comerciales.**
 
 ## 5. La acción de tutela se genera en tu dispositivo
 
-Tu nombre, cédula y datos del caso usados para la tutela **se procesan localmente
-en tu navegador**. La app no los envía a ningún servidor propio. El documento
-resultante queda bajo tu control para que lo descargues y radiques.
+Tu nombre, tu cédula y el texto completo del documento **se procesan localmente
+en tu navegador y no se envían a ningún servidor**. El documento resultante queda
+bajo tu control para que lo descargues y lo radiques.
+
+Para medir el impacto del servicio sí registramos un dato **anónimo**: que se
+generó una tutela, en qué ciudad, contra qué EPS, por cuál medicamento y cuántos
+días llevaba la negación. Ese registro **no permite identificarte**: no contiene
+tu nombre, tu cédula ni el texto de tu tutela.
 
 ## 6. Encargados y terceros tecnológicos
 
@@ -59,7 +66,8 @@ datos técnicos (como tu dirección IP al cargar recursos):
 
 - **CARTO / OpenStreetMap** — mosaicos del mapa.
 - **datos.gov.co** — catálogo público de medicamentos.
-- **Supabase** — base de datos, solo si el operador la activa, para reportes y avisos.
+- **Supabase** — base de datos, solo si el operador la activa, para reportes,
+  avisos, sugerencias y la estadística anónima de tutelas.
 
 Cada uno tiene sus propias políticas. El operador debe firmar los acuerdos de
 encargo de tratamiento que correspondan.
