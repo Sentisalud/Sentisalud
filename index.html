@@ -106,10 +106,13 @@ main{flex:1;position:relative;overflow:hidden;min-height:0}
 @keyframes mp{0%{transform:scale(.6);opacity:.9}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
 .mpin.sel .core{width:24px;height:24px;top:3px;left:3px}
 
-.legend{position:absolute;left:12px;bottom:12px;z-index:500;background:rgba(255,255,255,.96);
-  border-radius:14px;padding:10px 12px;box-shadow:var(--sh2);font-size:.78rem;font-weight:700}
-.legend div{display:flex;align-items:center;gap:7px;margin:3px 0}
-.legend i{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+/* La leyenda arranca después de la columna de los botones +/- del mapa (que
+   ocupan unos 44 px a la izquierda), así nunca los tapa, por corto que sea el mapa. */
+.legend{position:absolute;left:58px;bottom:12px;z-index:500;background:rgba(255,255,255,.96);
+  border-radius:14px;padding:9px 12px;box-shadow:var(--sh2);font-size:.76rem;font-weight:700;
+  max-width:calc(100% - 190px)}
+.legend div{display:flex;align-items:center;gap:7px;margin:2px 0;white-space:nowrap}
+.legend i{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .fab{position:absolute;right:14px;bottom:14px;z-index:500;height:58px;padding:0 20px;
   border-radius:30px;background:var(--blue);color:#fff;font-weight:800;font-size:1rem;
   display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(37,99,235,.45)}
